@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   CardContent,
+  IconButton,
   Link,
   Table,
   TableBody,
@@ -15,6 +16,15 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import { AdministratorsShowResponse } from "../../../../../types/responses/administrators";
 import { AdministratorIndexProvider } from "@/components/administrator/AdministratorIndexProvider";
 import { Role } from "../../../../../types/entities/roles";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
+import { AdministratorEntity } from "../../../../../types/entities/administrators";
+
+const breadcrumbItems = (data: AdministratorEntity) => [
+  { title: `Administrators`, url: '/' },
+  { title: `Detail - ${data.username}`, url: `/administrators/${data.id}` },
+];
+
 
 async function getData(
   id: string
@@ -35,6 +45,14 @@ const AdministratorShowPage = async ({ params } : { params: Promise<{ id: string
   return (
     <>
       <AdministratorIndexProvider permission={permission}>
+        <div className="flex gap-2 items-center mb-2">
+          <Link href="/administrators">
+            <IconButton color="primary" aria-label="kembali">
+              <ArrowBackIcon/>
+            </IconButton>
+          </Link>
+          <BreadcrumbCustom items={breadcrumbItems(data.administrator)} />
+        </div>
         <div className="text-3xl font-medium mb-8">Detail Administrator</div>
         {permission.administrator_update && (
           <div className="mb-5">
@@ -97,7 +115,7 @@ const AdministratorShowPage = async ({ params } : { params: Promise<{ id: string
         <div className="flex mt-5 justify-end">
           <Tooltip title="Kembali">
             <Link
-              href="/dashboard/administrators"
+              href="/administrators"
               style={{ textDecoration: "none" }}
             >
               <Button variant="outlined" startIcon={<FirstPageIcon />}>

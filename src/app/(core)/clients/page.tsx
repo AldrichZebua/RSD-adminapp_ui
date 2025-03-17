@@ -1,17 +1,22 @@
-import { ClientIndexProvider } from '@/components/clients/ClientIndexProvider';
-import { ClientTable } from '@/components/clients/ClientTable';
-import { checkPermission } from './action';
+import { ClientIndexProvider } from "@/components/clients/ClientIndexProvider";
+import { ClientTable } from "@/components/clients/ClientTable";
+import { checkPermission } from "./action";
 import { Button, Link, Tooltip } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 
+const breadcrumbItems = [{ title: `/Client`, url: "/" }];
 
 export default async function ClientsPage() {
   const permission = await checkPermission();
-  
+
   return (
     <>
-    <ClientIndexProvider permission={permission}>
-    <div className="text-3xl font-bold mb-8">Client</div>
+      <ClientIndexProvider permission={permission}>
+        <div className="flex gap-2 items-center mb-2">
+          <BreadcrumbCustom items={breadcrumbItems} />
+        </div>
+        <div className="text-3xl font-bold mb-8">Client</div>
         <div
           style={{
             display: "flex flex-col",
@@ -20,10 +25,7 @@ export default async function ClientsPage() {
         >
           {permission.client_create && (
             <Tooltip title="Tambah client baru">
-              <Link
-                href="/clients/new"
-                style={{ textDecoration: "none" }}
-              >
+              <Link href="/clients/new" style={{ textDecoration: "none" }}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -34,11 +36,11 @@ export default async function ClientsPage() {
               </Link>
             </Tooltip>
           )}
-        <div className="flex flex-col row-start-2 items-center">
-          <ClientTable />
+          <div className="flex flex-col row-start-2 items-center">
+            <ClientTable />
+          </div>
         </div>
-      </div>
-    </ClientIndexProvider>
+      </ClientIndexProvider>
     </>
   );
 }

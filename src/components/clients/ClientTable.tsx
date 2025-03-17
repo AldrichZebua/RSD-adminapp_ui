@@ -109,7 +109,7 @@ export const ClientTable = () => {
                   {
                     permission.client_show
                     ?
-                    <Link component={NextLink} href={`/dashboard/clients/${client.id}`} underline="none" color="dark">
+                    <Link component={NextLink} href={`/clients/${client.id}`} underline="none" color="dark">
                       {client.name}
                     </Link>
                     :
@@ -130,7 +130,7 @@ export const ClientTable = () => {
                     permission.client_update
                     &&
                     <Tooltip title="Edit Client">
-                    <IconButton color="info" component={NextLink} href={`/dashboard/clients/${client.id}/edit`}>
+                    <IconButton color="info" component={NextLink} href={`/clients/${client.id}/edit`}>
                       <DriveFileRenameOutlineIcon />
                     </IconButton>
                   </Tooltip>

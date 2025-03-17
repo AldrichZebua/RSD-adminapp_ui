@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { startTransition, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   IconButton,
   InputAdornment,
@@ -19,12 +20,12 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ControlPointDuplicateIcon from "@mui/icons-material/ControlPointDuplicate";
 
-import { Role } from "../../../types/entities/roles";
+import { RoleEntity } from "../../../types/entities/roles";
 import { AdministratorEntity } from "../../../types/entities/administrators";
 import { useRouter } from "next/navigation";
 import {
   createAdministrator,
-  getRoleDropdown,
+  updateAdministrator,
 } from "@/app/(core)/administrators/action";
 
 const administratorSchema = z.object({
@@ -37,17 +38,18 @@ const administratorSchema = z.object({
 
 type AdministratorFormProps = {
   administrator?: AdministratorEntity;
+  roles: Pick<RoleEntity, "id" | "name">[];
 };
 
 export default function AdministratorForm({
   administrator,
+  roles,
 }: AdministratorFormProps) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
   const [loading, setLoading] = useState(false);
-  const [roles, setRoles] = useState<Role[]>([]);
 
   const form = useForm<z.infer<typeof administratorSchema>>({
     resolver: zodResolver(administratorSchema),
@@ -60,36 +62,20 @@ export default function AdministratorForm({
     },
   });
 
-  useEffect(() => {
-    const fetchRoles = async () => {
-      try {
-        const response = await getRoleDropdown();
-        if (response.success) {
-          setRoles(response.data.roles);
-        }
-      } catch (error) {
-        console.error("Error fetching roles:", error);
-      }
-    };
-
-    fetchRoles();
-  }, []);
-
   const onSubmit = async (params: z.infer<typeof administratorSchema>) => {
+    console.log(params);
     setLoading(true);
-    if (!administrator) {
-      createAdministrator(params).then((result) => {
-        if (result.success) {
-          alert("Berhasil Menyimpan Data");
-          router.push(
-            `/administrators/${result.data.administrator.id}`
-          );
-        } else {
-          alert(`Oopps! Gagal Menyimpan: ${result.data.message}`);
-        }
-        setLoading(false);
-      });
-    }
+    startTransition(async () => {
+      const result = administrator
+        ? await updateAdministrator(administrator.id, params)
+        : await createAdministrator(params);
+      if (result.success) {
+        router.push(`/administrators/${result.data.administrator.id}`);
+      } else {
+        alert("Terjadi kesalahan dalam memproses data.");
+      }
+      setLoading(false);
+    });
   };
 
   return (
@@ -106,13 +92,16 @@ export default function AdministratorForm({
                 <div className="w-52 text-left">
                   <span>Username </span>
                 </div>
-                : <TextField
+                :{" "}
+                <TextField
                   {...form.register("username")}
-                  label="Input Username"
+                  label="Username"
                   variant="outlined"
                   fullWidth
                   error={!!form.formState.errors.username}
                   helperText={form.formState.errors.username?.message}
+                  disabled={!!administrator}
+                  defaultValue={administrator?.username}
                 />
               </div>
 
@@ -120,7 +109,8 @@ export default function AdministratorForm({
                 <div className="w-52 text-left">
                   <span>Email</span>
                 </div>
-                : <TextField
+                :{" "}
+                <TextField
                   {...form.register("email")}
                   label="Input Email"
                   variant="outlined"
@@ -130,69 +120,80 @@ export default function AdministratorForm({
                 />
               </div>
 
-              <div className="flex flex-row items-center gap-2">
-                <div className="w-52 text-left">
-                  <span>Password</span>
-                </div>
-                : <FormControl fullWidth variant="outlined">
-                  <InputLabel>Input Password</InputLabel>
-                  <OutlinedInput
-                    {...form.register("password")}
-                    type={showPassword ? "text" : "password"}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => setShowPassword(!showPassword)}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    label="Password"
-                    error={!!form.formState.errors.password}
-                  />
-                </FormControl>
-              </div>
+              {!administrator && (
+                <>
+                  <div className="flex flex-row items-center gap-2">
+                    <div className="w-52 text-left">
+                      <span>Password</span>
+                    </div>
+                    :{" "}
+                    <FormControl fullWidth variant="outlined">
+                      <InputLabel>Input Password</InputLabel>
+                      <OutlinedInput
+                        {...form.register("password")}
+                        type={showPassword ? "text" : "password"}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => setShowPassword(!showPassword)}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        label="Password"
+                        error={!!form.formState.errors.password}
+                      />
+                    </FormControl>
+                  </div>
 
-              <div className="flex flex-row items-center gap-2">
-                <div className="w-52 text-left">
-                  <span>Confirm Password</span>
-                </div>
-                : <FormControl fullWidth variant="outlined">
-                  <InputLabel>Input Password Again</InputLabel>
-                  <OutlinedInput
-                    {...form.register("password_confirmation")}
-                    type={showPasswordConfirmation ? "text" : "password"}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={() =>
-                            setShowPasswordConfirmation(
-                              !showPasswordConfirmation
-                            )
-                          }
-                          edge="end"
-                        >
-                          {showPasswordConfirmation ? (
-                            <VisibilityOff />
-                          ) : (
-                            <Visibility />
-                          )}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    label="Confirm Password"
-                    error={!!form.formState.errors.password_confirmation}
-                  />
-                </FormControl>
-              </div>
+                  <div className="flex flex-row items-center gap-2">
+                    <div className="w-52 text-left">
+                      <span>Confirm Password</span>
+                    </div>
+                    :{" "}
+                    <FormControl fullWidth variant="outlined">
+                      <InputLabel>Input Password Again</InputLabel>
+                      <OutlinedInput
+                        {...form.register("password_confirmation")}
+                        type={showPasswordConfirmation ? "text" : "password"}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() =>
+                                setShowPasswordConfirmation(
+                                  !showPasswordConfirmation
+                                )
+                              }
+                              edge="end"
+                            >
+                              {showPasswordConfirmation ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        label="Confirm Password"
+                        error={!!form.formState.errors.password_confirmation}
+                      />
+                    </FormControl>
+                  </div>
+                </>
+              )}
 
               <div className="flex flex-row items-center gap-2">
                 <div className="w-52 text-left">
                   <span>Role</span>
                 </div>
-                : <Controller
+                :{" "}
+                <Controller
                   name="role_ids"
                   control={form.control}
                   render={({ field }) => (
@@ -222,7 +223,13 @@ export default function AdministratorForm({
                   endIcon={<ControlPointDuplicateIcon />}
                   disabled={loading}
                 >
-                  {administrator && "Create"}
+                  {loading ? (
+                    <CircularProgress size={24} color="inherit" />
+                  ) : administrator ? (
+                    "Update"
+                  ) : (
+                    "Create"
+                  )}
                 </Button>
               </div>
             </form>

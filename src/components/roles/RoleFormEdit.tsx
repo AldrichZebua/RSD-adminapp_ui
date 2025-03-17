@@ -1,6 +1,5 @@
-"use client";
+"use client"
 
-import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState, useTransition } from "react";
@@ -17,12 +16,10 @@ import {
   CardContent,
 } from "@mui/material";
 import { RoleDetailEntity } from "../../../types/entities/roles";
-import {
-  createRole,
-  updateRole,
-} from "@/app/dashboard/(dashboard)/roles/action";
+import { createRole, updateRole } from "@/app/(core)/roles/action";
+import { Controller, useForm } from "react-hook-form";
 
-type RoleFormProps = {
+type RoleFormEditProps = {
   sectionTree: Array<any>;
   role?: RoleDetailEntity;
 };
@@ -35,17 +32,17 @@ const roleSchema = z.object({
   }),
 });
 
-const RoleFormEdit: React.FC<RoleFormProps> = ({ sectionTree, role }) => {
+const RoleFormEdit: React.FC<RoleFormEditProps> = ({ sectionTree = [], role }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof roleSchema>>({
     resolver: zodResolver(roleSchema),
     defaultValues: {
       name: role?.name || "",
       description: role?.description || "",
-      rule_set: role?.rule_set || [],
+      rule_set: role?.rule_set || [], // Inisialisasi dengan array kosong jika tidak ada nilai
     },
   });
 
@@ -65,7 +62,7 @@ const RoleFormEdit: React.FC<RoleFormProps> = ({ sectionTree, role }) => {
         ? await updateRole(role.id, params)
         : await createRole(params);
       if (result.success) {
-        router.push(`/dashboard/roles/${result.data.role.id}`);
+        router.push(`/roles/${result.data.role.id}`);
       } else {
         alert("Terjadi kesalahan dalam memproses data.");
       }
@@ -131,7 +128,7 @@ const RoleFormEdit: React.FC<RoleFormProps> = ({ sectionTree, role }) => {
                       label={section.title}
                     />
 
-                    {section.children.map((child: any) => (
+                    {section.children?.map((child: any) => (
                       <div key={child.key} style={{ marginLeft: "20px" }}>
                         <FormControlLabel
                           control={
@@ -143,7 +140,7 @@ const RoleFormEdit: React.FC<RoleFormProps> = ({ sectionTree, role }) => {
                           label={child.title}
                         />
 
-                        {child.children.map((subchild: any) => (
+                        {child.children?.map((subchild: any) => (
                           <div
                             key={subchild.key}
                             style={{ marginLeft: "40px" }}
@@ -176,8 +173,14 @@ const RoleFormEdit: React.FC<RoleFormProps> = ({ sectionTree, role }) => {
               color="primary"
               disabled={loading}
             >
-              {loading ? <CircularProgress size={24} /> : "Simpan"}
-            </Button>
+                  {loading ? (
+                    <CircularProgress size={24} color="inherit" />
+                  ) : role ? (
+                    "Update"
+                  ) : (
+                    "Create"
+                  )}
+                </Button>
           </div>
         </form>
       </CardContent>

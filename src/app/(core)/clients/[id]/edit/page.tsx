@@ -1,55 +1,59 @@
-"use server";
-
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { getClient } from "../../action";
-import ClientFormEdit from "@/components/clients/ClientFormEdit";
+import { checkPermission, getClient } from "../../action";
+import ClientForm from "@/components/clients/ClientForm";
 import { ClientEntity } from "../../../../../../types/entities/client";
+import { IconButton } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Link from "next/link";
+import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
+import { ClientIndexProvider } from "@/components/clients/ClientIndexProvider";
 
-export default function ClientEditPage() {
-  const { id } = useParams();
-  const [client, setClient] = useState<ClientEntity | undefined>(undefined);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const breadcrumbItems = (data: ClientEntity) => [
+  { title: `Client`, url: "/clients" },
+  { title: `Detail - ${data.name}`, url: `/clients/${data.id}` },
+  { title: `Edit`, url: `/clients/${data.id}/edit` },
+];
 
-  useEffect(() => {
-    if (!id) return;
+export default async function ClientEditPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
 
-    const fetchClient = async () => {
-      try {
-        const response = await getClient(id);
-        if (response.success) {
-          setClient(response.data.client);
-        } else {
-          throw new Error(response.data.message || "Gagal mengambil data Client");
-        }
-      } catch (error) {
-        console.error("Error fetching Client:", error);
-        setError("Terjadi kesalahan saat mengambil data Client.");
-      } finally {
-        setLoading(false);
+  const pageParams = await params;
+
+  const pageDetail: Promise<ClientEntity> = new Promise((resolve, reject) => {
+    getClient(pageParams.id).then((result) => {
+      if (result.success) {
+        resolve(result.data.client);
+      } else {
+        reject(result.data.message);
       }
-    };
+    })
+  })
 
-    fetchClient();
-  }, [id]);
+  const [client, permission] = await Promise.all([
+    pageDetail,
+    checkPermission(),
+  ]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="text-red-500">{error}</div>;
-  }
 
   return (
-    <div className="mx-auto w-full max-w-4xl p-4">
+    <ClientIndexProvider permission={permission}>
+    <div className="w-full p-4 px-6 lg:px-20">
+      <div className="container mx-auto">
+        <Link href="/clients">
+          <IconButton color="primary" aria-label="kembali">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
+        <BreadcrumbCustom items={breadcrumbItems(client)} />
+      </div>
       <h1 className="text-3xl font-bold mb-4">Edit Client</h1>
-      {client ? (
-        <ClientFormEdit client={client} />
-      ) : (
-        <div className="text-red-500">Data client tidak ditemukan.</div>
-      )}
+      <div className="mb-5">
+          Silahkan lengkapi data di bawah untuk menambahkan Client baru
+        </div>
+        <ClientForm client={client} />
     </div>
+    </ClientIndexProvider>
   );
 }

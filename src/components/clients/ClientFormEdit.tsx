@@ -55,9 +55,8 @@ export default function ClientFormEdit({ client }: ClientFormEditProps) {
       } else {
         alert(`Oopps! Gagal Mengupdate: ${result.data?.message || "Terjadi kesalahan."}`);
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      alert("Terjadi kesalahan dalam menyimpan data. Silakan coba lagi.");
+      console.error("Error:", error);
     } finally {
       setLoading(false);
     }

@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardContent,
+  IconButton,
   Link,
   Table,
   TableBody,
@@ -16,6 +17,14 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import { ClientIndexProvider } from "@/components/clients/ClientIndexProvider";
 import { ClientEntity } from "../../../../../types/entities/client";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
+
+const breadcrumbItems = (data: ClientEntity) => [
+  { title: `Clients`, url: '/' },
+  { title: `Detail - ${data.name}`, url: `/clients/${data.id}` },
+];
+
 
 async function getData(id: string): Promise<ClientEntity | undefined> {
   const result = await getClient(id);
@@ -38,6 +47,14 @@ export default async function ClientShowPage({
   return (
     <>
       <ClientIndexProvider permission={permission}>
+      <div className="flex gap-2 items-center mb-2">
+          <Link href="/administrators">
+            <IconButton color="primary" aria-label="kembali">
+              <ArrowBackIcon/>
+            </IconButton>
+          </Link>
+          <BreadcrumbCustom items={breadcrumbItems(data.client)} />
+        </div>
         <div className="text-3xl font-medium mb-8">Detail Client</div>
         {permission.client_update && (
           <div className="mb-5">

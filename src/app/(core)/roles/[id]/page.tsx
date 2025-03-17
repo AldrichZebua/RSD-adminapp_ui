@@ -1,10 +1,11 @@
 "use server";
 
-import {  getRole } from "../action";
+import { getRole } from "../action";
 import {
   Button,
   Card,
   CardContent,
+  IconButton,
   Link,
   Table,
   TableBody,
@@ -14,17 +15,30 @@ import {
 } from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
-import { RoleDetailEntity } from "../../../../../types/entities/roles";
+import {
+  RoleDetailEntity,
+  RoleEntity,
+} from "../../../../../types/entities/roles";
+import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+
+const breadcrumbItems = (data: RoleEntity) => [
+  { title: `Roles`, url: "/roles" },
+  { title: `Detail - ${data.name}`, url: `/roles/${data.id}` },
+];
 
 async function getData(id: string): Promise<RoleDetailEntity | undefined> {
   const result = await getRole(id);
   return result.success ? result.data.role : undefined;
 }
 
-
-const RoleShowPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+const RoleShowPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
   const data = await getData((await params).id);
-
 
   if (!data) {
     return <h1>Error fetching data...</h1>;
@@ -32,12 +46,19 @@ const RoleShowPage = async ({ params }: { params: Promise<{ id: string }> }) => 
 
   return (
     <>
+      <div className="flex gap-2 items-center mb-2">
+        <Link href="/roles">
+          <IconButton color="primary" aria-label="kembali">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
+        <BreadcrumbCustom items={breadcrumbItems(data)} />
+      </div>
       <div className="text-3xl font-medium mb-8">Detail Hak Akses</div>
-
       <div className="mb-5">
         <Tooltip title="Edit Hak Akses">
           <Link
-            href={`/dashboard/roles/${data.id}/edit`}
+            href={`/roles/${data.id}/edit`}
             style={{ textDecoration: "none" }}
           >
             <Button
@@ -57,20 +78,34 @@ const RoleShowPage = async ({ params }: { params: Promise<{ id: string }> }) => 
           <Table>
             <TableBody>
               <TableRow>
-                <TableCell className="font-medium w-40 text-base">Name</TableCell>
-                <TableCell className="font-medium w-40 text-base">: {data.name}</TableCell>
+                <TableCell className="font-medium w-40 text-base">
+                  Name
+                </TableCell>
+                <TableCell className="font-medium w-40 text-base">
+                  : {data.name}
+                </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className="font-medium text-base">Description</TableCell>
+                <TableCell className="font-medium text-base">
+                  Description
+                </TableCell>
                 <TableCell>: {data.description}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className="font-medium text-base">Created at</TableCell>
-                <TableCell className="font-medium w-40 text-base">: {data.created_at}</TableCell>
+                <TableCell className="font-medium text-base">
+                  Created at
+                </TableCell>
+                <TableCell className="font-medium w-40 text-base">
+                  : {data.created_at}
+                </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className="font-medium text-base">Last update at</TableCell>
-                <TableCell className="font-medium w-40 text-base">: {data.updated_at}</TableCell>
+                <TableCell className="font-medium text-base">
+                  Last update at
+                </TableCell>
+                <TableCell className="font-medium w-40 text-base">
+                  : {data.updated_at}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell
@@ -98,7 +133,7 @@ const RoleShowPage = async ({ params }: { params: Promise<{ id: string }> }) => 
 
       <div className="flex mt-5 justify-end">
         <Tooltip title="Kembali">
-          <Link href="/dashboard/roles" style={{ textDecoration: "none" }}>
+          <Link href="/roles" style={{ textDecoration: "none" }}>
             <Button variant="outlined" startIcon={<FirstPageIcon />}>
               Kembali
             </Button>

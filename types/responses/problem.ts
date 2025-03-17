@@ -1,5 +1,4 @@
 import { ProblemEntity } from "../entities/problem";
-import { ProblemCategory } from "../entities/problem_category";
 
 export type ProblemIndexResponse = {
   data: ProblemEntity[];
@@ -10,24 +9,20 @@ export type ProblemIndexResponse = {
 
 export type ProblemShowResponse = {
   problem: ProblemEntity;
-  categories: Array<ProblemCategory>;
 };
 
 export type ProblemCreateResponse = {
   message: string;
-  problem: ProblemEntity;
 };
 
 export type ProblemUpdateResponse = {
   message: string;
-  problem: ProblemEntity;
 };
 
 export type ProblemDeleteResponse = {
   message: string;
-  problem: ProblemEntity;
 };
 
-export type ProblemPreparationResponse = {
-  categories: Array<ProblemCategory>;
+export type ProblemSubmitResponse = {
+message: string;
 };

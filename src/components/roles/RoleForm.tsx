@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useForm, Controller } from "react-hook-form";
@@ -17,10 +18,7 @@ import {
   CardContent,
 } from "@mui/material";
 import { RoleDetailEntity } from "../../../types/entities/roles";
-import {
-  createRole,
-  updateRole,
-} from "@/app/dashboard/(dashboard)/roles/action";
+import { createRole, updateRole } from "@/app/(core)/roles/action";
 
 type RoleFormProps = {
   sectionTree: Array<any>;
@@ -30,15 +28,13 @@ type RoleFormProps = {
 const roleSchema = z.object({
   name: z.string().min(2).max(50),
   description: z.string().min(2).max(255),
-  rule_set: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "Anda harus memilih setidaknya 1 pilihan.",
-  }),
+  rule_set: z.array(z.string()),
 });
 
 const RoleForm: React.FC<RoleFormProps> = ({ sectionTree, role }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof roleSchema>>({
     resolver: zodResolver(roleSchema),
@@ -59,13 +55,14 @@ const RoleForm: React.FC<RoleFormProps> = ({ sectionTree, role }) => {
     };
 
   const onSubmit = async (params: z.infer<typeof roleSchema>) => {
+    console.log(params);
     setLoading(true);
     startTransition(async () => {
       const result = role
         ? await updateRole(role.id, params)
         : await createRole(params);
       if (result.success) {
-        router.push(`/dashboard/roles/${result.data.role.id}`);
+        router.push(`/roles/${result.data.role.id}`);
       } else {
         alert("Terjadi kesalahan dalam memproses data.");
       }
@@ -76,9 +73,6 @@ const RoleForm: React.FC<RoleFormProps> = ({ sectionTree, role }) => {
   return (
     <Card>
       <CardContent>
-        <Typography variant="h6" gutterBottom>
-          {role ? "Edit Role" : "Create Role"}
-        </Typography>
 
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Controller

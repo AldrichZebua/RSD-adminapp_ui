@@ -11,7 +11,6 @@ export type SafeApiSuccessResponse<T> = {
 
 export type SafeApiErrorResponse = {
   message: string;
-  // message: string;
   success: false;
   data: ErrorResponse;
   redirect: boolean;

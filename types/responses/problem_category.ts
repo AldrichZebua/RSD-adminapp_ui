@@ -1,28 +1,29 @@
 import { ProblemCategoryEntity } from "../entities/problem_category";
 
 export type ProblemCategoryIndexResponse = {
-  data: ProblemCategoryEntity[],
-  current_page: number,
+  data: ProblemCategoryEntity[];
+  current_page: number;
   total: number;
-  dependencies: any,
+  dependencies: any;
 };
 
 export type ProblemCategoryShowResponse = {
-  problemcategory: ProblemCategoryEntity;
-
+  problem_category: ProblemCategoryEntity;
 };
 
 export type ProblemCategoryCreateResponse = {
-  message: string,
-  problemcategory: ProblemCategoryEntity;
+  message: string;
+  problem_category: ProblemCategoryEntity;
 };
 
 export type ProblemCategoryUpdateResponse = {
-  message: string,
-  problemcategory: ProblemCategoryEntity;
+  message: string;
 };
 
 export type ProblemCategoryDeleteResponse = {
   message: string;
-  problemcategory: ProblemCategoryEntity;
+};
+
+export type ProblemCategoryToggleResponse = {
+  message: string;
 };
