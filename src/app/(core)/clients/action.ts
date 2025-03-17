@@ -23,7 +23,7 @@ export const checkPermission = async () => {
 
 export const getIndexClient = async (params: string) => {
   return await safeApiRequest<ClientIndexResponse>(
-    `${process.env.API_ENDPOINT}/clients/${params}`,
+    `${process.env.API_ENDPOINT}/clients${params}`,
   );
 };
 export const getClient = async (id: string | string[]) => {

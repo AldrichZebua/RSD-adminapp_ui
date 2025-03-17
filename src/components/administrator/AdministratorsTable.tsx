@@ -24,7 +24,7 @@ import { useState } from "react";
 import { useAdministratorIndexContext } from "./AdministratorIndexProvider";
 import {
   destroyAdministrator,
-  getIndexAdministrators,
+  getIndexAdministrator,
 } from "@/app/(core)/administrators/action";
 
 export const AdministratorsTable = () => {
@@ -35,7 +35,7 @@ export const AdministratorsTable = () => {
   const { permission } = useAdministratorIndexContext();
 
   const fetcher = async (): Promise<AdministratorsIndexResponse> => {
-    const result = await getIndexAdministrators(
+    const result = await getIndexAdministrator(
       `pagination[current]=${pagination.page + 1}&pagination[pageSize]=${
         pagination.pageSize
       }`

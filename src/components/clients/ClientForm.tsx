@@ -1,7 +1,7 @@
 "use client";
 
 import { startTransition, useState } from "react";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, TextField, IconButton } from "@mui/material";
@@ -42,7 +42,10 @@ export default function ClientForm({ client }: ClientFormProps) {
   };
 
   const removeEmailField = (index: number) => {
-    setValue("emails", emails.filter((_, i) => i !== index));
+    setValue(
+      "emails",
+      emails.filter((_, i) => i !== index)
+    );
   };
 
   const onSubmit = async (params: z.infer<typeof clientSchema>) => {
@@ -65,68 +68,77 @@ export default function ClientForm({ client }: ClientFormProps) {
     <>
       <div className="flex flex-col mt-8">
         <Box sx={{ width: "100%", mt: 4, overflowX: "auto" }}>
-          <form 
-          onSubmit={handleSubmit(onSubmit)} 
-          className="space-y-4" 
-          method="POST"
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4"
+            method="POST"
           >
             <div className="flex flex-row items-center gap-2">
               <div className="w-52 text-left">
                 <span>Client Name </span>
               </div>
-            : <TextField
-              {...register("name")}
-              label="Name"
-              variant="outlined"
-              fullWidth
-              error={!!formState.errors.name}
-              helperText={formState.errors.name?.message}
-            />
+              :{" "}
+              <TextField
+                {...register("name")}
+                label="Name"
+                variant="outlined"
+                fullWidth
+                error={!!formState.errors.name}
+                helperText={formState.errors.name?.message}
+                defaultValue={client?.name}
+              />
             </div>
 
             <div className="flex flex-row items-center gap-2">
               <div className="w-52 text-left">
                 <span>Remark</span>
               </div>
-            : <TextField
-              {...register("remark")}
-              label="Remark"
-              variant="outlined"
-              fullWidth
-              error={!!formState.errors.remark}
-              helperText={formState.errors.remark?.message}
-            />
+              :{" "}
+              <TextField
+                {...register("remark")}
+                label="Remark"
+                variant="outlined"
+                fullWidth
+                error={!!formState.errors.remark}
+                helperText={formState.errors.remark?.message}
+                defaultValue={client?.remark}
+              />
             </div>
 
-            <div className="flex gap-2">
-              <div className="w-52 text-left">
-                <span>Email</span>
-              </div>
-              {emails.map((email, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  : <TextField
-                    {...register(`emails.${index}` as const)}
-                    label={`Email ${index + 1}`}
-                    variant="outlined"
-                    fullWidth
-                    error={!!formState.errors.emails?.[index]}
-                    helperText={formState.errors.emails?.[index]?.message}
-                  />
-                  {emails.length > 1 && (
-                    <IconButton onClick={() => removeEmailField(index)}>
-                      <RemoveCircleOutlineIcon color="error" />
-                    </IconButton>
-                  )}
-                </div>
-              ))}
+            <div className="flex flex-row items-center gap-2">
+              <span>Email</span>
             </div>
+            {emails.map((emails, index) => (
+              <div key={index} className="w-52 text-left">
+                :{" "}
+                <TextField
+                  {...register(`emails.${index}` as const)}
+                  label={`Email ${index + 1}`}
+                  variant="outlined"
+                  fullWidth
+                  error={!!formState.errors.emails?.[index]}
+                  helperText={formState.errors.emails?.[index]?.message}
+                  defaultValue={client?.emails}
+                />
+                {emails.length > 1 && (
+                  <IconButton onClick={() => removeEmailField(index)}>
+                    <RemoveCircleOutlineIcon color="error" />
+                  </IconButton>
+                )}
+              </div>
+            ))}
 
             <Button onClick={addEmailField} variant="outlined">
               Tambah Email
             </Button>
 
             <div className="flex justify-end mt-5">
-              <Button type="submit" variant="contained" endIcon={<ControlPointDuplicateIcon />} disabled={loading}>
+              <Button
+                type="submit"
+                variant="contained"
+                endIcon={<ControlPointDuplicateIcon />}
+                disabled={loading}
+              >
                 {client ? "Update" : "Create"}
               </Button>
             </div>

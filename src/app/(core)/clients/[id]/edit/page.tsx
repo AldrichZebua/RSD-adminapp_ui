@@ -18,7 +18,6 @@ export default async function ClientEditPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-
   const pageParams = await params;
 
   const pageDetail: Promise<ClientEntity> = new Promise((resolve, reject) => {
@@ -28,32 +27,31 @@ export default async function ClientEditPage({
       } else {
         reject(result.data.message);
       }
-    })
-  })
+    });
+  });
 
   const [client, permission] = await Promise.all([
     pageDetail,
     checkPermission(),
   ]);
 
-
   return (
     <ClientIndexProvider permission={permission}>
-    <div className="w-full p-4 px-6 lg:px-20">
-      <div className="container mx-auto">
-        <Link href="/clients">
-          <IconButton color="primary" aria-label="kembali">
-            <ArrowBackIcon />
-          </IconButton>
-        </Link>
-        <BreadcrumbCustom items={breadcrumbItems(client)} />
-      </div>
-      <h1 className="text-3xl font-bold mb-4">Edit Client</h1>
-      <div className="mb-5">
+      <div className="w-full p-4 px-6 lg:px-20">
+        <div className="container mx-auto">
+          <Link href="/clients">
+            <IconButton color="primary" aria-label="kembali">
+              <ArrowBackIcon />
+            </IconButton>
+          </Link>
+          <BreadcrumbCustom items={breadcrumbItems(client)} />
+        </div>
+        <h1 className="text-3xl font-bold mb-4">Edit Client</h1>
+        <div className="mb-5">
           Silahkan lengkapi data di bawah untuk menambahkan Client baru
         </div>
         <ClientForm client={client} />
-    </div>
+      </div>
     </ClientIndexProvider>
   );
 }

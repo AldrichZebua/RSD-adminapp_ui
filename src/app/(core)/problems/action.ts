@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import {
@@ -8,6 +9,7 @@ import { safeApiRequest } from "@/lib/safeApiRequest";
 import { getCurrentAdministrator } from "@/lib/session";
 import { revalidatePath } from "next/cache";
 import { ProblemCreateResponse, ProblemDeleteResponse, ProblemIndexResponse, ProblemShowResponse, ProblemUpdateResponse } from "../../../../types/responses/problem";
+import { ProblemCategoryIndexResponse } from "../../../../types/responses/problem_category";
 
 
 export const checkPermission = async () => {
@@ -68,4 +70,11 @@ export const destroyProblem = async (id: string) => {
   );
   revalidatePath(`/problems`);
   return result;
+};
+
+
+export const dropProblemCategory = async () => {
+  return await safeApiRequest<ProblemCategoryIndexResponse>(
+    `${process.env.API_ENDPOINT}/problems_categories`,  
+  );
 };

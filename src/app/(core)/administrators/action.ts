@@ -22,7 +22,7 @@ export const checkPermission = async () => {
   return await checkAdministratorSections(administrator!.id, requestSection);
 }
 
-export const getIndexAdministrators = async (params: string) => {
+export const getIndexAdministrator = async (params: string) => {
   return await safeApiRequest<AdministratorsIndexResponse>(
     `${process.env.API_ENDPOINT}/administrators?${params}`,
   );

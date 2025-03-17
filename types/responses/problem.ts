@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+"use server";
 import { ProblemEntity } from "../entities/problem";
 
 export type ProblemIndexResponse = {
@@ -12,17 +15,20 @@ export type ProblemShowResponse = {
 };
 
 export type ProblemCreateResponse = {
+  problem: ProblemEntity;
   message: string;
 };
 
 export type ProblemUpdateResponse = {
   message: string;
+  problem: ProblemEntity;
 };
 
 export type ProblemDeleteResponse = {
   message: string;
+  problem: ProblemEntity;
 };
 
 export type ProblemSubmitResponse = {
-message: string;
+  message: string;
 };

@@ -15,22 +15,31 @@ const breadcrumbItems = (data: ProblemCategoryEntity) => [
   { title: `Detail - ${data.name}`, url: `/problem/${data.id}` },
 ];
 
-async function getData(id: string): Promise<ProblemCategoryEntity | undefined> {
-  const result = await getProblemCategory(id);
-  return result.success ? result.data.problem_category : undefined;
-}
 
 export default async function ProblemCategoryEditPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>
 }) {
-  const permission = await checkPermission();
-  const data = await getData(params.id);
+  const pageParams = await params;
+  
+  const pageDetail: Promise<ProblemCategoryEntity> = new Promise(
+    (resolve, reject) => {
+      getProblemCategory(pageParams.id).then((result) => {
+        if (result.success) {
+          resolve(result.data.problem_category);
+        } else {
+          reject(result.data.message);
+        }
+      });
+    }
+  );
 
-  if (!data) {
-    return <h1>Error fetching data...</h1>;
-  }
+    const [problem_category, permission ] = await Promise.all([
+      pageDetail,
+      checkPermission(),
+
+    ]);
 
   return (
     <ProblemCategoryIndexProvider permission={permission}>
@@ -41,7 +50,7 @@ export default async function ProblemCategoryEditPage({
               <ArrowBackIcon />
             </IconButton>
           </Link>
-          <BreadcrumbCustom items={breadcrumbItems(data)} />
+          <BreadcrumbCustom items={breadcrumbItems(problem_category)} />
         </div>
         <h1 className="text-3xl font-bold mb-4">Tambahkan Problem Category</h1>
         <ProblemCategoryForm />

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+"use server"
 import { AdministratorEntity } from "../entities/administrators";
 import { Role } from "../entities/roles";
 

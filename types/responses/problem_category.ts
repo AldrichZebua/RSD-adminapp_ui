@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProblemCategoryEntity } from "../entities/problem_category";
 
 export type ProblemCategoryIndexResponse = {
@@ -18,10 +19,12 @@ export type ProblemCategoryCreateResponse = {
 
 export type ProblemCategoryUpdateResponse = {
   message: string;
+  problem_category: ProblemCategoryEntity;
 };
 
 export type ProblemCategoryDeleteResponse = {
   message: string;
+  problem_category: ProblemCategoryEntity;
 };
 
 export type ProblemCategoryToggleResponse = {

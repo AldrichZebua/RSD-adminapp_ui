@@ -2,16 +2,16 @@ import { z } from "zod";
 import { ProblemEntity } from "../../../types/entities/problem";
 import { ProblemCategoryEntity } from "../../../types/entities/problem_category";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { startTransition, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ControlPointDuplicateIcon from "@mui/icons-material/ControlPointDuplicate";
-import { Box, Button, CircularProgress, TextField } from "@mui/material";
+import { Box, Button, CircularProgress, MenuItem, TextField } from "@mui/material";
 import { createProblem, updateProblem } from "@/app/(core)/problems/action";
 
 type ProblemFormProps = {
   problem?: ProblemEntity;
-  data?: ProblemCategoryEntity;
+  problem_category?: ProblemCategoryEntity;
 };
 
 const problemSchema = z.object({
@@ -21,7 +21,10 @@ const problemSchema = z.object({
   problem_category: z.array(z.string()).nonempty("Kategori harus dipilih"),
 });
 
-export const ProblemForm = ({ problem, data }: ProblemFormProps) => {
+export default function ProblemForm({
+  problem,
+  problem_category,
+}: ProblemFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof problemSchema>>({
@@ -29,33 +32,24 @@ export const ProblemForm = ({ problem, data }: ProblemFormProps) => {
     defaultValues: {
       title: problem?.title || "",
       description: problem?.description || "",
-      data: problem?.problem_category || [],
+      problem_category: problem_category?.name || "",
     },
   });
 
   const onSubmit = async (params: z.infer<typeof problemSchema>) => {
+    console.log(params);
     setLoading(true);
-    if (!problem) {
-      createProblem((result) => {
-        if (result.success) {
-          alert("Berhasil Menyimpan Data");
-          router.push(`/problems/${result.data.problem.id}`);
-        } else {
-          alert(`Oopps! Gagal Menyimpan: ${result.data.message}`);
-        }
-        setLoading(false);
-      });
-    } else {
-      updateProblem(problem.id, params).then((result) => {
-        if (result.success) {
-          alert("Berhasil Mengupdate Data");
-          router.push(`/problems/${result.data.problem.id}`);
-        } else {
-          alert(`Oopps! Gagal Mengupdate: ${result.data.message}`);
-        }
-        setLoading(false);
-      });
-    }
+    startTransition(async () => {
+      const result = problem
+        ? await updateProblem(problem.id, params)
+        : await createProblem(params);
+      if (result.success) {
+        router.push(`/problems/${result.data.problem.id}`);
+      } else {
+        alert("Terjadi kesalahan dalam memproses data.");
+      }
+      setLoading(false);
+    });
   };
 
   return (
@@ -99,7 +93,7 @@ export const ProblemForm = ({ problem, data }: ProblemFormProps) => {
                 error={!!form.formState.errors.status_label}
                 helperText={form.formState.errors.status_label?.message}
               />
-              
+
               <TextField
                 {...form.register("problem_category")}
                 label="problem_category"
@@ -108,6 +102,34 @@ export const ProblemForm = ({ problem, data }: ProblemFormProps) => {
                 error={!!form.formState.errors.problem_category}
                 helperText={form.formState.errors.problem_category?.message}
               />
+
+              <div className="flex flex-row items-center gap-2">
+                <div className="w-52 text-left">
+                  <span>Problem Categories</span>
+                </div>
+                :{" "}
+                <Controller
+                  name="problem_category"
+                  control={form.control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      select
+                      label="Select Problem Category"
+                      fullWidth
+                      error={!!form.formState.errors.problem_category}
+                      helperText={form.formState.errors.problem_category?.message}
+                      onChange={(e) => field.onChange([e.target.value])}
+                    >
+                      {problem_category.map((i) => (
+                        <MenuItem key={i.id} value={i.id}>
+                          {i.name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
+                />
+              </div>
 
               <div className="flex justify-end mt-5">
                 <Button
@@ -129,4 +151,4 @@ export const ProblemForm = ({ problem, data }: ProblemFormProps) => {
       </div>
     </>
   );
-};
+}
