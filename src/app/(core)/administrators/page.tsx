@@ -7,7 +7,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 
 const breadcrumbItems = [
-  { title: `Administrators`, url: '/' },
+  { title: `Administrators`, url: '/administrators' },
 ];
 
 

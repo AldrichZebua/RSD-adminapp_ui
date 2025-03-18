@@ -48,7 +48,7 @@ export default async function ClientEditPage({
         </div>
         <h1 className="text-3xl font-bold mb-4">Edit Client</h1>
         <div className="mb-5">
-          Silahkan lengkapi data di bawah untuk menambahkan Client baru
+          Silahkan perbaiki data di bawah untuk update data Client
         </div>
         <ClientForm client={client} />
       </div>

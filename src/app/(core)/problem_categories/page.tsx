@@ -6,7 +6,7 @@ import { ProblemCategoryTable } from "@/components/problem_categories/ProblemCat
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 
 const breadcrumbItems = [
-  { title: `/Problem Category`, url: '/' },
+  { title: `/Problem Category`, url: '/problem_categories' },
 ];
 
 export default async function ProblemCategoryPage() {

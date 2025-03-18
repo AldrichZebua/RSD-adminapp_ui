@@ -53,7 +53,7 @@ export default async function ProblemCategoryEditPage({
           <BreadcrumbCustom items={breadcrumbItems(problem_category)} />
         </div>
         <h1 className="text-3xl font-bold mb-4">Tambahkan Problem Category</h1>
-        <ProblemCategoryForm />
+        <ProblemCategoryForm problem_category={problem_category}/>
       </div>
     </ProblemCategoryIndexProvider>
   );
