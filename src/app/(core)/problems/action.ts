@@ -36,7 +36,7 @@ export const checkPermission = async () => {
 
 export const getIndexProblem = async (params: string) => {
   const url = new URL(`${process.env.API_ENDPOINT}/problems`);
-  url.search = params; // Menambahkan query params dengan aman
+  url.search = params;
 
   return await safeApiRequest<ProblemIndexResponse>(url.toString());
 };

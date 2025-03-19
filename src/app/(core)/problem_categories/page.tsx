@@ -7,7 +7,7 @@ import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const breadcrumbItems = [
-  { title: `/Problem Category`, url: 'problem_categories' },
+  { title: `Problem Category`, url: '/problem_categories' },
 ];
 
 export default async function ProblemCategoryPage() {
@@ -30,7 +30,7 @@ export default async function ProblemCategoryPage() {
             alignItems: "center",
           }}
         >
-          {permission.problemCategory_create && (
+          {permission.problem_category_create && (
             <Tooltip title="Tambah Problem Category baru">
               <Link
                 href="/problem_categories/new"

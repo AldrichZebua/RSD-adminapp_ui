@@ -33,6 +33,7 @@ export const getIndexRole = async (params: string) => {
     `${process.env.API_ENDPOINT}/roles/${params}`
   );
 };
+
 export const getRole = async (id: string) => {
   return await safeApiRequest<RoleShowResponse>(
     `${process.env.API_ENDPOINT}/roles/${id}`

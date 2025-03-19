@@ -67,7 +67,7 @@ export const ProblemTable = () => {
         if (result.success) {
           mutate();
         } else {
-          alert("Gagal menghapus Problem" + result.message);
+          alert("Gagal menghapus Problem" + result);
         }
       } catch (error) {
         console.error("Gagal menghapus Problem", error);
@@ -103,7 +103,10 @@ export const ProblemTable = () => {
 
   return (
     <>
-      <TableContainer component={Paper} sx={{width: "100%", mt: 4, overflowX: "auto" }}>
+      <TableContainer
+        component={Paper}
+        sx={{ width: "100%", mt: 4, overflowX: "auto" }}
+      >
         <Table>
           <TableHead>
             <TableRow>

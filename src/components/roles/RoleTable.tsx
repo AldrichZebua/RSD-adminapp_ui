@@ -99,18 +99,17 @@ export const RoleTable = () => {
               <TableRow key={role.id}>
                 <TableCell align="center">{page * rowsPerPage + index + 1}</TableCell>
                 <TableCell align="center">
-                  <div className="flex justify-start">
+                  <div className="flex justify-between items-center">
                   {
                     permission.role_show
                     ?
-                    <Link component={NextLink} href={`/role/${role.id}`} underline="none" color="dark">
+                    <Link component={NextLink} href={`/roles/${role.id}`} underline="none" color="dark">
                       {role.name}
                     </Link>
                     :
                     role.name
                   }
-                  </div>
-                  <div className="flex justify-end">
+                  <div className="flex flex-row">
                   {
                     permission.role_destroy
                     &&
@@ -127,6 +126,7 @@ export const RoleTable = () => {
                     </IconButton>
                   </Tooltip>
                   }
+                  </div>
                     </div>
                 </TableCell>
                 <TableCell align="center">{role.description}</TableCell>

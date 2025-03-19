@@ -70,7 +70,7 @@ export const ProblemCategoryTable = () => {
         if (result.success) {
           mutate();
         } else {
-          alert("Gagal menghapus client: " + result.message);
+          alert("Gagal menghapus client: " + result);
         }
       } catch (error) {
         console.error("Gagal menghapus client", error);
@@ -124,22 +124,20 @@ export const ProblemCategoryTable = () => {
               <TableCell align="center">{index + 1}</TableCell>
               <TableCell align="center">
                 <div className="flex justify-between items-center">
-                  <div>
-                    {permission.problemCategory_show ? (
-                      <Link
-                        component={NextLink}
-                        href={`/problem_categories/${problem_category.id}`}
-                        underline="none"
-                        color="primary"
-                      >
-                        {problem_category.name}
-                      </Link>
-                    ) : (
-                      problem_category.name
-                    )}
-                  </div>
+                  {permission.problem_category_show ? (
+                    <Link
+                      component={NextLink}
+                      href={`/problem_categories/${problem_category.id}`}
+                      underline="none"
+                      color="primary"
+                    >
+                      {problem_category.name}
+                    </Link>
+                  ) : (
+                    problem_category.name
+                  )}
                   <div className="flex gap-2">
-                    {permission.problemCategory_destroy && (
+                    {permission.problem_category_destroy && (
                       <IconButton
                         color="error"
                         onClick={() => handleDelete(problem_category.id)}
@@ -147,7 +145,7 @@ export const ProblemCategoryTable = () => {
                         <DeleteIcon />
                       </IconButton>
                     )}
-                    {permission.problemCategory_update && (
+                    {permission.problem_category_update && (
                       <Tooltip title="Edit Problem Categories">
                         <IconButton
                           color="info"

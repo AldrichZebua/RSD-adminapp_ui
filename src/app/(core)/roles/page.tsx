@@ -1,5 +1,3 @@
-"use server"
-
 import { RoleTable } from "@/components/roles/RoleTable";
 import * as React from "react";
 import { RoleIndexProvider } from "@/components/roles/RoleIndexProvider";
@@ -11,7 +9,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 
 const breadcrumbItems = [
-  { title: `Roles`, url: '/' },
+  { title: `Roles`, url: '/roles' },
 ];
 
 export default async function RolesPage() {

@@ -1,5 +1,3 @@
-"use server";
-
 import { checkPermission } from "../action";
 import Link from "@mui/material/Link";
 import NextLink from "next/link";

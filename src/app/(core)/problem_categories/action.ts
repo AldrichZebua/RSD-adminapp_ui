@@ -19,14 +19,14 @@ import { revalidatePath } from "next/cache";
 export const checkPermission = async () => {
   const administrator = await getCurrentAdministrator();
   const requestSection: ProblemCategorySectionCheckRequest = [
-    "problemCategory_menu",
-    "problemCategory_index",
-    "problemCategory_create",
-    "problemCategory_show",
-    "problemCategory_update",
-    "problemCategory_destroy",
-    "problemCategory_activate",
-    "problemCategory_deactivate",
+    "problem_category_menu",
+    "problem_category_index",
+    "problem_category_create",
+    "problem_category_show",
+    "problem_category_update",
+    "problem_category_destroy",
+    "problem_category_activate",
+    "problem_category_deactivate",
   ];
   return await checkProblemCategorySections(administrator!.id, requestSection);
 };

@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-"use server";
 import { ProblemEntity } from "../entities/problem";
 
 export type ProblemIndexResponse = {

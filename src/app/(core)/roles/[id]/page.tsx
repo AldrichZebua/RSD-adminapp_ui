@@ -1,5 +1,3 @@
-"use server";
-
 import { checkPermission, getRole } from "../action";
 import {
   Button,
@@ -34,14 +32,14 @@ async function getData(id: string): Promise<RoleDetailEntity | undefined> {
   return result.success ? result.data.role : undefined;
 }
 
-const permission = await checkPermission();
-
-const RoleShowPage = async ({
+export default async function RoleShowPage ({
   params,
 }: {
-  params: Promise<{ id: string }>;
-}) => {
+  params: Promise<{ id: string }>
+}) {
   const data = await getData((await params).id);
+    const permission = await checkPermission();
+  
 
   if (!data) {
     return <h1>Error fetching data...</h1>;
@@ -150,5 +148,3 @@ const RoleShowPage = async ({
     </>
   );
 };
-
-export default RoleShowPage;

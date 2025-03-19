@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-"use server"
 import { AdministratorEntity } from "../entities/administrators";
 import { Role } from "../entities/roles";
 
 export type AdministratorsIndexResponse = {
-  data: AdministratorEntity[],
-  current_page: number,
+  data: AdministratorEntity[];
+  current_page: number;
   total: number;
-  dependencies: any,
+  dependencies: any;
 };
 
 export type AdministratorsShowResponse = {
@@ -17,12 +16,12 @@ export type AdministratorsShowResponse = {
 };
 
 export type AdministratorsCreateResponse = {
-  message: string,
+  message: string;
   administrator: AdministratorEntity;
 };
 
 export type AdministratorsUpdateResponse = {
-  message: string,
+  message: string;
   administrator: AdministratorEntity;
 };
 
