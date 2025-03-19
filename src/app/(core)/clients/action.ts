@@ -21,9 +21,10 @@ export const checkPermission = async () => {
   return await checkClientSections(administrator!.id, requestSection);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getIndexClient = async (params: string) => {
   return await safeApiRequest<ClientIndexResponse>(
-    `${process.env.API_ENDPOINT}/clients${params}`,
+    `${process.env.API_ENDPOINT}/clients`,
   );
 };
 export const getClient = async (id: string | string[]) => {
@@ -63,15 +64,3 @@ export const destroyClient = async (id: string) => {
   revalidatePath(`/clients`);
   return result;
 };
-
-// export const getRolesDropdown = async () => {
-//   return await safeApiRequest<ClinetDropdownResponse>(
-//     `${process.env.API_ENDPOINT}/roles/dropdown`
-//   );
-// };
-
-// export const prepareAdministrator = async () => {
-//   return await safeApiRequest<AdministratorsPreparationResponse>(
-//     `${process.env.API_ENDPOINT}/administrators/preparation`
-//   );
-// };

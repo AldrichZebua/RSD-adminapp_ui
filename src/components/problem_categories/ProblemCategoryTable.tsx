@@ -93,7 +93,6 @@ export const ProblemCategoryTable = () => {
       </Container>
     );
   }
-
   const handleChangePage = (_: unknown, newPage: number) => {
     setPagination({ ...pagination, page: newPage });
   };

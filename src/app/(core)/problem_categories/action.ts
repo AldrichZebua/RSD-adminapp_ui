@@ -31,9 +31,10 @@ export const checkPermission = async () => {
   return await checkProblemCategorySections(administrator!.id, requestSection);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getIndexProblemCategory = async (params: string) => {
   return await safeApiRequest<ProblemCategoryIndexResponse>(
-    `${process.env.API_ENDPOINT}/problem_categories/${params}`
+    `${process.env.API_ENDPOINT}/problem_categories`
   );
 };
 export const getProblemCategory = async (id: string | string[]) => {

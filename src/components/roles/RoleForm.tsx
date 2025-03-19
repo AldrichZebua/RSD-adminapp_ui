@@ -73,7 +73,6 @@ const RoleForm: React.FC<RoleFormProps> = ({ sectionTree, role }) => {
   return (
     <Card>
       <CardContent>
-
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Controller
             name="name"

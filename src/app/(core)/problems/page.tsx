@@ -2,11 +2,12 @@ import { ProblemIndexProvider } from "@/components/problems/ProblemIndexProvider
 import { checkPermission } from "./action";
 import { ProblemTable } from "@/components/problems/ProblemTable";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
-import { IconButton } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-const breadcrumbItems = [{ title: `/Problems`, url: "/" }];
+const breadcrumbItems = [{ title: `Problems`, url: "/" }];
 
 export default async function ProblemPage() {
   const permission = await checkPermission();
@@ -28,11 +29,26 @@ export default async function ProblemPage() {
             display: "flex flex-col",
             alignItems: "center",
           }}
-        ></div>
-        <div className="grid grid-rows-[0px_1fr_0px] justify-items-center min-h-screen gap-16 font-[family-name:var(--font-geist-sans)]">
-          <main className="flex flex-col row-start-2 items-center">
+        >
+          {permission.problem_create && (
+            <Tooltip title="Tambah Problem Category baru">
+              <Link
+                href="/problem_categories/new"
+                style={{ textDecoration: "none" }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AddCircleOutlineIcon />}
+                >
+                  Tambah
+                </Button>
+              </Link>
+            </Tooltip>
+          )}
+          <div className="flex flex-col row-start-2 items-center">
             <ProblemTable />
-          </main>
+          </div>
         </div>
       </ProblemIndexProvider>
     </>

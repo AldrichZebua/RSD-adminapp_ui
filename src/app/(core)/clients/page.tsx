@@ -1,9 +1,10 @@
 import { ClientIndexProvider } from "@/components/clients/ClientIndexProvider";
 import { ClientTable } from "@/components/clients/ClientTable";
 import { checkPermission } from "./action";
-import { Button, Link, Tooltip } from "@mui/material";
+import { Button, IconButton, Link, Tooltip } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const breadcrumbItems = [{ title: `/Client`, url: "/" }];
 
@@ -14,6 +15,11 @@ export default async function ClientsPage() {
     <>
       <ClientIndexProvider permission={permission}>
         <div className="flex gap-2 items-center mb-2">
+          <Link href="/dashboard">
+            <IconButton color="primary" aria-label="kembali">
+              <ArrowBackIcon />
+            </IconButton>
+          </Link>
           <BreadcrumbCustom items={breadcrumbItems} />
         </div>
         <div className="text-3xl font-bold mb-8">Client</div>

@@ -1,21 +1,26 @@
-import { Button, Link, Tooltip } from "@mui/material";
+import { Button, IconButton, Link, Tooltip } from "@mui/material";
 import { checkPermission } from "./action";
 import { ProblemCategoryIndexProvider } from "@/components/problem_categories/ProblemCategoryIndexProvider";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { ProblemCategoryTable } from "@/components/problem_categories/ProblemCategoryTable";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const breadcrumbItems = [
-  { title: `/Problem Category`, url: '/problem_categories' },
+  { title: `/Problem Category`, url: 'problem_categories' },
 ];
 
 export default async function ProblemCategoryPage() {
   const permission = await checkPermission();
-
   return (
     <>
       <ProblemCategoryIndexProvider permission={permission}>
-        <div className="items-center mb-2">
+        <div className="flex gap-2 items-center mb-2">
+        <Link href="/dashboard">
+            <IconButton color="primary" aria-label="kembali">
+              <ArrowBackIcon />
+            </IconButton>
+          </Link>
         <BreadcrumbCustom items={breadcrumbItems} />
       </div>
         <div className="text-3xl font-bold mb-8">Problem Category</div>
@@ -26,7 +31,7 @@ export default async function ProblemCategoryPage() {
           }}
         >
           {permission.problemCategory_create && (
-            <Tooltip title="Tambah client baru">
+            <Tooltip title="Tambah Problem Category baru">
               <Link
                 href="/problem_categories/new"
                 style={{ textDecoration: "none" }}

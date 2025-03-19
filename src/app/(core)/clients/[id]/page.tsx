@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { checkPermission, getClient } from "../action";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
 import { ClientIndexProvider } from "@/components/clients/ClientIndexProvider";
 import { ClientEntity } from "../../../../../types/entities/client";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -31,14 +30,9 @@ async function getData(id: string): Promise<ClientEntity | undefined> {
   return result.success ? result.data.client : undefined;
 }
 
-export default async function ClientShowPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function ClientShowPage({ params } : { params: Promise<{ id: string }> }) {
+  const data = await getData((await params).id);
   const permission = await checkPermission();
-
-  const data = await getData(params.id);
 
   if (!data) {
     return <h1>Error fetching data...</h1>;
@@ -48,12 +42,12 @@ export default async function ClientShowPage({
     <>
       <ClientIndexProvider permission={permission}>
       <div className="flex gap-2 items-center mb-2">
-          <Link href="/administrators">
+          <Link href="/clients">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon/>
             </IconButton>
           </Link>
-          <BreadcrumbCustom items={breadcrumbItems(data.client)} />
+          <BreadcrumbCustom items={breadcrumbItems(data)} />
         </div>
         <div className="text-3xl font-medium mb-8">Detail Client</div>
         {permission.client_update && (
@@ -112,16 +106,6 @@ export default async function ClientShowPage({
             </Table>
           </CardContent>
         </Card>
-
-        <div className="flex mt-5 justify-end">
-          <Tooltip title="Kembali">
-            <Link href="/clients" style={{ textDecoration: "none" }}>
-              <Button variant="outlined" startIcon={<FirstPageIcon />}>
-                Kembali
-              </Button>
-            </Link>
-          </Tooltip>
-        </div>
       </ClientIndexProvider>
     </>
   );

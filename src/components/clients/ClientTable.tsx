@@ -77,7 +77,7 @@ export const ClientTable = () => {
     return (
       <Container
         maxWidth="lg"
-        style={{
+        sx={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -162,12 +162,15 @@ export const ClientTable = () => {
               <TableCell align="center">{client.remark}</TableCell>
               <TableCell align="center">
                 <div
-                  className={
-                    client.emails.length > 1 ? "flex flex-col" : "flex flex-row"
-                  }
+                  className="flex items-center justify-center"
+                  style={{
+                    flexDirection: client.emails.length > 1 ? "column" : "row",
+                  }}
                 >
                   {client.emails.map((email, idx) => (
-                    <span key={idx}>{email}</span>
+                    <span key={idx} className="text-center">
+                      {email}
+                    </span>
                   ))}
                 </div>
               </TableCell>

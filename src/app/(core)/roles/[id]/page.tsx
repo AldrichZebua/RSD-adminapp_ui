@@ -1,6 +1,6 @@
 "use server";
 
-import { getRole } from "../action";
+import { checkPermission, getRole } from "../action";
 import {
   Button,
   Card,
@@ -21,6 +21,7 @@ import {
 } from "../../../../../types/entities/roles";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { RoleIndexProvider } from "@/components/roles/RoleIndexProvider";
 
 
 const breadcrumbItems = (data: RoleEntity) => [
@@ -32,6 +33,8 @@ async function getData(id: string): Promise<RoleDetailEntity | undefined> {
   const result = await getRole(id);
   return result.success ? result.data.role : undefined;
 }
+
+const permission = await checkPermission();
 
 const RoleShowPage = async ({
   params,
@@ -46,6 +49,7 @@ const RoleShowPage = async ({
 
   return (
     <>
+    <RoleIndexProvider permission={permission}>
       <div className="flex gap-2 items-center mb-2">
         <Link href="/roles">
           <IconButton color="primary" aria-label="kembali">
@@ -55,6 +59,7 @@ const RoleShowPage = async ({
         <BreadcrumbCustom items={breadcrumbItems(data)} />
       </div>
       <div className="text-3xl font-medium mb-8">Detail Hak Akses</div>
+      {permission.role_update && (
       <div className="mb-5">
         <Tooltip title="Edit Hak Akses">
           <Link
@@ -72,6 +77,7 @@ const RoleShowPage = async ({
           </Link>
         </Tooltip>
       </div>
+      )}
 
       <Card>
         <CardContent className="flex p-0 flex-col gap-3">
@@ -140,6 +146,7 @@ const RoleShowPage = async ({
           </Link>
         </Tooltip>
       </div>
+      </RoleIndexProvider>
     </>
   );
 };

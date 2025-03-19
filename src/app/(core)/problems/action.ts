@@ -28,11 +28,19 @@ export const checkPermission = async () => {
   return await checkProblemSections(administrator!.id, requestSection);
 };
 
+// export const getIndexProblem = async (params: string) => {
+//   return await safeApiRequest<ProblemIndexResponse>(
+//     `${process.env.API_ENDPOINT}/problems${params}`
+//   );
+// };
+
 export const getIndexProblem = async (params: string) => {
-  return await safeApiRequest<ProblemIndexResponse>(
-    `${process.env.API_ENDPOINT}/problems/${params}`
-  );
+  const url = new URL(`${process.env.API_ENDPOINT}/problems`);
+  url.search = params; // Menambahkan query params dengan aman
+
+  return await safeApiRequest<ProblemIndexResponse>(url.toString());
 };
+
 export const getProblem = async (id: string) => {
   return await safeApiRequest<ProblemShowResponse>(
     `${process.env.API_ENDPOINT}/problems/${id}`

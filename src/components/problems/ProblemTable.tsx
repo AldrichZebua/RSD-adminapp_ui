@@ -61,16 +61,16 @@ export const ProblemTable = () => {
     );
 
   const handleDelete = async (id: string) => {
-    if (confirm("Apakah Anda yakin ingin menghapus Role ini?")) {
+    if (confirm("Apakah Anda yakin ingin menghapus Problem ini?")) {
       try {
         const result = await destroyProblem(id);
         if (result.success) {
           mutate();
         } else {
-          alert("Gagal menghapus Role" + result.message);
+          alert("Gagal menghapus Problem" + result.message);
         }
       } catch (error) {
-        console.error("Gagal menghapus Role", error);
+        console.error("Gagal menghapus Problem", error);
       }
     }
   };
@@ -103,13 +103,13 @@ export const ProblemTable = () => {
 
   return (
     <>
-      <TableContainer component={Paper} sx={{ width: "100%", mt: 4 }}>
+      <TableContainer component={Paper} sx={{width: "100%", mt: 4, overflowX: "auto" }}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell align="center">No</TableCell>
               <TableCell align="center">Title</TableCell>
-              {/* <TableCell align="center">Problem Category</TableCell> */}
+              <TableCell align="center">Problem Category</TableCell>
               <TableCell align="center">Create At</TableCell>
               <TableCell align="center">Update At</TableCell>
               <TableCell align="center">Status</TableCell>
@@ -120,8 +120,8 @@ export const ProblemTable = () => {
               <TableRow key={problem.id}>
                 <TableCell align="center">{index + 1}</TableCell>
                 <TableCell align="center">
-                  <div className="flex flex-row justify-between">
-                    <div className="flex justify-normal">
+                  <div className="flex justify-between items-center">
+                    <div>
                       {permission.problem_show ? (
                         <Link
                           component={NextLink}
@@ -166,12 +166,25 @@ export const ProblemTable = () => {
                 <TableCell align="center">
                   <Typography
                     sx={{
-                      color:
-                        problem.status_label === "ACTIVE" ? "green" : "red",
+                      color: (() => {
+                        switch (problem.status_label) {
+                          case "DRAFT":
+                            return "red";
+                          case "SUBMITTED":
+                          case "REVISION":
+                            return "orange";
+                          case "PROGRESS":
+                            return "blue";
+                          case "DONE":
+                            return "green";
+                          default:
+                            return "gray";
+                        }
+                      })(),
                       fontWeight: "bold",
                     }}
                   >
-                    {problem.status_label}{" "}
+                    {problem.status_label}
                   </Typography>
                 </TableCell>
               </TableRow>
