@@ -36,7 +36,6 @@ const problemSchema = z.object({
     .string()
     .min(2, "Deskripsi minimal 2 karakter")
     .max(500, "Deskripsi maksimal 500 karakter"),
-  // status_label: z.string().min(2).max(10),
   problem_category_id: z.string().nonempty("Kategori harus dipilih"),
 });
 
@@ -94,13 +93,14 @@ export default function ProblemForm({ problem }: ProblemFormProps) {
             <div className="w-52 text-left">
               <span>Title</span>
             </div>
-            :{" "}
+            :
             <TextField
               {...form.register("title")}
               variant="outlined"
               fullWidth
               error={!!form.formState.errors.title}
               helperText={form.formState.errors.title?.message}
+              defaultValue={problem?.title}
             />
           </div>
 
@@ -117,6 +117,7 @@ export default function ProblemForm({ problem }: ProblemFormProps) {
               rows={4}
               error={!!form.formState.errors.description}
               helperText={form.formState.errors.description?.message}
+              defaultValue={problem?.description}
             />
           </div>
 
@@ -155,7 +156,7 @@ export default function ProblemForm({ problem }: ProblemFormProps) {
               <Select
                 {...form.register("problem_category_id")}
                 labelId="problem-category-label"
-                defaultValue=""
+                defaultValue={problem?.problem_category?.name || ""}
                 disabled={isLoading}
               >
                 {isLoading ? (

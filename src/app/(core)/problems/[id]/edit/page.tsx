@@ -48,7 +48,7 @@ export default async function ProblemEditPage({
         </div>
         <h1 className="text-3xl font-bold mb-4">Edit Problem</h1>
         <div className="mb-5">
-          Silahkan lengkapi data di bawah untuk menambahkan Problem
+          Silahkan lengkapi data di bawah untuk update Problem
         </div>
         <ProblemForm />
       </div>
