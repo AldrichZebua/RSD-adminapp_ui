@@ -73,60 +73,66 @@ export default function ClientForm({ client }: ClientFormProps) {
             className="space-y-4"
             method="POST"
           >
-            <div className="flex flex-row items-center gap-2">
-              <div className="w-52 text-left">
-                <span>Client Name </span>
-              </div>
-              :{" "}
-              <TextField
-                {...register("name")}
-                label="Name"
-                variant="outlined"
-                fullWidth
-                error={!!formState.errors.name}
-                helperText={formState.errors.name?.message}
-                defaultValue={client?.name}
-              />
-            </div>
-
-            <div className="flex flex-row items-center gap-2">
-              <div className="w-52 text-left">
-                <span>Remark</span>
-              </div>
-              :{" "}
-              <TextField
-                {...register("remark")}
-                label="Remark"
-                variant="outlined"
-                fullWidth
-                error={!!formState.errors.remark}
-                helperText={formState.errors.remark?.message}
-                defaultValue={client?.remark}
-              />
-            </div>
-
-            <div className="flex flex-row items-center gap-2">
-              <span>Email</span>
-            </div>
-            {emails.map((emails, index) => (
-              <div key={index} className="w-52 text-left">
-                :{" "}
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-row items-center gap-2">
+                <div className="w-52 text-left">
+                  <span>Client Name </span>
+                </div>
+                <div className="flex items-center">:</div>
                 <TextField
-                  {...register(`emails.${index}` as const)}
-                  label={`Email ${index + 1}`}
+                  {...register("name")}
+                  label="Name"
                   variant="outlined"
                   fullWidth
-                  error={!!formState.errors.emails?.[index]}
-                  helperText={formState.errors.emails?.[index]?.message}
-                  defaultValue={client?.emails}
+                  error={!!formState.errors.name}
+                  helperText={formState.errors.name?.message}
+                  defaultValue={client?.name}
                 />
-                {emails.length > 1 && (
-                  <IconButton onClick={() => removeEmailField(index)}>
-                    <RemoveCircleOutlineIcon color="error" />
-                  </IconButton>
-                )}
               </div>
-            ))}
+
+              <div className="flex flex-row items-center gap-2">
+                <div className="w-52 text-left">
+                  <span>Remark</span>
+                </div>
+                <div className="flex items-center">:</div>
+                <TextField
+                  {...register("remark")}
+                  label="Remark"
+                  variant="outlined"
+                  fullWidth
+                  error={!!formState.errors.remark}
+                  helperText={formState.errors.remark?.message}
+                  defaultValue={client?.remark}
+                />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="w-52 text-left">
+                  <span className="">Email</span>
+                </div>
+                <div className="flex items-center">:</div>
+                <div className="flex flex-col w-full gap-2">
+                  {emails.map((email, index) => (
+                    <div key={index} className="flex items-center gap-2 w-full">
+                      <TextField
+                        {...register(`emails.${index}` as const)}
+                        label={`Email ${index + 1}`}
+                        variant="outlined"
+                        fullWidth
+                        error={!!formState.errors.emails?.[index]}
+                        helperText={formState.errors.emails?.[index]?.message}
+                        defaultValue={client?.emails?.[index] ?? ""}
+                      />
+                      {emails.length > 1 && (
+                        <IconButton onClick={() => removeEmailField(index)}>
+                          <RemoveCircleOutlineIcon color="error" />
+                        </IconButton>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
 
             <Button onClick={addEmailField} variant="outlined">
               Tambah Email
