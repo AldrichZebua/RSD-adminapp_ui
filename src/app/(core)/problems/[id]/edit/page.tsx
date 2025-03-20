@@ -39,7 +39,7 @@ export default async function ProblemEditPage({
     <ProblemIndexProvider permission={permission}>
       <div className="mx-auto w-full max-w-4xl p-4">
         <div className="flex gap-2 items-center mb-2">
-          <Link href="/problem">
+          <Link href="/problems">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon />
             </IconButton>

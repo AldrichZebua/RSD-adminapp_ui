@@ -2,7 +2,6 @@ import ClientForm from "@/components/clients/ClientForm";
 import { checkPermission } from "../action";
 import { ClientIndexProvider } from "@/components/clients/ClientIndexProvider";
 import Link from "@mui/material/Link";
-import NextLink from "next/link";
 import { IconButton } from "@mui/material";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -27,8 +26,9 @@ export default async function ClientNewPage() {
             </Link>
             <BreadcrumbCustom items={breadcrumbItems} />
           </div>
+          <br />
           <div className="text-3xl font-medium">Tambah Client</div>
-          <div className="mb-5">
+          <div className="mt-5">
             Silahkan lengkapi data di bawah untuk menambahkan Client baru
           </div>
           {permission.client_create ? (
@@ -36,12 +36,9 @@ export default async function ClientNewPage() {
               <ClientForm />
             </main>
           ) : (
-            <Link
-              component={NextLink}
-              href={`/clients`}
-              underline="none"
-              color="dark"
-            />
+            <div>
+            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
+          </div>
           )}
         </div>
       </ClientIndexProvider>

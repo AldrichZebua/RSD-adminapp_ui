@@ -1,6 +1,5 @@
 import { AdministratorIndexProvider } from "@/components/administrator/AdministratorIndexProvider";
 import { IconButton, Link } from "@mui/material";
-import NextLink from "next/link";
 import { checkPermission, getRoleDropdown } from "../action";
 import AdministratorForm from "@/components/administrator/AdministratorForm";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
@@ -49,12 +48,9 @@ export default async function AdministratorNewPage() {
               <AdministratorForm roles={roles ?? []} />
             </main>
           ) : (
-            <Link
-              component={NextLink}
-              href={`/administrators`}
-              underline="none"
-              color="dark"
-            />
+            <div>
+            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
+          </div>
           )}
         </div>
       </AdministratorIndexProvider>

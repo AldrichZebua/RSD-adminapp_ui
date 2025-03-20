@@ -32,10 +32,7 @@ export default async function ProblemPage() {
         >
           {permission.problem_create && (
             <Tooltip title="Tambah Problem Category baru">
-              <Link
-                href="/problem_categories/new"
-                style={{ textDecoration: "none" }}
-              >
+              <Link href="/problems/new" style={{ textDecoration: "none" }}>
                 <Button
                   variant="contained"
                   color="primary"

@@ -12,14 +12,13 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { ProblemEntity } from "../../../../../types/entities/problem";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const breadcrumbItems = (data: ProblemEntity) => [
-  { title: `Problem`, url: '/problem' },
+  { title: `Problem`, url: "/problem" },
   { title: `Detail - ${data.title}`, url: `/problem/${data.id}` },
 ];
 
@@ -31,10 +30,10 @@ async function getData(id: string): Promise<ProblemEntity | undefined> {
 export default async function ProblemShowPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const data = await getData((await params).id);
   const permission = await checkPermission();
-  const data = await getData(params.id);
 
   if (!data) {
     return <h1>Error fetching data...</h1>;
@@ -43,10 +42,10 @@ export default async function ProblemShowPage({
   return (
     <>
       <ProblemIndexProvider permission={permission}>
-      <div className="flex gap-2 items-center mb-2">
-          <Link href="/administrators">
+        <div className="flex gap-2 items-center mb-2">
+          <Link href="/problems">
             <IconButton color="primary" aria-label="kembali">
-              <ArrowBackIcon/>
+              <ArrowBackIcon />
             </IconButton>
           </Link>
           <BreadcrumbCustom items={breadcrumbItems(data)} />
@@ -56,7 +55,7 @@ export default async function ProblemShowPage({
           <div className="mb-5">
             <Tooltip title="Edit Client">
               <Link
-                href={`/problem/${data.id}/edit`}
+                href={`/problems/${data.id}/edit`}
                 style={{ textDecoration: "none" }}
               >
                 <Button
@@ -104,7 +103,7 @@ export default async function ProblemShowPage({
             </Table>
           </CardContent>
         </Card>
-
+{/* 
         <div className="flex mt-5 justify-end">
           <Tooltip title="Kembali">
             <Link href="/problem" style={{ textDecoration: "none" }}>
@@ -113,7 +112,7 @@ export default async function ProblemShowPage({
               </Button>
             </Link>
           </Tooltip>
-        </div>
+        </div> */}
       </ProblemIndexProvider>
     </>
   );

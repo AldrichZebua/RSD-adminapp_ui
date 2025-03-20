@@ -6,7 +6,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const breadcrumbItems = [{ title: `/Client`, url: "/" }];
+const breadcrumbItems = [{ title: `Client`, url: "/clients" }];
 
 export default async function ClientsPage() {
   const permission = await checkPermission();

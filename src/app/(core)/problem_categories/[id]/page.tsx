@@ -55,7 +55,7 @@ export default async function ProblemCategoryShowPage({
           <BreadcrumbCustom items={breadcrumbItems(data)} />
         </div>
         <div className="text-3xl font-medium mb-8">Detail Client</div>
-        {permission.problemCategory_update && (
+        {permission.problem_category_update && (
           <div className="mb-5">
             <Tooltip title="Edit Problem Category">
               <Link

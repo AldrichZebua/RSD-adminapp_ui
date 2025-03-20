@@ -20,7 +20,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 
 const breadcrumbItems = (data: ClientEntity) => [
-  { title: `Clients`, url: '/' },
+  { title: `Clients`, url: '/clients' },
   { title: `Detail - ${data.name}`, url: `/clients/${data.id}` },
 ];
 
