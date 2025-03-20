@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import * as React from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
@@ -17,17 +17,19 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReportProblemIcon from '@mui/icons-material/ReportProblem';
-import CategoryIcon from '@mui/icons-material/Category';
-import RuleIcon from '@mui/icons-material/Rule';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import CategoryIcon from "@mui/icons-material/Category";
+import RuleIcon from "@mui/icons-material/Rule";
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import { useRouter } from "next/navigation";
 import { Menu, MenuItem, MenuList, Paper, useMediaQuery } from "@mui/material";
 import { useState, MouseEvent, ReactNode, useEffect } from "react";
+import { administratorDefaultTableParams } from "../../../types/tableDefaultParams";
+import qs from "qs";
 
 const drawerWidth = 240;
 
@@ -112,9 +114,9 @@ export default function SetLayout({ children }: SetLayoutProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-    useEffect(() => {
-      setOpen(isLargeScreen);
-    }, [isLargeScreen]);
+  useEffect(() => {
+    setOpen(isLargeScreen);
+  }, [isLargeScreen]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -130,7 +132,11 @@ export default function SetLayout({ children }: SetLayoutProps) {
 
   const menuItems = [
     { text: "Dasboard", path: "/dashboard", icon: <DashboardIcon /> },
-    { text: "Administrators", path: "/administrators", icon: <SupervisorAccountIcon /> },
+    {
+      text: "Administrators",
+      path: `/administrators?${qs.stringify(administratorDefaultTableParams)}`,
+      icon: <SupervisorAccountIcon />,
+    },
     { text: "Clients", path: "/clients", icon: <PersonIcon /> },
     { text: "Roles", path: "/roles", icon: <RuleIcon /> },
     {
@@ -139,7 +145,6 @@ export default function SetLayout({ children }: SetLayoutProps) {
       icon: <CategoryIcon />,
     },
     { text: "Problems", path: "/problems", icon: <ReportProblemIcon /> },
-
   ];
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -174,27 +179,33 @@ export default function SetLayout({ children }: SetLayoutProps) {
               </Typography>
             </div>
             <div>
-            <IconButton onClick={handleClick}>
-              <AccountCircleIcon />
-            </IconButton>
-            <Menu anchorEl={anchorEl} open={openDrop} onClose={handleClose}>
-              <Paper sx={{ width: 320, maxWidth: "100%" }}>
-                <MenuList>
-                  <MenuItem onClick={handleClose} className='flex justify-between'>
-                    <ListItemText>Profil</ListItemText>
-                    <ListItemIcon>
-                      <PersonIcon fontSize="small" />
-                    </ListItemIcon>
-                  </MenuItem>
-                  <MenuItem onClick={handleClose} className='flex justify-between'>
-                    <ListItemText>Logout</ListItemText>
-                    <ListItemIcon>
-                      <LogoutIcon fontSize="small" />
-                    </ListItemIcon>
-                  </MenuItem>
-                </MenuList>
-              </Paper>
-            </Menu>
+              <IconButton onClick={handleClick}>
+                <AccountCircleIcon />
+              </IconButton>
+              <Menu anchorEl={anchorEl} open={openDrop} onClose={handleClose}>
+                <Paper sx={{ width: 320, maxWidth: "100%" }}>
+                  <MenuList>
+                    <MenuItem
+                      onClick={handleClose}
+                      className="flex justify-between"
+                    >
+                      <ListItemText>Profil</ListItemText>
+                      <ListItemIcon>
+                        <PersonIcon fontSize="small" />
+                      </ListItemIcon>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={handleClose}
+                      className="flex justify-between"
+                    >
+                      <ListItemText>Logout</ListItemText>
+                      <ListItemIcon>
+                        <LogoutIcon fontSize="small" />
+                      </ListItemIcon>
+                    </MenuItem>
+                  </MenuList>
+                </Paper>
+              </Menu>
             </div>
           </div>
         </Toolbar>
@@ -238,7 +249,6 @@ export default function SetLayout({ children }: SetLayoutProps) {
             </ListItem>
           ))}
         </List>
-
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />

@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import { checkPermission, getAdministrator } from "../action";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
 import { AdministratorsShowResponse } from "../../../../../types/responses/administrators";
 import { AdministratorIndexProvider } from "@/components/administrator/AdministratorIndexProvider";
 import { Role } from "../../../../../types/entities/roles";
@@ -21,7 +20,7 @@ import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import { AdministratorEntity } from "../../../../../types/entities/administrators";
 
 const breadcrumbItems = (data: AdministratorEntity) => [
-  { title: `Administrators`, url: '/' },
+  { title: `Administrators`, url: '/administrators' },
   { title: `Detail - ${data.username}`, url: `/administrators/${data.id}` },
 ];
 
@@ -112,7 +111,7 @@ const AdministratorShowPage = async ({ params } : { params: Promise<{ id: string
           </CardContent>
         </Card>
 
-        <div className="flex mt-5 justify-end">
+        {/* <div className="flex mt-5 justify-end">
           <Tooltip title="Kembali">
             <Link
               href="/administrators"
@@ -123,7 +122,7 @@ const AdministratorShowPage = async ({ params } : { params: Promise<{ id: string
               </Button>
             </Link>
           </Tooltip>
-        </div>
+        </div> */}
       </AdministratorIndexProvider>
     </>
   );

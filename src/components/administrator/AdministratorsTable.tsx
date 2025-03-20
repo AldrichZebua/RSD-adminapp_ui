@@ -20,26 +20,22 @@ import {
 } from "@mui/material";
 import NextLink from "next/link";
 import { AdministratorsIndexResponse } from "../../../types/responses/administrators";
-import { useState } from "react";
 import { useAdministratorIndexContext } from "./AdministratorIndexProvider";
 import {
   destroyAdministrator,
   getIndexAdministrator,
 } from "@/app/(core)/administrators/action";
+import { useRouter, useSearchParams } from "next/navigation";
+import qs from "qs";
 
 export const AdministratorsTable = () => {
-  const [pagination, setPagination] = useState<{
-    page: number;
-    pageSize: number;
-  }>({ page: 0, pageSize: 5 });
+  const searchParams = useSearchParams();
+
   const { permission } = useAdministratorIndexContext();
+  const router = useRouter();
 
   const fetcher = async (): Promise<AdministratorsIndexResponse> => {
-    const result = await getIndexAdministrator(
-      `pagination[current]=${pagination.page + 1}&pagination[pageSize]=${
-        pagination.pageSize
-      }`
-    );
+    const result = await getIndexAdministrator(searchParams.toString());
     if (result.success) {
       return result.data;
     } else {
@@ -49,10 +45,7 @@ export const AdministratorsTable = () => {
 
   const { data, isLoading, isValidating, mutate } =
     useSWR<AdministratorsIndexResponse>(
-      `administrators_${JSON.stringify({
-        ...pagination,
-        page: pagination.page + 1,
-      })}`,
+      `administrators_${searchParams.toString()}`,
       fetcher,
       {
         revalidateIfStale: false,
@@ -69,7 +62,7 @@ export const AdministratorsTable = () => {
         if (result.success) {
           mutate();
         } else {
-          alert("Gagal menghapus administrator: " + result.message);
+          alert("Gagal menghapus administrator: " + result);
         }
       } catch (error) {
         console.error("Gagal menghapus administrator", error);
@@ -94,13 +87,24 @@ export const AdministratorsTable = () => {
   }
 
   const handleChangePage = (_: unknown, newPage: number) => {
-    setPagination({ ...pagination, page: newPage });
+    const currentParams = qs.parse(searchParams.toString());
+    const newParams = {
+      ...currentParams,
+      pagination: { pageSize: 10, current: newPage + 1 },
+    };
+    router.replace(`/administrators?${qs.stringify(newParams)}`);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setPagination({ pageSize: parseInt(event.target.value, 10), page: 1 });
+    const currentParams = qs.parse(searchParams.toString());
+    const newParams ={
+      ...currentParams,
+      pagination: {pageSize: parseInt(event.target.value, 10), Page : 1},
+    };
+    router.replace(`/administrators?${qs.stringify(newParams)}`)
+    // setPagination({ pageSize: parseInt(event.target.value, 10), page: 1 });
   };
 
   return (
@@ -179,8 +183,8 @@ export const AdministratorsTable = () => {
         rowsPerPageOptions={[5, 10, 15, 25]}
         component="div"
         count={data.total || 0}
-        rowsPerPage={pagination.pageSize}
-        page={pagination.page}
+        rowsPerPage={parseInt(searchParams.get("pagination[pageSize]") ?? "10")}
+        page={parseInt(searchParams.get("pagination[current]") ?? "1") - 1}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
