@@ -209,7 +209,7 @@ export default function SetLayout({ children }: SetLayoutProps) {
             )}
           </IconButton>
         </DrawerHeader>
-        {/* <Divider /> */}
+
         <List>
           {menuItems.map((item, index) => (
             <ListItem key={index} disablePadding sx={{ display: "block" }}>
@@ -238,7 +238,7 @@ export default function SetLayout({ children }: SetLayoutProps) {
             </ListItem>
           ))}
         </List>
-        {/* <Divider /> */}
+
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />

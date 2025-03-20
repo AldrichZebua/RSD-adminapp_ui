@@ -42,12 +42,12 @@ export const getProblemCategory = async (id: string | string[]) => {
     `${process.env.API_ENDPOINT}/problem_categories/${id}`
   );
 };
-export const createProblemCategory = async (params: any) => {
+export const createProblemCategory = async (data: { problem_category: { name: string } }) => {
   return await safeApiRequest<ProblemCategoryCreateResponse>(
     `${process.env.API_ENDPOINT}/problem_categories`,
     {
       method: "POST",
-      body: JSON.stringify({ ProblemCategory: params }),
+      body: JSON.stringify(data),
     }
   );
 };
