@@ -50,7 +50,13 @@ export default async function ProblemEditPage({
         <div className="mb-5">
           Silahkan lengkapi data di bawah untuk update Problem
         </div>
-        <ProblemForm />
+        {permission.problem_update ? (
+          <ProblemForm />
+        ) : (
+          <div>
+            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
+          </div>
+        )}
       </div>
     </ProblemIndexProvider>
   );

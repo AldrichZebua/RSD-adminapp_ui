@@ -1,6 +1,3 @@
-"use server";
-
-
 import { ProblemCategoryEntity } from "../../../../../../types/entities/problem_category";
 import { checkPermission, getProblemCategory } from "../../action";
 import ProblemCategoryForm from "@/components/problem_categories/ProblemCategoryForm";
@@ -15,14 +12,13 @@ const breadcrumbItems = (data: ProblemCategoryEntity) => [
   { title: `Detail - ${data.name}`, url: `/problem/${data.id}` },
 ];
 
-
 export default async function ProblemCategoryEditPage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }) {
   const pageParams = await params;
-  
+
   const pageDetail: Promise<ProblemCategoryEntity> = new Promise(
     (resolve, reject) => {
       getProblemCategory(pageParams.id).then((result) => {
@@ -35,11 +31,10 @@ export default async function ProblemCategoryEditPage({
     }
   );
 
-    const [problem_category, permission ] = await Promise.all([
-      pageDetail,
-      checkPermission(),
-
-    ]);
+  const [problem_category, permission] = await Promise.all([
+    pageDetail,
+    checkPermission(),
+  ]);
 
   return (
     <ProblemCategoryIndexProvider permission={permission}>
@@ -52,8 +47,17 @@ export default async function ProblemCategoryEditPage({
           </Link>
           <BreadcrumbCustom items={breadcrumbItems(problem_category)} />
         </div>
-        <h1 className="text-3xl font-bold mb-4">Tambahkan Problem Category</h1>
-        <ProblemCategoryForm problem_category={problem_category}/>
+        <h1 className="text-3xl font-bold mb-4">Edit Problem Category</h1>
+        <div className="mb-5">
+          Silahkan perbaiki data di bawah untuk update data Role
+        </div>
+        {permission.problem_category_update ? (
+          <ProblemCategoryForm problem_category={problem_category} />
+        ) : (
+          <div>
+            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
+          </div>
+        )}
       </div>
     </ProblemCategoryIndexProvider>
   );

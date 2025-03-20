@@ -32,12 +32,16 @@ export default async function RoleEditPage({
     }
   );
 
-  const [role, sectionTree, permission] = await Promise.all([pageDetail, getSectionTree(), checkPermission()]);
+  const [role, sectionTree, permission] = await Promise.all([
+    pageDetail,
+    getSectionTree(),
+    checkPermission(),
+  ]);
 
   return (
     <RoleIndexProvider permission={permission}>
       <div className="w-full p-4 px-6 lg:px-20">
-        <div className="container mx-auto">
+        <div className="flex gap-2 items-center mb-2">
           <Link href="/roles">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon />
@@ -49,7 +53,13 @@ export default async function RoleEditPage({
         <div className="mb-5">
           Silahkan perbaiki data di bawah untuk update data Role
         </div>
-        <RoleForm sectionTree={sectionTree} role={role} />
+        {permission.role_update ? (
+          <RoleForm sectionTree={sectionTree} role={role} />
+        ) : (
+          <div>
+            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
+          </div>
+        )}
       </div>
     </RoleIndexProvider>
   );

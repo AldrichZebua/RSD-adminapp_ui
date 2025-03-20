@@ -1,6 +1,5 @@
 import { checkPermission } from "../action";
 import Link from "@mui/material/Link";
-import NextLink from "next/link";
 import { RoleIndexProvider } from "@/components/roles/RoleIndexProvider";
 import RoleForm from "@/components/roles/RoleForm";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -27,17 +26,18 @@ export default async function RoleNewPage() {
           </Link>
           <BreadcrumbCustom items={breadcrumbItems} />
         </div>
+        <h1 className="text-3xl font-bold mb-4">Edit Role</h1>
+        <div className="mb-5">
+          Silahkan lengkapi data di bawah untuk update data Role
+        </div>
         {permission.role_create ? (
           <div>
             <RoleForm sectionTree={[]} />
           </div>
         ) : (
-          <Link
-            component={NextLink}
-            href={`/roles`}
-            underline="none"
-            color="dark"
-          />
+          <div>
+          Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
+        </div>
         )}
       </RoleIndexProvider>
     </>

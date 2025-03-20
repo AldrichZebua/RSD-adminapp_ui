@@ -12,7 +12,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
+// import FirstPageIcon from "@mui/icons-material/FirstPage";
 import {
   RoleDetailEntity,
   RoleEntity,
@@ -135,7 +135,7 @@ export default async function RoleShowPage ({
         </CardContent>
       </Card>
 
-      <div className="flex mt-5 justify-end">
+      {/* <div className="flex mt-5 justify-end">
         <Tooltip title="Kembali">
           <Link href="/roles" style={{ textDecoration: "none" }}>
             <Button variant="outlined" startIcon={<FirstPageIcon />}>
@@ -143,7 +143,7 @@ export default async function RoleShowPage ({
             </Button>
           </Link>
         </Tooltip>
-      </div>
+      </div> */}
       </RoleIndexProvider>
     </>
   );

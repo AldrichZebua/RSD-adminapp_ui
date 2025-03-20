@@ -1,5 +1,3 @@
-"use server";
-
 import {
   Button,
   Card,
@@ -15,7 +13,7 @@ import {
 } from "@mui/material";
 import { checkPermission, getProblemCategory } from "../action";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
+// import FirstPageIcon from "@mui/icons-material/FirstPage";
 import { ProblemCategoryIndexProvider } from "@/components/problem_categories/ProblemCategoryIndexProvider";
 import { ProblemCategoryEntity } from "../../../../../types/entities/problem_category";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
@@ -112,7 +110,7 @@ export default async function ProblemCategoryShowPage({
             </Table>
           </CardContent>
         </Card>
-
+{/* 
         <div className="flex mt-5 justify-end">
           <Tooltip title="Kembali">
             <Link href="/problem_categories" style={{ textDecoration: "none" }}>
@@ -121,7 +119,7 @@ export default async function ProblemCategoryShowPage({
               </Button>
             </Link>
           </Tooltip>
-        </div>
+        </div> */}
       </ProblemCategoryIndexProvider>
     </>
   );

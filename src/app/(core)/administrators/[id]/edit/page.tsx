@@ -23,7 +23,7 @@ export default async function AdministratorEditPage({
   params: Promise<{ id: string }>;
 }) {
   const pageParams = await params;
-  
+
   const pageDetail: Promise<AdministratorEntity> = new Promise(
     (resolve, reject) => {
       getAdministrator(pageParams.id).then((result) => {
@@ -57,7 +57,7 @@ export default async function AdministratorEditPage({
   return (
     <AdministratorIndexProvider permission={permission}>
       <div className="w-full p-4 px-6 lg:px-20">
-        <div className="container mx-auto">
+        <div className="flex gap-2 items-center mb-2">
           <Link href="/administrators">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon />
@@ -69,7 +69,13 @@ export default async function AdministratorEditPage({
         <div className="mb-5">
           Silahkan perbaiki data di bawah untuk update data Administrator
         </div>
-        <AdministratorForm roles={roles} administrator={administrator} />
+        {permission.administrator_update ? (
+          <AdministratorForm roles={roles} administrator={administrator} />
+        ) : (
+          <div>
+            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
+          </div>
+        )}
       </div>
     </AdministratorIndexProvider>
   );

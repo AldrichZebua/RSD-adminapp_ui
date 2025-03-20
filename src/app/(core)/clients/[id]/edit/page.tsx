@@ -38,7 +38,7 @@ export default async function ClientEditPage({
   return (
     <ClientIndexProvider permission={permission}>
       <div className="w-full p-4 px-6 lg:px-20">
-        <div className="container mx-auto">
+        <div className="flex gap-2 items-center mb-2">
           <Link href="/clients">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon />
@@ -50,7 +50,13 @@ export default async function ClientEditPage({
         <div className="mb-5">
           Silahkan perbaiki data di bawah untuk update data Client
         </div>
+        {permission.client_update?(
         <ClientForm client={client} />
+      ):(
+        <div>
+        Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
+      </div>
+      )}
       </div>
     </ClientIndexProvider>
   );
