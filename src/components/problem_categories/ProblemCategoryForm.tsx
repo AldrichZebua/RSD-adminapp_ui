@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, CircularProgress, TextField } from "@mui/material";
 import ControlPointDuplicateIcon from "@mui/icons-material/ControlPointDuplicate";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@bprogress/next/app";
 import {
   createProblemCategory,
   updateProblemCategory,

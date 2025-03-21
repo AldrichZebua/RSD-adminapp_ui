@@ -18,7 +18,7 @@ import {
   TextField,
 } from "@mui/material";
 import { createProblem, updateProblem } from "@/app/(core)/problems/action";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@bprogress/next/app";
 import { ProblemCategoryIndexResponse } from "../../../types/responses/problem_category";
 import { getIndexProblemCategory } from "@/app/(core)/problem_categories/action";
 import useSWR from "swr";

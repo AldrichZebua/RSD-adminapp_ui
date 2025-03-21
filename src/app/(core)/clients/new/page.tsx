@@ -5,6 +5,8 @@ import Link from "@mui/material/Link";
 import { IconButton } from "@mui/material";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
+import { ClientSections } from "@/components/clients/lib/client_section";
 
 const breadcrumbItems = [
   { title: `Client`, url: "/clients" },
@@ -12,6 +14,7 @@ const breadcrumbItems = [
 ];
 
 export default async function ClientNewPage() {
+  await pagePermissionCheck<ClientSections>("client_create");
   const permission = await checkPermission();
 
   return (
@@ -31,15 +34,9 @@ export default async function ClientNewPage() {
           <div className="mt-5">
             Silahkan lengkapi data di bawah untuk menambahkan Client baru
           </div>
-          {permission.client_create ? (
-            <main>
-              <ClientForm />
-            </main>
-          ) : (
-            <div>
-            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
-          </div>
-          )}
+          <main>
+            <ClientForm />
+          </main>
         </div>
       </ClientIndexProvider>
     </>

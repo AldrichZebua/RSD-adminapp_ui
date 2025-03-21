@@ -34,11 +34,10 @@ export const checkPermission = async () => {
 //   );
 // };
 
-export const getIndexProblem = async (params: string) => {
-  const url = new URL(`${process.env.API_ENDPOINT}/problems`);
-  url.search = params;
-
-  return await safeApiRequest<ProblemIndexResponse>(url.toString());
+export const getIndexProblem = async () => {
+  return await safeApiRequest<ProblemIndexResponse>(
+    `${process.env.API_ENDPOINT}/problems`
+  );
 };
 
 export const getProblem = async (id: string) => {

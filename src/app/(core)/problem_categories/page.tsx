@@ -5,12 +5,15 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { ProblemCategoryTable } from "@/components/problem_categories/ProblemCategoryTable";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { ProblemCategorySections } from "@/components/problem_categories/lib/problem_category_section";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
 
 const breadcrumbItems = [
   { title: `Problem Category`, url: '/problem_categories' },
 ];
 
 export default async function ProblemCategoryPage() {
+    await pagePermissionCheck<ProblemCategorySections>("problem_category_index");
   const permission = await checkPermission();
   return (
     <>

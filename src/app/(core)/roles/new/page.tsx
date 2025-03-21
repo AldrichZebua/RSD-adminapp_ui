@@ -5,6 +5,8 @@ import RoleForm from "@/components/roles/RoleForm";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import { IconButton } from "@mui/material";
+import { RoleSections } from "@/components/roles/lib/role_section";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
 
 
 const breadcrumbItems = [
@@ -13,6 +15,8 @@ const breadcrumbItems = [
 ];
 
 export default async function RoleNewPage() {
+      await pagePermissionCheck<RoleSections>("role_create");
+  
   const permission = await checkPermission();
 
   return (

@@ -16,6 +16,8 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import { ProblemEntity } from "../../../../../types/entities/problem";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { ProblemSections } from "@/components/problems/lib/problem_section";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
 
 const breadcrumbItems = (data: ProblemEntity) => [
   { title: `Problem`, url: "/problem" },
@@ -38,6 +40,7 @@ export default async function ProblemShowPage({
   if (!data) {
     return <h1>Error fetching data...</h1>;
   }
+  await pagePermissionCheck<ProblemSections>("problem_show");
 
   return (
     <>
@@ -83,10 +86,10 @@ export default async function ProblemShowPage({
                   <TableCell className="font-medium w-40">Detail</TableCell>
                   <TableCell>: {data.description}</TableCell>
                 </TableRow>
-                {/* <TableRow>
+                <TableRow>
                   <TableCell className="font-medium w-40">Category</TableCell>
-                  <TableCell>: {data.problem_category}</TableCell>
-                </TableRow> */}
+                  <TableCell>: {data?.problem_category?.name}</TableCell>
+                </TableRow>
                 <TableRow>
                   <TableCell className="font-medium w-40">Create at</TableCell>
                   <TableCell>: {data.created_at}</TableCell>

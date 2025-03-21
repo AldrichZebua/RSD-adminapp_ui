@@ -4,6 +4,8 @@ import ProblemForm from "@/components/problems/ProblemForm";
 import { IconButton, Link } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
+import { ProblemSections } from "@/components/problems/lib/problem_section";
 
 const breadcrumbItems = [
   { title: `Problem`, url: "/problems" },
@@ -11,6 +13,7 @@ const breadcrumbItems = [
 ];
 
 export default async function ProblemNewPage() {
+  await pagePermissionCheck<ProblemSections>("problem_create");
   const permission = await checkPermission();
 
   return (

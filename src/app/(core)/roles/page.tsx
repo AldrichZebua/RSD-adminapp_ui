@@ -7,12 +7,15 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import NextLink from "next/link";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
+import { RoleSections } from "@/components/roles/lib/role_section";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
 
 const breadcrumbItems = [
   { title: `Roles`, url: '/roles' },
 ];
 
 export default async function RolesPage() {
+    await pagePermissionCheck<RoleSections>("role_index");
   const permission = await checkPermission();
 
   return (

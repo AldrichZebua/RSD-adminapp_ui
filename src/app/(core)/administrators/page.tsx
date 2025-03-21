@@ -5,13 +5,13 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { AdministratorsTable } from "@/components/administrator/AdministratorsTable";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
-import { safePageRequest } from "@/lib/safePageRequest";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
 import { AdministratorSections } from "@/components/administrator/lib/administrators_section";
 
 const breadcrumbItems = [{ title: `Administrators`, url: "/administrators" }];
 
 export default async function AdministratorIndexPage() {
-  await safePageRequest<AdministratorSections>("administrator_index");
+  await pagePermissionCheck<AdministratorSections>("administrator_index");
   const permission = await checkPermission();
 
   return (

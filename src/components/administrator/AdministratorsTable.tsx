@@ -25,14 +25,14 @@ import {
   destroyAdministrator,
   getIndexAdministrator,
 } from "@/app/(core)/administrators/action";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import qs from "qs";
+import { useRouter } from "@bprogress/next/app";
 
 export const AdministratorsTable = () => {
   const searchParams = useSearchParams();
-
+const router = useRouter();
   const { permission } = useAdministratorIndexContext();
-  const router = useRouter();
 
   const fetcher = async (): Promise<AdministratorsIndexResponse> => {
     const result = await getIndexAdministrator(searchParams.toString());
@@ -135,7 +135,7 @@ export const AdministratorsTable = () => {
                         component={NextLink}
                         href={`/administrators/${admin.id}`}
                         underline="none"
-                        color="primary"
+                        color="dark"
                       >
                         {admin.username}
                       </Link>

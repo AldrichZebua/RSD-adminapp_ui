@@ -1,7 +1,8 @@
 "use client";
 
+import { useRouter } from "@bprogress/next/app";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+
 import { useEffect } from "react";
 
 const LogoutPage = () => {

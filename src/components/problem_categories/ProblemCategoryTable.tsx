@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useProblemCategoryIndexContext } from "./ProblemCategoryIndexProvider";
 import { ProblemCategoryIndexResponse } from "../../../types/responses/problem_category";
 import {
@@ -27,20 +26,17 @@ import {
 import NextLink from "next/link";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "@bprogress/next/app";
+import qs from "qs";
 
 export const ProblemCategoryTable = () => {
-  const [pagination, setPagination] = useState<{
-    page: number;
-    pageSize: number;
-  }>({ page: 0, pageSize: 5 });
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const { permission } = useProblemCategoryIndexContext();
 
   const fetcher = async (): Promise<ProblemCategoryIndexResponse> => {
-    const result = await getIndexProblemCategory(
-      `pagination[current]=${pagination.page + 1}&pagination[pageSize]=${
-        pagination.pageSize
-      }`
-    );
+    const result = await getIndexProblemCategory(searchParams.toString());
     if (result.success) {
       return result.data;
     } else {
@@ -50,10 +46,7 @@ export const ProblemCategoryTable = () => {
 
   const { data, isLoading, isValidating, mutate } =
     useSWR<ProblemCategoryIndexResponse>(
-      `administrators_${JSON.stringify({
-        ...pagination,
-        page: pagination.page + 1,
-      })}`,
+      `administrators_${searchParams.toString()}`,
       fetcher,
       {
         revalidateIfStale: false,
@@ -94,15 +87,24 @@ export const ProblemCategoryTable = () => {
     );
   }
   const handleChangePage = (_: unknown, newPage: number) => {
-    setPagination({ ...pagination, page: newPage });
+    const currentParams = qs.parse(searchParams.toString());
+    const newParams = {
+      ...currentParams,
+      pagination: { pageSize: 10, current: newPage + 1 },
+    };
+    router.replace(`/problem_categories?${qs.stringify(newParams)}`);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setPagination({ pageSize: parseInt(event.target.value, 10), page: 1 });
+    const currentParams = qs.parse(searchParams.toString());
+    const newParams = {
+      ...currentParams,
+      pagination: { pageSize: parseInt(event.target.value, 10), Page: 1 },
+    };
+    router.replace(`/problem_categories?${qs.stringify(newParams)}`);
   };
-
   return (
     <TableContainer
       component={Paper}
@@ -129,7 +131,7 @@ export const ProblemCategoryTable = () => {
                       component={NextLink}
                       href={`/problem_categories/${problem_category.id}`}
                       underline="none"
-                      color="primary"
+                      color="dark"
                     >
                       {problem_category.name}
                     </Link>
@@ -186,8 +188,8 @@ export const ProblemCategoryTable = () => {
         rowsPerPageOptions={[5, 10, 15, 25]}
         component="div"
         count={data.total || 0}
-        rowsPerPage={pagination.pageSize}
-        page={pagination.page}
+        rowsPerPage={parseInt(searchParams.get("pagination[pageSize]") ?? "10")}
+        page={parseInt(searchParams.get("pagination[current]") ?? "1") - 1}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />

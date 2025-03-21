@@ -4,6 +4,8 @@ import { ProblemCategoryIndexProvider } from "@/components/problem_categories/Pr
 import ProblemCategoryForm from "@/components/problem_categories/ProblemCategoryForm";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
+import { ProblemCategorySections } from "@/components/problem_categories/lib/problem_category_section";
 
 const breadcrumbItems = [
   { title: `Problem Category`, url: "/problem_categories" },
@@ -11,6 +13,7 @@ const breadcrumbItems = [
 ];
 
 export default async function ProblemCategoryNewPage() {
+  await pagePermissionCheck<ProblemCategorySections>('problem_category_create')
   const permission = await checkPermission();
 
   return (
@@ -30,15 +33,9 @@ export default async function ProblemCategoryNewPage() {
           Silahkan lengkapi data di bawah untuk menambahkan Problem Category
           Baru
         </div>
-        {permission.problem_category_create ? (
-          <main>
-            <ProblemCategoryForm />
-          </main>
-        ) : (
-          <div>
-            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
-          </div>
-        )}
+        <main>
+          <ProblemCategoryForm />
+        </main>
       </ProblemCategoryIndexProvider>
     </>
   );

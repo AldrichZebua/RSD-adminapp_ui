@@ -8,8 +8,10 @@ import { IconButton, Link } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { AdministratorIndexProvider } from "@/components/administrator/AdministratorIndexProvider";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
-import AdministratorForm from "@/components/administrator/AdministratorForm";
 import { RoleEntity } from "../../../../../../types/entities/roles";
+import AdministratorForm from "@/components/administrator/AdministratorForm";
+import { AdministratorSections } from "@/components/administrator/lib/administrators_section";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
 
 const breadcrumbItems = (data: AdministratorEntity) => [
   { title: `Administrator`, url: "/administrators" },
@@ -22,6 +24,8 @@ export default async function AdministratorEditPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await pagePermissionCheck<AdministratorSections>("administrator_update");
+
   const pageParams = await params;
 
   const pageDetail: Promise<AdministratorEntity> = new Promise(
@@ -69,13 +73,7 @@ export default async function AdministratorEditPage({
         <div className="mb-5">
           Silahkan perbaiki data di bawah untuk update data Administrator
         </div>
-        {permission.administrator_update ? (
-          <AdministratorForm roles={roles} administrator={administrator} />
-        ) : (
-          <div>
-            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
-          </div>
-        )}
+        <AdministratorForm roles={roles} administrator={administrator} />
       </div>
     </AdministratorIndexProvider>
   );

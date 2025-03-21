@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@bprogress/next/app";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
@@ -16,7 +16,6 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
-import AOS from "aos";
 import "aos/dist/aos.css";
 
 const loginSchema = z.object({
@@ -27,7 +26,11 @@ const loginSchema = z.object({
 export const LoginForm = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -35,10 +38,6 @@ export const LoginForm = () => {
       password: "",
     },
   });
-
-  useEffect(() => {
-    AOS.init({duration:1000});
-  },[]);
 
   const onSubmit = async (params: z.infer<typeof loginSchema>) => {
     try {
@@ -48,16 +47,28 @@ export const LoginForm = () => {
         username: params.username,
         password: params.password,
       });
-      
+
       if (result?.ok) {
-        setSnackbar({ open: true, message: "Berhasil login. Mengalihkan ke dashboard...", severity: "success" });
+        setSnackbar({
+          open: true,
+          message: "Berhasil login. Mengalihkan ke dashboard...",
+          severity: "success",
+        });
         setTimeout(() => router.push("/dashboard"), 1500);
       } else {
-        setSnackbar({ open: true, message: result?.error || "Login gagal.", severity: "error" });
+        setSnackbar({
+          open: true,
+          message: result?.error || "Login gagal.",
+          severity: "error",
+        });
       }
     } catch (error) {
-      console.log(error)
-      setSnackbar({ open: true, message: "Terjadi kesalahan. Coba lagi nanti.", severity: "error" });
+      console.log(error);
+      setSnackbar({
+        open: true,
+        message: "Terjadi kesalahan. Coba lagi nanti.",
+        severity: "error",
+      });
     } finally {
       setLoading(false);
     }
@@ -65,7 +76,7 @@ export const LoginForm = () => {
 
   return (
     <>
-      <div className="flex justify-center mt-32" data-aos="fade-up">
+      <div className="flex justify-center mt-32">
         <Card sx={{ width: 400, padding: 3 }}>
           <CardContent>
             <Typography variant="h5" textAlign="center" gutterBottom>
@@ -104,7 +115,11 @@ export const LoginForm = () => {
         </Card>
       </div>
       <div className="flex h-full w-full justify-end">
-        <Snackbar open={snackbar.open} autoHideDuration={3000} onClose={() => setSnackbar({ ...snackbar, open: false })}>
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={3000}
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+        >
           <Alert>{snackbar.message}</Alert>
         </Snackbar>
       </div>

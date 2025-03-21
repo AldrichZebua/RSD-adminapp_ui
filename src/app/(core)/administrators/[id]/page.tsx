@@ -18,6 +18,8 @@ import { Role } from "../../../../../types/entities/roles";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import { AdministratorEntity } from "../../../../../types/entities/administrators";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
+import { AdministratorSections } from "@/components/administrator/lib/administrators_section";
 
 const breadcrumbItems = (data: AdministratorEntity) => [
   { title: `Administrators`, url: '/administrators' },
@@ -33,6 +35,7 @@ async function getData(
 }
 
 const AdministratorShowPage = async ({ params } : { params: Promise<{ id: string }> }) => {
+  await pagePermissionCheck<AdministratorSections>('administrator_show')
   const data = await getData((await params).id);
   const permission = await checkPermission();
 

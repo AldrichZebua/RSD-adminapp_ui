@@ -6,6 +6,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import { RoleIndexProvider } from "@/components/roles/RoleIndexProvider";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
+import { RoleSections } from "@/components/roles/lib/role_section";
 
 const breadcrumbItems = (data: RoleDetailEntity) => [
   { title: `Roles`, url: "/roles" },
@@ -31,6 +33,8 @@ export default async function RoleEditPage({
       });
     }
   );
+
+  await pagePermissionCheck<RoleSections>("role_update");
 
   const [role, sectionTree, permission] = await Promise.all([
     pageDetail,

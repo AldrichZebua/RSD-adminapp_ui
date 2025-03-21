@@ -7,9 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, TextField, IconButton } from "@mui/material";
 import ControlPointDuplicateIcon from "@mui/icons-material/ControlPointDuplicate";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import { useRouter } from "next/navigation";
 import { ClientEntity } from "../../../types/entities/client";
 import { createClient, updateClient } from "@/app/(core)/clients/action";
+import { useRouter } from "@bprogress/next/app";
 
 const clientSchema = z.object({
   name: z.string().min(2).max(50),

@@ -14,21 +14,27 @@ import { checkPermission, getClient } from "../action";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { ClientIndexProvider } from "@/components/clients/ClientIndexProvider";
 import { ClientEntity } from "../../../../../types/entities/client";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
+import { ClientSections } from "@/components/clients/lib/client_section";
 
 const breadcrumbItems = (data: ClientEntity) => [
-  { title: `Clients`, url: '/clients' },
+  { title: `Clients`, url: "/clients" },
   { title: `Detail - ${data.name}`, url: `/clients/${data.id}` },
 ];
-
 
 async function getData(id: string): Promise<ClientEntity | undefined> {
   const result = await getClient(id);
   return result.success ? result.data.client : undefined;
 }
 
-export default async function ClientShowPage({ params } : { params: Promise<{ id: string }> }) {
+export default async function ClientShowPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  await pagePermissionCheck<ClientSections>("client_show");
   const data = await getData((await params).id);
   const permission = await checkPermission();
 
@@ -39,10 +45,10 @@ export default async function ClientShowPage({ params } : { params: Promise<{ id
   return (
     <>
       <ClientIndexProvider permission={permission}>
-      <div className="flex gap-2 items-center mb-2">
+        <div className="flex gap-2 items-center mb-2">
           <Link href="/clients">
             <IconButton color="primary" aria-label="kembali">
-              <ArrowBackIcon/>
+              <ArrowBackIcon />
             </IconButton>
           </Link>
           <BreadcrumbCustom items={breadcrumbItems(data)} />

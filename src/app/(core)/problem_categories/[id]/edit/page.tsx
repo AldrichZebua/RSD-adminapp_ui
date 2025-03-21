@@ -6,6 +6,8 @@ import { IconButton } from "@mui/material";
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ProblemCategoryIndexProvider } from "@/components/problem_categories/ProblemCategoryIndexProvider";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
+import { ProblemCategorySections } from "@/components/problem_categories/lib/problem_category_section";
 
 const breadcrumbItems = (data: ProblemCategoryEntity) => [
   { title: `Problem`, url: "/problem" },
@@ -30,6 +32,9 @@ export default async function ProblemCategoryEditPage({
       });
     }
   );
+
+    await pagePermissionCheck<ProblemCategorySections>("problem_category_update")
+  
 
   const [problem_category, permission] = await Promise.all([
     pageDetail,

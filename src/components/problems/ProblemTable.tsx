@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useProblemIndexContext } from "./ProblemIndexProvider";
 import { ProblemIndexResponse } from "../../../types/responses/problem";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
@@ -24,20 +23,17 @@ import {
 } from "@mui/material";
 import NextLink from "next/link";
 import { getIndexProblem, destroyProblem } from "@/app/(core)/problems/action";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "@bprogress/next/app";
+import qs from "qs";
 
 export const ProblemTable = () => {
-  const [pagination, setPagination] = useState<{
-    page: number;
-    pageSize: number;
-  }>({ page: 0, pageSize: 5 });
+    const searchParams = useSearchParams();
+    const router = useRouter();
   const { permission } = useProblemIndexContext();
 
   const fetcher = async (): Promise<ProblemIndexResponse> => {
-    const result = await getIndexProblem(
-      `pagination[current]=${pagination.page + 1}&pagination[pageSize]=${
-        pagination.pageSize
-      }`
-    );
+    const result = await getIndexProblem(searchParams.toString());
     if (result.success) {
       return result.data;
     } else {
@@ -47,10 +43,7 @@ export const ProblemTable = () => {
 
   const { data, isLoading, isValidating, mutate } =
     useSWR<ProblemIndexResponse>(
-      `problems_${JSON.stringify({
-        ...pagination,
-        page: pagination.page + 1,
-      })}`,
+      `administrators_${searchParams.toString()}`,
       fetcher,
       {
         revalidateIfStale: false,
@@ -92,13 +85,24 @@ export const ProblemTable = () => {
   }
 
   const handleChangePage = (_: unknown, newPage: number) => {
-    setPagination({ ...pagination, page: newPage });
+    const currentParams = qs.parse(searchParams.toString());
+    const newParams = {
+      ...currentParams,
+      pagination: { pageSize: 10, current: newPage + 1 },
+    };
+    router.replace(`/problems?${qs.stringify(newParams)}`);
   };
+
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setPagination({ pageSize: parseInt(event.target.value, 10), page: 1 });
+    const currentParams = qs.parse(searchParams.toString());
+    const newParams ={
+      ...currentParams,
+      pagination: {pageSize: parseInt(event.target.value, 10), Page : 1},
+    };
+    router.replace(`/problems?${qs.stringify(newParams)}`)
   };
 
   return (
@@ -198,8 +202,8 @@ export const ProblemTable = () => {
           rowsPerPageOptions={[5, 10, 15, 25]}
           component="div"
           count={data.total || 0}
-          rowsPerPage={pagination.pageSize}
-          page={pagination.page}
+          rowsPerPage={parseInt(searchParams.get("pagination[pageSize]") ?? "10")}
+          page={parseInt(searchParams.get("pagination[current]") ?? "1") - 1}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />

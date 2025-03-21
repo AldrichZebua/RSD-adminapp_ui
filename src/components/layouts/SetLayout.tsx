@@ -23,13 +23,27 @@ import CategoryIcon from "@mui/icons-material/Category";
 import RuleIcon from "@mui/icons-material/Rule";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import LogoutIcon from "@mui/icons-material/Logout";
+// import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
-import { useRouter } from "next/navigation";
-import { Menu, MenuItem, MenuList, Paper, useMediaQuery } from "@mui/material";
+import NextLink from "next/link";
+import {
+  Link,
+  Menu,
+  MenuItem,
+  MenuList,
+  Paper,
+  useMediaQuery,
+} from "@mui/material";
 import { useState, MouseEvent, ReactNode, useEffect } from "react";
-import { administratorDefaultTableParams } from "../../../types/tableDefaultParams";
+import {
+  administratorDefaultTableParams,
+  clientDefaultTableParams,
+  problemCategoryDefaultTableParams,
+  problemDefaultTableParams,
+  roleDefaultTableParams,
+} from "../../../types/tableDefaultParams";
 import qs from "qs";
+import { useRouter } from "@bprogress/next/app";
 
 const drawerWidth = 240;
 
@@ -137,14 +151,28 @@ export default function SetLayout({ children }: SetLayoutProps) {
       path: `/administrators?${qs.stringify(administratorDefaultTableParams)}`,
       icon: <SupervisorAccountIcon />,
     },
-    { text: "Clients", path: "/clients", icon: <PersonIcon /> },
-    { text: "Roles", path: "/roles", icon: <RuleIcon /> },
+    {
+      text: "Clients",
+      path: `/clients?${qs.stringify(clientDefaultTableParams)}`,
+      icon: <PersonIcon />,
+    },
+    {
+      text: "Roles",
+      path: `/roles?${qs.stringify(roleDefaultTableParams)}`,
+      icon: <RuleIcon />,
+    },
     {
       text: "Problem Categories",
-      path: "/problem_categories",
+      path: `/problem_categories?${qs.stringify(
+        problemCategoryDefaultTableParams
+      )}`,
       icon: <CategoryIcon />,
     },
-    { text: "Problems", path: "/problems", icon: <ReportProblemIcon /> },
+    {
+      text: "Problems",
+      path: `/problems?${qs.stringify(problemDefaultTableParams)}`,
+      icon: <ReportProblemIcon />,
+    },
   ];
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -194,14 +222,20 @@ export default function SetLayout({ children }: SetLayoutProps) {
                         <PersonIcon fontSize="small" />
                       </ListItemIcon>
                     </MenuItem>
-                    <MenuItem
-                      onClick={handleClose}
-                      className="flex justify-between"
-                    >
-                      <ListItemText>Logout</ListItemText>
-                      <ListItemIcon>
-                        <LogoutIcon fontSize="small" />
-                      </ListItemIcon>
+                    <MenuItem onClick={handleClose}>
+                      <Link
+                        component={NextLink}
+                        href={`/logout`}
+                        underline="none"
+                        color="dark"
+                      >
+                        <div className="flex justify-between">
+                          <ListItemText>Logout</ListItemText>
+                          <ListItemIcon>
+                            {/* <LogoutIcon fontSize="small" /> */}
+                          </ListItemIcon>
+                        </div>
+                      </Link>
                     </MenuItem>
                   </MenuList>
                 </Paper>

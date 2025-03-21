@@ -6,10 +6,13 @@ import { Button, IconButton, Tooltip } from "@mui/material";
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { ProblemSections } from "@/components/problems/lib/problem_section";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
 
 const breadcrumbItems = [{ title: `Problems`, url: "/" }];
 
 export default async function ProblemPage() {
+    await pagePermissionCheck<ProblemSections>("problem_index");
   const permission = await checkPermission();
 
   return (

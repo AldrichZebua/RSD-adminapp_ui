@@ -30,7 +30,7 @@ export const checkPermission = async () => {
 
 export const getIndexRole = async (params: string) => {
   return await safeApiRequest<RoleIndexResponse>(
-    `${process.env.API_ENDPOINT}/roles/${params}`
+    `${process.env.API_ENDPOINT}/roles?${params}`
   );
 };
 

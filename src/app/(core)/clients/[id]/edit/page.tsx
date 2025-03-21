@@ -6,6 +6,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import { ClientIndexProvider } from "@/components/clients/ClientIndexProvider";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
+import { ClientSections } from "@/components/clients/lib/client_section";
 
 const breadcrumbItems = (data: ClientEntity) => [
   { title: `Client`, url: "/clients" },
@@ -30,6 +32,8 @@ export default async function ClientEditPage({
     });
   });
 
+  await pagePermissionCheck<ClientSections>('client_update')
+
   const [client, permission] = await Promise.all([
     pageDetail,
     checkPermission(),
@@ -50,13 +54,7 @@ export default async function ClientEditPage({
         <div className="mb-5">
           Silahkan perbaiki data di bawah untuk update data Client
         </div>
-        {permission.client_update?(
         <ClientForm client={client} />
-      ):(
-        <div>
-        Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
-      </div>
-      )}
       </div>
     </ClientIndexProvider>
   );

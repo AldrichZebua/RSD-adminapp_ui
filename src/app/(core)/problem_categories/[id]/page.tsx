@@ -16,10 +16,12 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import { ProblemCategoryIndexProvider } from "@/components/problem_categories/ProblemCategoryIndexProvider";
 import { ProblemCategoryEntity } from "../../../../../types/entities/problem_category";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
+import { ProblemCategorySections } from "@/components/problem_categories/lib/problem_category_section";
 
 const breadcrumbItems = (data: ProblemCategoryEntity) => [
-  { title: `Problem Categories`, url: '/problem_categories' },
+  { title: `Problem Categories`, url: "/problem_categories" },
   { title: `Detail - ${data.name}`, url: `/problem_categories/${data.id}` },
 ];
 
@@ -40,13 +42,15 @@ export default async function ProblemCategoryShowPage({
     return <h1>Error fetching data...</h1>;
   }
 
+  await pagePermissionCheck<ProblemCategorySections>("problem_category_show");
+
   return (
     <>
       <ProblemCategoryIndexProvider permission={permission}>
-      <div className="flex gap-2 items-center mb-2">
+        <div className="flex gap-2 items-center mb-2">
           <Link href="/problem_categories">
             <IconButton color="primary" aria-label="kembali">
-              <ArrowBackIcon/>
+              <ArrowBackIcon />
             </IconButton>
           </Link>
           <BreadcrumbCustom items={breadcrumbItems(data)} />
@@ -109,7 +113,7 @@ export default async function ProblemCategoryShowPage({
             </Table>
           </CardContent>
         </Card>
-{/* 
+        {/* 
         <div className="flex mt-5 justify-end">
           <Tooltip title="Kembali">
             <Link href="/problem_categories" style={{ textDecoration: "none" }}>

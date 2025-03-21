@@ -19,24 +19,21 @@ import {
   TablePagination,
 } from "@mui/material";
 import NextLink from "next/link";
-import { useState } from "react";
 import { ClientIndexResponse } from "../../../types/responses/client";
 import { useClientIndexContext } from "./ClientIndexProvider";
 import { destroyClient, getIndexClient } from "@/app/(core)/clients/action";
+import { useSearchParams } from "next/navigation";
+import qs from "qs";
+import { useRouter } from "@bprogress/next/app";
 
 export const ClientTable = () => {
-  const [pagination, setPagination] = useState<{
-    page: number;
-    pageSize: number;
-  }>({ page: 0, pageSize: 5 });
+
+  const searchParams = useSearchParams();
   const { permission } = useClientIndexContext();
+  const router = useRouter();
 
   const fetcher = async (): Promise<ClientIndexResponse> => {
-    const result = await getIndexClient(
-      `pagination[current]=${pagination.page + 1}&pagination[pageSize]=${
-        pagination.pageSize
-      }`
-    );
+    const result = await getIndexClient(searchParams.toString());
     if (result.success) {
       return result.data;
     } else {
@@ -45,10 +42,7 @@ export const ClientTable = () => {
   };
 
   const { data, isLoading, isValidating, mutate } = useSWR<ClientIndexResponse>(
-    `client_${JSON.stringify({
-      ...pagination,
-      page: pagination.page + 1,
-    })}`,
+    `client_${searchParams.toString()}`,
     fetcher,
     {
       revalidateIfStale: false,
@@ -65,7 +59,7 @@ export const ClientTable = () => {
         if (result.success) {
           mutate();
         } else {
-          alert("Gagal menghapus client: " + result.message);
+          alert("Gagal menghapus client: " + result);
         }
       } catch (error) {
         console.error("Gagal menghapus client", error);
@@ -90,13 +84,23 @@ export const ClientTable = () => {
   }
 
   const handleChangePage = (_: unknown, newPage: number) => {
-    setPagination({ ...pagination, page: newPage });
+    const currentParams = qs.parse(searchParams.toString());
+    const newParams = {
+      ...currentParams,
+      pagination: { pageSize: 10, current: newPage + 1 },
+    };
+    router.replace(`/clients?${qs.stringify(newParams)}`);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setPagination({ pageSize: parseInt(event.target.value, 10), page: 1 });
+    const currentParams = qs.parse(searchParams.toString());
+    const newParams ={
+      ...currentParams,
+      pagination: {pageSize: parseInt(event.target.value, 10), Page : 1},
+    };
+    router.replace(`/clients?${qs.stringify(newParams)}`)
   };
 
   return (
@@ -185,8 +189,8 @@ export const ClientTable = () => {
         rowsPerPageOptions={[5, 10, 15, 25]}
         component="div"
         count={data.total || 0}
-        rowsPerPage={pagination.pageSize}
-        page={pagination.page}
+        rowsPerPage={parseInt(searchParams.get("pagination[pageSize]") ?? "10")}
+        page={parseInt(searchParams.get("pagination[current]") ?? "1") - 1}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />

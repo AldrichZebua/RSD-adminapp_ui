@@ -5,6 +5,8 @@ import AdministratorForm from "@/components/administrator/AdministratorForm";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { RoleEntity } from "../../../../../types/entities/roles";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
+import { AdministratorSections } from "@/components/administrator/lib/administrators_section";
 
 const breadcrumbItems = [
   { title: `Administrator`, url: "/administrators" },
@@ -12,6 +14,7 @@ const breadcrumbItems = [
 ];
 
 export default async function AdministratorNewPage() {
+  await pagePermissionCheck<AdministratorSections>("administrator_create");
   const rolesData: Promise<Pick<RoleEntity, "id" | "name">[]> = new Promise(
     (resolve, reject) => {
       getRoleDropdown().then((result) => {
@@ -38,20 +41,14 @@ export default async function AdministratorNewPage() {
             </Link>
             <BreadcrumbCustom items={breadcrumbItems} />
           </div>
-          {permission.administrator_create ? (
-            <main>
-              <div className="text-3xl font-medium">Tambah Administrator</div>
-              <div className="mb-5">
-                Silahkan lengkapi data di bawah untuk menambahkan Administrator
-                baru
-              </div>
-              <AdministratorForm roles={roles ?? []} />
-            </main>
-          ) : (
-            <div>
-            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
-          </div>
-          )}
+          <main>
+            <div className="text-3xl font-medium">Tambah Administrator</div>
+            <div className="mb-5">
+              Silahkan lengkapi data di bawah untuk menambahkan Administrator
+              baru
+            </div>
+            <AdministratorForm roles={roles ?? []} />
+          </main>
         </div>
       </AdministratorIndexProvider>
     </>

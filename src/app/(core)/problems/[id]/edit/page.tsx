@@ -6,6 +6,8 @@ import Link from "next/link";
 import { ProblemIndexProvider } from "@/components/problems/ProblemIndexProvider";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import ProblemForm from "@/components/problems/ProblemForm";
+import { pagePermissionCheck } from "@/lib/safePageRequest";
+import { ProblemSections } from "@/components/problems/lib/problem_section";
 
 const breadcrumbItems = (data: ProblemEntity) => [
   { title: `Problem`, url: "/problems" },
@@ -29,6 +31,9 @@ export default async function ProblemEditPage({
       }
     });
   });
+
+    await pagePermissionCheck<ProblemSections>("problem_update");
+  
 
   const [problem, permission] = await Promise.all([
     pageDetail,
