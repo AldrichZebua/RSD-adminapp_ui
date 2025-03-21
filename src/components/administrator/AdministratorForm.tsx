@@ -77,8 +77,6 @@ export default function AdministratorForm({
     });
   };
 
-  console.log(form.formState.errors);
-
   return (
     <>
       <div className="flex flex-col mt-8">

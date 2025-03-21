@@ -73,8 +73,6 @@ export default function ProblemForm({ problem }: ProblemFormProps) {
       if (result.success) {
         router.push(`/problems/${result.data.problem.id}`);
       } else {
-        console.log(params);
-        console.log(result);
         alert("Terjadi kesalahan dalam memproses data.");
       }
       setLoading(false);

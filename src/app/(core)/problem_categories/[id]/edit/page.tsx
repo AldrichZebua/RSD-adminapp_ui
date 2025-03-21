@@ -33,8 +33,7 @@ export default async function ProblemCategoryEditPage({
     }
   );
 
-    await pagePermissionCheck<ProblemCategorySections>("problem_category_update")
-  
+  await pagePermissionCheck<ProblemCategorySections>("problem_category_update");
 
   const [problem_category, permission] = await Promise.all([
     pageDetail,
@@ -56,13 +55,7 @@ export default async function ProblemCategoryEditPage({
         <div className="mb-5">
           Silahkan perbaiki data di bawah untuk update data Role
         </div>
-        {permission.problem_category_update ? (
-          <ProblemCategoryForm problem_category={problem_category} />
-        ) : (
-          <div>
-            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
-          </div>
-        )}
+        <ProblemCategoryForm problem_category={problem_category} />
       </div>
     </ProblemCategoryIndexProvider>
   );

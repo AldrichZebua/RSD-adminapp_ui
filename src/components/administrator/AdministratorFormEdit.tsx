@@ -63,7 +63,6 @@ export default function AdministratorFormEdit({
     });
   };
 
-  console.log(form.formState.errors);
 
   return (
     <>

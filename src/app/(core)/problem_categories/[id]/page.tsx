@@ -33,10 +33,11 @@ async function getData(id: string): Promise<ProblemCategoryEntity | undefined> {
 export default async function ProblemCategoryShowPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  await pagePermissionCheck<ProblemCategorySections>("problem_category_show");
   const permission = await checkPermission();
-  const data = await getData(params.id);
+  const data = await getData((await params).id);
 
   if (!data) {
     return <h1>Error fetching data...</h1>;
@@ -55,7 +56,7 @@ export default async function ProblemCategoryShowPage({
           </Link>
           <BreadcrumbCustom items={breadcrumbItems(data)} />
         </div>
-        <div className="text-3xl font-medium mb-8">Detail Client</div>
+        <div className="text-3xl font-medium mb-8">Detail Program Category</div>
         {permission.problem_category_update && (
           <div className="mb-5">
             <Tooltip title="Edit Problem Category">

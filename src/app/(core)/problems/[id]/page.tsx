@@ -34,13 +34,13 @@ export default async function ProblemShowPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await pagePermissionCheck<ProblemSections>("problem_show");
   const data = await getData((await params).id);
   const permission = await checkPermission();
 
   if (!data) {
     return <h1>Error fetching data...</h1>;
   }
-  await pagePermissionCheck<ProblemSections>("problem_show");
 
   return (
     <>
@@ -106,7 +106,7 @@ export default async function ProblemShowPage({
             </Table>
           </CardContent>
         </Card>
-{/* 
+        {/* 
         <div className="flex mt-5 justify-end">
           <Tooltip title="Kembali">
             <Link href="/problem" style={{ textDecoration: "none" }}>

@@ -45,8 +45,7 @@ export default function ProblemCategoryForm({
       if (result.success) {
         router.push(`/problem_categories/${result.data.problem_category.id}`);
       } else {
-        console.log(params);
-        console.log(result);
+  
         alert("Terjadi kesalahan dalam memproses data.");
       }
       setLoading(false);

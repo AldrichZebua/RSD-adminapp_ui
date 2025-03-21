@@ -19,21 +19,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import LogoutIcon from "@mui/icons-material/Logout";
 import CategoryIcon from "@mui/icons-material/Category";
 import RuleIcon from "@mui/icons-material/Rule";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-// import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
-import NextLink from "next/link";
-import {
-  Link,
-  Menu,
-  MenuItem,
-  MenuList,
-  Paper,
-  useMediaQuery,
-} from "@mui/material";
+import { Menu, MenuItem, MenuList, Paper, useMediaQuery } from "@mui/material";
 import { useState, MouseEvent, ReactNode, useEffect } from "react";
 import {
   administratorDefaultTableParams,
@@ -186,6 +178,10 @@ export default function SetLayout({ children }: SetLayoutProps) {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    router.push("/logout");
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -222,20 +218,14 @@ export default function SetLayout({ children }: SetLayoutProps) {
                         <PersonIcon fontSize="small" />
                       </ListItemIcon>
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                      <Link
-                        component={NextLink}
-                        href={`/logout`}
-                        underline="none"
-                        color="dark"
-                      >
-                        <div className="flex justify-between">
-                          <ListItemText>Logout</ListItemText>
-                          <ListItemIcon>
-                            {/* <LogoutIcon fontSize="small" /> */}
-                          </ListItemIcon>
-                        </div>
-                      </Link>
+                    <MenuItem
+                      onClick={handleLogout}
+                      className="flex justify-between"
+                    >
+                      <ListItemText>Logout</ListItemText>
+                      <ListItemIcon>
+                        <LogoutIcon fontSize="small" />
+                      </ListItemIcon>
                     </MenuItem>
                   </MenuList>
                 </Paper>

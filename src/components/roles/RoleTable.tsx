@@ -33,7 +33,6 @@ export const RoleTable = () => {
 
   const fetcher = async (): Promise<RoleIndexResponse> => {
     const result = await getIndexRole(searchParams.toString());
-    console.log(result);
     if (result.success) {
       return result.data;
     } else {
