@@ -19,13 +19,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
-import LogoutIcon from "@mui/icons-material/Logout";
 import CategoryIcon from "@mui/icons-material/Category";
 import RuleIcon from "@mui/icons-material/Rule";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonIcon from "@mui/icons-material/Person";
-import { Menu, MenuItem, MenuList, Paper, useMediaQuery } from "@mui/material";
+import { Divider, Menu, MenuItem, useMediaQuery } from "@mui/material";
 import { useState, MouseEvent, ReactNode, useEffect } from "react";
 import {
   administratorDefaultTableParams,
@@ -36,6 +35,7 @@ import {
 } from "../../../types/tableDefaultParams";
 import qs from "qs";
 import { useRouter } from "@bprogress/next/app";
+import Logout from "@mui/icons-material/Logout";
 
 const drawerWidth = 240;
 
@@ -206,29 +206,56 @@ export default function SetLayout({ children }: SetLayoutProps) {
               <IconButton onClick={handleClick}>
                 <AccountCircleIcon />
               </IconButton>
-              <Menu anchorEl={anchorEl} open={openDrop} onClose={handleClose}>
-                <Paper sx={{ width: 320, maxWidth: "100%" }}>
-                  <MenuList>
-                    <MenuItem
-                      onClick={handleClose}
-                      className="flex justify-between"
-                    >
-                      <ListItemText>Profil</ListItemText>
-                      <ListItemIcon>
-                        <PersonIcon fontSize="small" />
-                      </ListItemIcon>
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleLogout}
-                      className="flex justify-between"
-                    >
-                      <ListItemText>Logout</ListItemText>
-                      <ListItemIcon>
-                        <LogoutIcon fontSize="small" />
-                      </ListItemIcon>
-                    </MenuItem>
-                  </MenuList>
-                </Paper>
+              <Menu
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={openDrop}
+                onClose={handleClose}
+                onClick={handleClose}
+                slotProps={{
+                  paper: {
+                    elevation: 0,
+                    sx: {
+                      overflow: 'visible',
+                      filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                      width: 150,
+                      '&::before': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                        right: 14,
+                        width: 10,
+                        height: 10,
+                        bgcolor: 'background.paper',
+                        transform: 'translateY(-50%) rotate(45deg)',
+                        zIndex: 0,
+                      },
+                    },
+                  },
+                }}
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              >
+                <MenuItem
+                  onClick={handleClose}
+                  className="flex justify-between"
+                >
+                  <ListItemIcon>
+                    <AccountCircleIcon fontSize="small" />
+                  </ListItemIcon>
+                  <div>Profile</div>
+                </MenuItem>
+                <Divider />
+                <MenuItem
+                  onClick={handleLogout}
+                  className="flex justify-between"
+                >
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
               </Menu>
             </div>
           </div>
