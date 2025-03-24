@@ -1,6 +1,13 @@
 import { AdministratorIndexProvider } from "@/components/administrator/AdministratorIndexProvider";
 import { checkPermission } from "./action";
-import { Button, IconButton, Link, Tooltip } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Link,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { AdministratorsTable } from "@/components/administrator/AdministratorsTable";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -17,7 +24,7 @@ export default async function AdministratorIndexPage() {
   return (
     <>
       <AdministratorIndexProvider permission={permission}>
-        <div className="flex flex-row gap-2 items-center mb-2">
+        <div className="flex flex-row gap-2 items-center">
           <Link href="/dashboard">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon />
@@ -25,31 +32,43 @@ export default async function AdministratorIndexPage() {
           </Link>
           <BreadcrumbCustom items={breadcrumbItems} />
         </div>
-        <div className="text-3xl font-bold mb-8">Administrator</div>
-        <div
-          style={{
-            display: "flex flex-col",
-            alignItems: "center",
+        <Box
+          sx={{
+            backgroundColor: "white",
+            border: "1px solid #ccc",
+            boxShadow: 1,
+            borderRadius: 1,
+            padding: 3,
+            width: "100%",
+            textAlign: "left",
+            paddingX: 3,
+            paddingY: 1,
+            height: "60px",
+            mb: 3,
           }}
         >
+          <Typography
+            sx={{ fontSize: "30px", fontWeight: "bold" }}
+            color="text.primary"
+          >
+            Administrator
+          </Typography>
+        </Box>
+
           {permission.administrator_create && (
-            <Tooltip title="Tambah administrator baru">
-              <Link
+            <Tooltip title="Add New Administrator">
+              <Button
                 href="/administrators/new"
-                style={{ textDecoration: "none" }}
+                color="primary"
+                startIcon={<AddCircleOutlineIcon />}
               >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<AddCircleOutlineIcon />}
-                >
-                  Tambah
-                </Button>
-              </Link>
+                add
+              </Button>
             </Tooltip>
           )}
-          <AdministratorsTable />
-        </div>
+          <div className="flex justify-center">
+            <AdministratorsTable />
+          </div>
       </AdministratorIndexProvider>
     </>
   );

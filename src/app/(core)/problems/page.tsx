@@ -12,7 +12,7 @@ import { pagePermissionCheck } from "@/lib/safePageRequest";
 const breadcrumbItems = [{ title: `Problems`, url: "/" }];
 
 export default async function ProblemPage() {
-    await pagePermissionCheck<ProblemSections>("problem_index");
+  await pagePermissionCheck<ProblemSections>("problem_index");
   const permission = await checkPermission();
 
   return (
@@ -46,7 +46,7 @@ export default async function ProblemPage() {
               </Link>
             </Tooltip>
           )}
-          <div className="flex flex-col row-start-2 items-center">
+          <div className="flex justify-center">
             <ProblemTable />
           </div>
         </div>

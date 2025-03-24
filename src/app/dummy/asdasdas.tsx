@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Box,
   Button,
@@ -5,7 +7,6 @@ import {
   CardContent,
   IconButton,
   Link,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -13,7 +14,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { checkPermission, getAdministrator } from "../action";
+import { checkPermission, destroyAdministrator, getAdministrator } from "../action";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { AdministratorsShowResponse } from "../../../../../types/responses/administrators";
 import { AdministratorIndexProvider } from "@/components/administrator/AdministratorIndexProvider";
@@ -23,6 +24,7 @@ import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import { AdministratorEntity } from "../../../../../types/entities/administrators";
 import { pagePermissionCheck } from "@/lib/safePageRequest";
 import { AdministratorSections } from "@/components/administrator/lib/administrators_section";
+import { useRouter } from "next/navigation";
 
 const breadcrumbItems = (data: AdministratorEntity) => [
   { title: `Administrators`, url: "/administrators" },
@@ -36,7 +38,7 @@ async function getData(
   return result.success ? result.data : undefined;
 }
 
-const AdministratorShowPage = async ({
+export const AdministratorShowPage = async ({
   params,
 }: {
   params: Promise<{ id: string }>;
@@ -48,6 +50,24 @@ const AdministratorShowPage = async ({
   if (!data) {
     return <h1>Error fetching data...</h1>;
   }
+
+  const router = useRouter();
+
+  const handleDelete = async (id: string) => {
+    if (confirm("Apakah Anda yakin ingin menghapus administrator ini?")) {
+      try {
+        const result = await destroyAdministrator(id);
+        if (result.success) {
+          router.push(`/administrators`);
+        } else {
+          alert("Gagal menghapus administrator: " + result);
+        }
+      } catch (error) {
+        console.error("Gagal menghapus administrator", error);
+      }
+    }
+  };
+  
 
   return (
     <>
@@ -72,117 +92,70 @@ const AdministratorShowPage = async ({
             paddingX: 3,
             paddingY: 1,
             height: "60px",
-            mb: 2,
+            mb: 3,
           }}
         >
           <Typography
             sx={{ fontSize: "30px", fontWeight: "bold" }}
             color="text.primary"
           >
-            Detail Administrator
+            Administrator
           </Typography>
         </Box>
-        {permission.administrator_update && (
+
+        {permission.administrator_create && (
           <Tooltip title="Edit Administrator">
             <Button
               href={`/administrators/${data.administrator.id}/edit`}
-              color="primary"
               startIcon={<DriveFileRenameOutlineIcon />}
             >
-              Edit
+              edit
             </Button>
           </Tooltip>
         )}
-        <Card
-          component={Paper}
-          sx={{
-            width: "100%",
-            border: 1,
-            borderColor: "grey.300",
-            borderRadius: 1,
-            overflowX: "auto",
-          }}
-        >
-          <CardContent>
+        {permission.administrator_create && (
+          <Tooltip title="Delete Administrator">
+            <Button
+            color="error"
+            onClick={() => handleDelete(data.administrator.id)}              
+            startIcon={<DriveFileRenameOutlineIcon />}
+            >
+              edit
+            </Button>
+          </Tooltip>
+        )}
+        <Card>
+          <CardContent className="p-0">
             <Table>
               <TableBody>
                 <TableRow>
-                  <TableCell
-                    sx={{
-                      borderRight: 1,
-                      borderColor: "grey.300",
-                      width: "20%",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Username
+                  <TableCell className="font-medium w-40">
+                    Administrator
                   </TableCell>
-                  <TableCell sx={{ width: "70%" }}>
-                    {data.administrator.username}
-                  </TableCell>
+                  <TableCell>: {data.administrator.username}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell
-                    sx={{
-                      borderRight: 1,
-                      borderColor: "grey.300",
-                      width: "20%",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Email
-                  </TableCell>
-                  <TableCell sx={{ width: "70%" }}>
-                    {data.administrator.email}
-                  </TableCell>
+                  <TableCell className="font-medium w-40">Email</TableCell>
+                  <TableCell>: {data.administrator.email}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell
-                    sx={{
-                      borderRight: 1,
-                      borderColor: "grey.300",
-                      width: "20%",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Hak Akses
-                  </TableCell>
-                  <TableCell sx={{ width: "70%" }}>
-                    {data.roles.map((role: Role) => (
-                      <div key={role.id} className="block">
-                        {role.name}
-                      </div>
-                    ))}
-                  </TableCell>
+                  <TableCell className="font-medium w-40">Created at</TableCell>
+                  <TableCell>: {data.administrator.created_at}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell
-                    sx={{
-                      borderRight: 1,
-                      borderColor: "grey.300",
-                      width: "20%",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Created at
-                  </TableCell>
-                  <TableCell sx={{ width: "70%" }}>
-                    {data.administrator.created_at}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell
-                    sx={{
-                      borderRight: 1,
-                      borderColor: "grey.300",
-                      width: "20%",
-                      fontWeight: "bold",
-                    }}
-                  >
+                  <TableCell className="font-medium w-40">
                     Last update at
                   </TableCell>
-                  <TableCell sx={{ width: "70%" }}>
-                    {data.administrator.updated_at}
+                  <TableCell>: {data.administrator.updated_at}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium w-40">Hak Akses</TableCell>
+                  <TableCell>
+                    {data.roles.map((role: Role) => (
+                      <div key={role.id} className="block">
+                        : {role.name}
+                      </div>
+                    ))}
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -193,4 +166,3 @@ const AdministratorShowPage = async ({
     </>
   );
 };
-export default AdministratorShowPage;

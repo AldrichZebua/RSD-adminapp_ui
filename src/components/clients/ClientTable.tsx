@@ -27,7 +27,6 @@ import qs from "qs";
 import { useRouter } from "@bprogress/next/app";
 
 export const ClientTable = () => {
-
   const searchParams = useSearchParams();
   const { permission } = useClientIndexContext();
   const router = useRouter();
@@ -96,21 +95,33 @@ export const ClientTable = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const currentParams = qs.parse(searchParams.toString());
-    const newParams ={
+    const newParams = {
       ...currentParams,
-      pagination: {pageSize: parseInt(event.target.value, 10), Page : 1},
+      pagination: { pageSize: parseInt(event.target.value, 10), Page: 1 },
     };
-    router.replace(`/clients?${qs.stringify(newParams)}`)
+    router.replace(`/clients?${qs.stringify(newParams)}`);
   };
 
   return (
     <TableContainer
       component={Paper}
-      sx={{ width: "100%", mt: 4, overflowX: "auto" }}
+      sx={{
+        width: "90%",
+        border: 1,
+        borderColor: "grey.300",
+        borderRadius: 2,
+        mt: 4,
+      }}
     >
-      <Table>
+      <Table sx={{ minWidth: 650 }}>
         <TableHead>
-          <TableRow>
+          <TableRow
+            sx={{
+              backgroundColor: "grey.200",
+              borderBottom: 2,
+              borderColor: "grey.400",
+            }}
+          >
             <TableCell align="center">No</TableCell>
             <TableCell align="center">Name</TableCell>
             <TableCell align="center">Remark</TableCell>
@@ -123,7 +134,12 @@ export const ClientTable = () => {
         <TableBody>
           {data.data.map((client, index) => (
             <TableRow key={client.id}>
-              <TableCell align="center">{index + 1}</TableCell>
+              <TableCell
+                align="center"
+                sx={{ borderBottom: 1, borderColor: "grey.300" }}
+              >
+                {index + 1}
+              </TableCell>
               <TableCell align="center">
                 <div className="flex justify-between items-center">
                   <div>

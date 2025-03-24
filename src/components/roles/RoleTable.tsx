@@ -104,11 +104,23 @@ export const RoleTable = () => {
   return (
     <TableContainer
       component={Paper}
-      sx={{ width: "100%", mt: 4, overflowX: "auto" }}
+      sx={{
+        width: "90%",
+        border: 1,
+        borderColor: "grey.300",
+        borderRadius: 2,
+        mt: 4,
+      }}
     >
       <Table>
         <TableHead>
-          <TableRow>
+          <TableRow
+            sx={{
+              backgroundColor: "grey.200",
+              borderBottom: 2,
+              borderColor: "grey.400",
+            }}
+          >
             <TableCell align="center">No</TableCell>
             <TableCell align="center">Name</TableCell>
             <TableCell align="center">Description</TableCell>
@@ -119,7 +131,12 @@ export const RoleTable = () => {
         <TableBody>
           {data.data.map((role, index) => (
             <TableRow key={role.id}>
-              <TableCell align="center">{index + 1}</TableCell>
+              <TableCell
+                align="center"
+                sx={{ borderRight: 1, borderColor: "grey.300" }}
+              >
+                {index + 1}
+              </TableCell>
               <TableCell align="center">
                 <div className="flex justify-between items-center">
                   <div>

@@ -41,7 +41,7 @@ export default async function RolesPage() {
           </Tooltip>
         }
       </div>
-      <div className="flex flex-col row-start-2 items-center">
+      <div className="flex justify-center">
         <RoleTable />
       </div>
       </RoleIndexProvider>

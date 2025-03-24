@@ -9,23 +9,23 @@ import { ProblemCategorySections } from "@/components/problem_categories/lib/pro
 import { pagePermissionCheck } from "@/lib/safePageRequest";
 
 const breadcrumbItems = [
-  { title: `Problem Category`, url: '/problem_categories' },
+  { title: `Problem Category`, url: "/problem_categories" },
 ];
 
 export default async function ProblemCategoryPage() {
-    await pagePermissionCheck<ProblemCategorySections>("problem_category_index");
+  await pagePermissionCheck<ProblemCategorySections>("problem_category_index");
   const permission = await checkPermission();
   return (
     <>
       <ProblemCategoryIndexProvider permission={permission}>
         <div className="flex gap-2 items-center mb-2">
-        <Link href="/dashboard">
+          <Link href="/dashboard">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon />
             </IconButton>
           </Link>
-        <BreadcrumbCustom items={breadcrumbItems} />
-      </div>
+          <BreadcrumbCustom items={breadcrumbItems} />
+        </div>
         <div className="text-3xl font-bold mb-8">Problem Category</div>
         <div
           style={{
@@ -49,7 +49,7 @@ export default async function ProblemCategoryPage() {
               </Link>
             </Tooltip>
           )}
-          <div className="flex flex-col row-start-2 items-center">
+          <div className="flex justify-center">
             <ProblemCategoryTable />
           </div>
         </div>

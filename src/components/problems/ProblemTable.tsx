@@ -33,7 +33,7 @@ export const ProblemTable = () => {
   const { permission } = useProblemIndexContext();
 
   const fetcher = async (): Promise<ProblemIndexResponse> => {
-    const result = await getIndexProblem(searchParams.toString());
+    const result = await getIndexProblem();
     if (result.success) {
       return result.data;
     } else {
@@ -109,12 +109,12 @@ export const ProblemTable = () => {
     <>
       <TableContainer
         component={Paper}
-        sx={{ width: "100%", mt: 4, overflowX: "auto" }}
+        sx={{ width: "90%", border: 1, borderColor: "grey.300", borderRadius: 2, mt: 4 }}
       >
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell align="center">No</TableCell>
+            <TableRow sx={{ backgroundColor: "grey.200", borderBottom: 2, borderColor: "grey.400" }}>
+              <TableCell align="center" >No</TableCell>
               <TableCell align="center">Title</TableCell>
               <TableCell align="center">Problem Category</TableCell>
               <TableCell align="center">Create At</TableCell>
@@ -125,7 +125,7 @@ export const ProblemTable = () => {
           <TableBody>
             {data.data.map((problem, index) => (
               <TableRow key={problem.id}>
-                <TableCell align="center">{index + 1}</TableCell>
+                <TableCell align="center" sx={{ borderRight: 1, borderColor: "grey.300" }}>{index + 1}</TableCell>
                 <TableCell align="center">
                   <div className="flex justify-between items-center">
                     <div>

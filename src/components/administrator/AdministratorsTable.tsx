@@ -31,7 +31,7 @@ import { useRouter } from "@bprogress/next/app";
 
 export const AdministratorsTable = () => {
   const searchParams = useSearchParams();
-const router = useRouter();
+  const router = useRouter();
   const { permission } = useAdministratorIndexContext();
 
   const fetcher = async (): Promise<AdministratorsIndexResponse> => {
@@ -99,22 +99,34 @@ const router = useRouter();
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const currentParams = qs.parse(searchParams.toString());
-    const newParams ={
+    const newParams = {
       ...currentParams,
-      pagination: {pageSize: parseInt(event.target.value, 10), Page : 1},
+      pagination: { pageSize: parseInt(event.target.value, 10), Page: 1 },
     };
-    router.replace(`/administrators?${qs.stringify(newParams)}`)
-    // setPagination({ pageSize: parseInt(event.target.value, 10), page: 1 });
+    router.replace(`/administrators?${qs.stringify(newParams)}`);
   };
 
   return (
     <TableContainer
       component={Paper}
-      sx={{ width: "100%", mt: 4, overflowX: "auto" }}
+      sx={{
+        width: "100%",
+        border: 1,
+        borderColor: "grey.300",
+        borderRadius: 2,
+        mt: 1,
+        overflowX: "auto",
+      }}
     >
-      <Table sx={{ minWidth: 650 }}>
+      <Table>
         <TableHead>
-          <TableRow>
+          <TableRow
+            sx={{
+              backgroundColor: "grey.200",
+              borderBottom: 2,
+              borderColor: "grey.400",
+            }}
+          >
             <TableCell align="center">No</TableCell>
             <TableCell align="center">Username</TableCell>
             <TableCell align="center">Email</TableCell>
@@ -126,7 +138,12 @@ const router = useRouter();
         <TableBody>
           {data.data.map((admin, index) => (
             <TableRow key={admin.id}>
-              <TableCell align="center">{index + 1}</TableCell>
+              <TableCell
+                align="center"
+                sx={{ borderRight: 1, borderColor: "grey.300" }}
+              >
+                {index + 1}
+              </TableCell>
               <TableCell align="center">
                 <div className="flex justify-between items-center">
                   <div>
@@ -170,8 +187,8 @@ const router = useRouter();
               <TableCell align="center">
                 {Array.isArray(admin.roles_metadata)
                   ? admin.roles_metadata.map((role) => role.name).join(", ") ||
-                    "-"
-                  : "-"}
+                    ""
+                  : ""}
               </TableCell>
               <TableCell align="center">{admin.created_at}</TableCell>
               <TableCell align="center">{admin.updated_at}</TableCell>
@@ -180,7 +197,7 @@ const router = useRouter();
         </TableBody>
       </Table>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 15, 25]}
+        rowsPerPageOptions={[5, 10, 15, 20]}
         component="div"
         count={data.total || 0}
         rowsPerPage={parseInt(searchParams.get("pagination[pageSize]") ?? "10")}

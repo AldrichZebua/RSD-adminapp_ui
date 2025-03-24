@@ -45,7 +45,7 @@ export default async function ClientsPage() {
               </Link>
             </Tooltip>
           )}
-          <div className="flex flex-col row-start-2 items-center">
+          <div className="flex justify-center">
             <ClientTable />
           </div>
         </div>

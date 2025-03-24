@@ -7,23 +7,25 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import {
-  Card,
-  CardContent,
   Typography,
   TextField,
   Button,
   CircularProgress,
   Snackbar,
   Alert,
+  Box,
+  Container,
 } from "@mui/material";
 import "aos/dist/aos.css";
+import LockIcon from "@mui/icons-material/Lock";
+import React from "react";
 
 const loginSchema = z.object({
   username: z.string().min(2).max(50),
   password: z.string().min(2).max(50),
 });
 
-export const LoginForm = () => {
+export default function LoginForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({
@@ -76,43 +78,82 @@ export const LoginForm = () => {
 
   return (
     <>
-      <div className="flex justify-center mt-32">
-        <Card sx={{ width: 400, padding: 3 }}>
-          <CardContent>
-            <Typography variant="h5" textAlign="center" gutterBottom>
-              Silahkan login untuk melanjutkan
+      <div>
+        <Box
+          sx={{
+        background: "linear-gradient(to top, #2d4642, #bac8e0)",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+          }}
+        >
+          <Container
+            maxWidth="sm"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 4,
+              backgroundColor: "rgba(255, 255, 255, 0.7)",
+              borderRadius: 3,
+              boxShadow: 3,
+              width: "400px",
+            }}
+          >
+            <LockIcon sx={{ fontSize: 40, color: "gray", mb: 2 }} />
+            <Typography variant="h6" color="black" className="text-center">
+              Hallo, Enter your detail to get sign in to your account!
             </Typography>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <TextField
-                label="Username"
-                fullWidth
                 margin="normal"
+                fullWidth
+                label="Username"
+                type="username"
                 {...form.register("username")}
+                variant="filled"
+                InputProps={{
+                  style: { backgroundColor: "white", borderRadius: 5 },
+                }}
                 error={!!form.formState.errors.username}
                 helperText={form.formState.errors.username?.message}
               />
               <TextField
+                margin="normal"
+                fullWidth
                 label="Password"
                 type="password"
-                fullWidth
-                margin="normal"
+                variant="filled"
+                InputProps={{
+                  style: { backgroundColor: "white", borderRadius: 5 },
+                }}
                 {...form.register("password")}
                 error={!!form.formState.errors.password}
                 helperText={form.formState.errors.password?.message}
               />
               <Button
                 type="submit"
-                variant="contained"
-                color="primary"
                 fullWidth
-                sx={{ mt: 2 }}
+                variant="contained"
+                sx={{
+                  mt: 2,
+                  bgcolor: "#4a6370",
+                  "&:hover": { bgcolor: "#3a525d" },
+                }}
                 disabled={loading}
               >
                 {loading ? <CircularProgress size={24} /> : "Sign in"}
               </Button>
+              {/* <Box sx={{ mt: 2, display: "flex", justifyContent: "end", width: "100%" }}>
+          <Link href="#" color="white" underline="none">
+            Not a member? Sign Up
+          </Link>
+        </Box> */}
             </form>
-          </CardContent>
-        </Card>
+          </Container>
+        </Box>
       </div>
       <div className="flex h-full w-full justify-end">
         <Snackbar
@@ -125,4 +166,4 @@ export const LoginForm = () => {
       </div>
     </>
   );
-};
+}
