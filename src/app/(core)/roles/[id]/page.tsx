@@ -1,5 +1,6 @@
 import { checkPermission, getRole } from "../action";
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -10,6 +11,7 @@ import {
   TableCell,
   TableRow,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import {
@@ -49,7 +51,7 @@ export default async function RoleShowPage({
   return (
     <>
       <RoleIndexProvider permission={permission}>
-        <div className="flex gap-2 items-center mb-2">
+        <div className="flex flex-row gap-2 items-center">
           <Link href="/roles">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon />
@@ -57,25 +59,38 @@ export default async function RoleShowPage({
           </Link>
           <BreadcrumbCustom items={breadcrumbItems(data)} />
         </div>
-        <div className="text-3xl font-medium mb-8">Detail Hak Akses</div>
+        <Box
+          sx={{
+            backgroundColor: "white",
+            border: "1px solid #ccc",
+            boxShadow: 1,
+            borderRadius: 1,
+            padding: 3,
+            width: "100%",
+            textAlign: "left",
+            paddingX: 3,
+            paddingY: 1,
+            height: "60px",
+            mb: 3,
+          }}
+        >
+          <Typography
+            sx={{ fontSize: "30px", fontWeight: "bold" }}
+            color="text.primary"
+          >
+            Detail Hak Akses
+          </Typography>
+        </Box>
         {permission.role_update && (
-          <div className="mb-5">
-            <Tooltip title="Edit Hak Akses">
-              <Link
-                href={`/roles/${data.id}/edit`}
-                style={{ textDecoration: "none" }}
-              >
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  startIcon={<DriveFileRenameOutlineIcon />}
-                >
-                  Edit
-                </Button>
-              </Link>
-            </Tooltip>
-          </div>
+          <Tooltip title="Edit Hak Akses">
+            <Button
+              href={`/roles/${data.id}/edit`}
+              color="primary"
+              startIcon={<DriveFileRenameOutlineIcon />}
+            >
+              Edit
+            </Button>
+          </Tooltip>
         )}
 
         <Card>
@@ -83,46 +98,76 @@ export default async function RoleShowPage({
             <Table>
               <TableBody>
                 <TableRow>
-                  <TableCell className="font-medium w-40 text-base">
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {" "}
                     Name
                   </TableCell>
-                  <TableCell className="font-medium w-40 text-base">
-                    : {data.name}
-                  </TableCell>
+                  <TableCell sx={{ width: "70%" }}>{data.name}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium text-base">
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {" "}
                     Description
                   </TableCell>
-                  <TableCell>: {data.description}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="font-medium text-base">
-                    Created at
-                  </TableCell>
-                  <TableCell className="font-medium w-40 text-base">
-                    : {data.created_at}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="font-medium text-base">
-                    Last update at
-                  </TableCell>
-                  <TableCell className="font-medium w-40 text-base">
-                    : {data.updated_at}
+                  <TableCell sx={{ width: "70%" }}>
+                    {data.description}
                   </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell
-                    className="font-medium text-base"
-                    style={{ verticalAlign: "top" }}
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
                   >
+                    {" "}
+                    Created at
+                  </TableCell>
+                  <TableCell sx={{ width: "70%" }}>{data.created_at}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {" "}
+                    Last update at
+                  </TableCell>
+                  <TableCell sx={{ width: "70%" }}>{data.updated_at}</TableCell>
+                </TableRow>
+                <TableRow>
+                <TableCell
+                      sx={{
+                        borderRight: 1,
+                        borderColor: "grey.300",
+                        width: "20%",
+                        fontWeight: "bold",
+                      }}
+                    >
                     Section
                   </TableCell>
-                  <TableCell>
+                  <TableCell sx={{ width: "70%" }}>
                     <div className="flex">
-                      {" "}
-                      :
                       <div className="flex flex-col ml-1 font-medium text-base">
                         {data.rule_set.map((rule: string) => {
                           return <label key={rule}>{rule}</label>;

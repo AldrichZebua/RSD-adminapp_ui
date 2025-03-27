@@ -32,41 +32,44 @@ export default async function AdministratorIndexPage() {
           </Link>
           <BreadcrumbCustom items={breadcrumbItems} />
         </div>
+
         <Box
           sx={{
             backgroundColor: "white",
             border: "1px solid #ccc",
             boxShadow: 1,
             borderRadius: 1,
-            padding: 3,
+            padding: { xs: 2, sm: 3 },
             width: "100%",
             textAlign: "left",
-            paddingX: 3,
-            paddingY: 1,
-            height: "60px",
+            height: { xs: "auto", sm: "60px" },
             mb: 3,
+            display: "flex",
+            alignItems: "center",
           }}
         >
           <Typography
-            sx={{ fontSize: "30px", fontWeight: "bold" }}
+            sx={{
+              fontSize: { xs: "20px", sm: "25px", md: "30px" },
+            }}
             color="text.primary"
           >
             Administrator
           </Typography>
         </Box>
 
-          {permission.administrator_create && (
-            <Tooltip title="Add New Administrator">
-              <Button
-                href="/administrators/new"
-                color="primary"
-                startIcon={<AddCircleOutlineIcon />}
-              >
-                add
-              </Button>
-            </Tooltip>
-          )}
-          <div className="flex justify-center">
+        {permission.administrator_create && (
+          <Tooltip title="Add New Administrator">
+            <Button
+              href="/administrators/new"
+              color="primary"
+              startIcon={<AddCircleOutlineIcon />}
+            >
+              add
+            </Button>
+          </Tooltip>
+        )}
+        <div className="flex w-full justify-center">
             <AdministratorsTable />
           </div>
       </AdministratorIndexProvider>

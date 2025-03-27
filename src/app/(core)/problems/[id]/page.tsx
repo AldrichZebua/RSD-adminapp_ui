@@ -1,16 +1,19 @@
 import { ProblemIndexProvider } from "@/components/problems/ProblemIndexProvider";
 import { checkPermission, getProblem } from "../action";
 import {
+  Box,
   Button,
   Card,
   CardContent,
   IconButton,
   Link,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableRow,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { ProblemEntity } from "../../../../../types/entities/problem";
@@ -20,8 +23,8 @@ import { ProblemSections } from "@/components/problems/lib/problem_section";
 import { pagePermissionCheck } from "@/lib/safePageRequest";
 
 const breadcrumbItems = (data: ProblemEntity) => [
-  { title: `Problem`, url: "/problem" },
-  { title: `Detail - ${data.title}`, url: `/problem/${data.id}` },
+  { title: `Problem`, url: "/problems" },
+  { title: `Detail - ${data.title}`, url: `/problems/${data.id}` },
 ];
 
 async function getData(id: string): Promise<ProblemEntity | undefined> {
@@ -45,7 +48,7 @@ export default async function ProblemShowPage({
   return (
     <>
       <ProblemIndexProvider permission={permission}>
-        <div className="flex gap-2 items-center mb-2">
+        <div className="flex gap-2 items-center">
           <Link href="/problems">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon />
@@ -53,69 +56,143 @@ export default async function ProblemShowPage({
           </Link>
           <BreadcrumbCustom items={breadcrumbItems(data)} />
         </div>
-        <div className="text-3xl font-medium mb-8">Detail Problem</div>
+        <Box
+          sx={{
+            backgroundColor: "white",
+            border: "1px solid #ccc",
+            boxShadow: 1,
+            borderRadius: 1,
+            padding: { xs: 2, sm: 3 },
+            width: "100%",
+            textAlign: "left",
+            height: { xs: "auto", sm: "60px" },
+            mb: 3,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: "20px", sm: "25px", md: "30px" },
+            }}
+            color="text.primary"
+          >
+            Detail Problem
+          </Typography>
+        </Box>
         {permission.problem_update && (
-          <div className="mb-5">
-            <Tooltip title="Edit Client">
-              <Link
-                href={`/problems/${data.id}/edit`}
-                style={{ textDecoration: "none" }}
-              >
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  startIcon={<DriveFileRenameOutlineIcon />}
-                >
-                  Edit
-                </Button>
-              </Link>
-            </Tooltip>
-          </div>
+          <Tooltip title="Edit Client">
+            <Button
+              href={`/problems/${data.id}/edit`}
+              color="primary"
+              startIcon={<DriveFileRenameOutlineIcon />}
+            >
+              Edit
+            </Button>
+          </Tooltip>
         )}
-
-        <Card>
-          <CardContent className="p-0">
+        <Card
+          component={Paper}
+          sx={{
+            width: "100%",
+            border: 1,
+            borderColor: "grey.300",
+            borderRadius: 1,
+            overflowX: "auto",
+          }}
+        >
+          <CardContent>
             <Table>
               <TableBody>
                 <TableRow>
-                  <TableCell className="font-medium w-40">Topik</TableCell>
-                  <TableCell>: {data.title}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Topik
+                  </TableCell>
+                  <TableCell sx={{ width: "70%" }}>{data.title}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium w-40">Detail</TableCell>
-                  <TableCell>: {data.description}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Detail
+                  </TableCell>
+                  <TableCell sx={{ width: "70%" }}>
+                    {data.description}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium w-40">Category</TableCell>
-                  <TableCell>: {data?.problem_category?.name}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Category
+                  </TableCell>
+                  <TableCell sx={{ width: "70%" }}>
+                    {data?.problem_category?.name}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium w-40">Create at</TableCell>
-                  <TableCell>: {data.created_at}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Create at
+                  </TableCell>
+                  <TableCell sx={{ width: "70%" }}>{data.created_at}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium w-40">Update at</TableCell>
-                  <TableCell>: {data.updated_at}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Update at
+                  </TableCell>
+                  <TableCell sx={{ width: "70%" }}>{data.updated_at}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium w-40">Status</TableCell>
-                  <TableCell>: {data.status_label}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Status
+                  </TableCell>
+                  <TableCell sx={{ width: "70%" }}>
+                    {data.status_label}
+                  </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </CardContent>
         </Card>
-        {/* 
-        <div className="flex mt-5 justify-end">
-          <Tooltip title="Kembali">
-            <Link href="/problem" style={{ textDecoration: "none" }}>
-              <Button variant="outlined" startIcon={<FirstPageIcon />}>
-                Kembali
-              </Button>
-            </Link>
-          </Tooltip>
-        </div> */}
+        ]{" "}
       </ProblemIndexProvider>
     </>
   );

@@ -1,4 +1,11 @@
-import { Button, IconButton, Link, Tooltip } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Link,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { checkPermission } from "./action";
 import { ProblemCategoryIndexProvider } from "@/components/problem_categories/ProblemCategoryIndexProvider";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -18,7 +25,7 @@ export default async function ProblemCategoryPage() {
   return (
     <>
       <ProblemCategoryIndexProvider permission={permission}>
-        <div className="flex gap-2 items-center mb-2">
+        <div className="flex flex-row gap-2 items-center">
           <Link href="/dashboard">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon />
@@ -26,32 +33,43 @@ export default async function ProblemCategoryPage() {
           </Link>
           <BreadcrumbCustom items={breadcrumbItems} />
         </div>
-        <div className="text-3xl font-bold mb-8">Problem Category</div>
-        <div
-          style={{
-            display: "flex flex-col",
+        <Box
+          sx={{
+            backgroundColor: "white",
+            border: "1px solid #ccc",
+            boxShadow: 1,
+            borderRadius: 1,
+            padding: { xs: 2, sm: 3 },
+            width: "100%",
+            textAlign: "left",
+            height: { xs: "auto", sm: "60px" },
+            mb: 3,
+            display: "flex",
             alignItems: "center",
           }}
         >
-          {permission.problem_category_create && (
-            <Tooltip title="Tambah Problem Category baru">
-              <Link
-                href="/problem_categories/new"
-                style={{ textDecoration: "none" }}
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<AddCircleOutlineIcon />}
-                >
-                  Tambah
-                </Button>
-              </Link>
-            </Tooltip>
-          )}
-          <div className="flex justify-center">
+          <Typography
+            sx={{
+              fontSize: { xs: "20px", sm: "25px", md: "30px" },
+            }}
+            color="text.primary"
+          >
+            Problem Category
+          </Typography>
+        </Box>
+        {permission.problem_category_create && (
+          <Tooltip title="Tambah Problem Category baru">
+            <Button
+              href="/problem_categories/new"
+              color="primary"
+              startIcon={<AddCircleOutlineIcon />}
+            >
+              add
+            </Button>
+          </Tooltip>
+        )}
+        <div className="flex w-full justify-center">
             <ProblemCategoryTable />
-          </div>
         </div>
       </ProblemCategoryIndexProvider>
     </>

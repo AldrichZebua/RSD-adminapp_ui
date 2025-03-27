@@ -1,6 +1,6 @@
 import { checkPermission, getProblem } from "../../action";
 import { ProblemEntity } from "../../../../../../types/entities/problem";
-import { IconButton } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import { ProblemIndexProvider } from "@/components/problems/ProblemIndexProvider";
@@ -32,8 +32,7 @@ export default async function ProblemEditPage({
     });
   });
 
-    await pagePermissionCheck<ProblemSections>("problem_update");
-  
+  await pagePermissionCheck<ProblemSections>("problem_update");
 
   const [problem, permission] = await Promise.all([
     pageDetail,
@@ -42,26 +41,41 @@ export default async function ProblemEditPage({
 
   return (
     <ProblemIndexProvider permission={permission}>
-      <div className="mx-auto w-full max-w-4xl p-4">
-        <div className="flex gap-2 items-center mb-2">
-          <Link href="/problems">
-            <IconButton color="primary" aria-label="kembali">
-              <ArrowBackIcon />
-            </IconButton>
-          </Link>
-          <BreadcrumbCustom items={breadcrumbItems(problem)} />
-        </div>
-        <h1 className="text-3xl font-bold mb-4">Edit Problem</h1>
+      <div className="flex flex-row gap-2 items-center">
+        <Link href="/problems">
+          <IconButton color="primary" aria-label="kembali">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
+        <BreadcrumbCustom items={breadcrumbItems(problem)} />
+      </div>
+      <div className="w-full p-4 px-6 lg:px-20">
+        <Box
+          sx={{
+            backgroundColor: "white",
+            border: "1px solid #ccc",
+            boxShadow: 1,
+            borderRadius: 1,
+            padding: 3,
+            width: "100%",
+            textAlign: "left",
+            paddingX: 3,
+            paddingY: 1,
+            height: "60px",
+            mb: 3,
+          }}
+        >
+          <Typography
+            sx={{ fontSize: "30px", fontWeight: "bold" }}
+            color="text.primary"
+          >
+            Edit Problem
+          </Typography>
+        </Box>
         <div className="mb-5">
           Silahkan lengkapi data di bawah untuk update Problem
         </div>
-        {permission.problem_update ? (
-          <ProblemForm />
-        ) : (
-          <div>
-            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
-          </div>
-        )}
+        <ProblemForm />
       </div>
     </ProblemIndexProvider>
   );

@@ -1,7 +1,7 @@
 import { checkPermission, getRole, getSectionTree } from "../../action";
 import RoleForm from "@/components/roles/RoleForm";
 import { RoleDetailEntity } from "../../../../../../types/entities/roles";
-import { IconButton } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
@@ -44,27 +44,42 @@ export default async function RoleEditPage({
 
   return (
     <RoleIndexProvider permission={permission}>
-      <div className="w-full p-4 px-6 lg:px-20">
-        <div className="flex gap-2 items-center mb-2">
-          <Link href="/roles">
-            <IconButton color="primary" aria-label="kembali">
-              <ArrowBackIcon />
-            </IconButton>
-          </Link>
-          <BreadcrumbCustom items={breadcrumbItems(role)} />
-        </div>
-        <h1 className="text-3xl font-bold mb-4">Edit Role</h1>
-        <div className="mb-5">
-          Silahkan perbaiki data di bawah untuk update data Role
-        </div>
-        {permission.role_update ? (
-          <RoleForm sectionTree={sectionTree} role={role} />
-        ) : (
-          <div>
-            Kamu tidak memiliki akses. Silahkan kembali ke laman sebelumnya.
-          </div>
-        )}
+      <div className="flex flex-row gap-2 items-center">
+        <Link href="/roles">
+          <IconButton color="primary" aria-label="kembali">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
+        <BreadcrumbCustom items={breadcrumbItems(role)} />
       </div>
+      <Box
+        sx={{
+          backgroundColor: "white",
+          border: "1px solid #ccc",
+          boxShadow: 1,
+          borderRadius: 1,
+          padding: { xs: 2, sm: 3 },
+          width: "100%",
+          textAlign: "left",
+          height: { xs: "auto", sm: "60px" },
+          mb: 3,
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: { xs: "20px", sm: "25px", md: "30px" },
+          }}
+          color="text.primary"
+        >
+          Edit Role{" "}
+        </Typography>
+      </Box>
+      <div className="mb-3">
+        Silahkan perbaiki data di bawah untuk update data Role
+      </div>
+      <RoleForm sectionTree={sectionTree} role={role} />
     </RoleIndexProvider>
   );
 }

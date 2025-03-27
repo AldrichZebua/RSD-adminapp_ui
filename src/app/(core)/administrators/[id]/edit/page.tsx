@@ -4,7 +4,7 @@ import {
   getAdministrator,
   getRoleDropdown,
 } from "../../action";
-import { IconButton, Link } from "@mui/material";
+import { Box, IconButton, Link, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { AdministratorIndexProvider } from "@/components/administrator/AdministratorIndexProvider";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
@@ -25,7 +25,6 @@ export default async function AdministratorEditPage({
   params: Promise<{ id: string }>;
 }) {
   await pagePermissionCheck<AdministratorSections>("administrator_update");
-
   const pageParams = await params;
 
   const pageDetail: Promise<AdministratorEntity> = new Promise(
@@ -60,21 +59,42 @@ export default async function AdministratorEditPage({
 
   return (
     <AdministratorIndexProvider permission={permission}>
-      <div className="w-full p-4 px-6 lg:px-20">
-        <div className="flex gap-2 items-center mb-2">
-          <Link href="/administrators">
-            <IconButton color="primary" aria-label="kembali">
-              <ArrowBackIcon />
-            </IconButton>
-          </Link>
-          <BreadcrumbCustom items={breadcrumbItems(administrator)} />
-        </div>
-        <h1 className="text-3xl font-bold mb-4">Edit Administrator</h1>
-        <div className="mb-5">
-          Silahkan perbaiki data di bawah untuk update data Administrator
-        </div>
-        <AdministratorForm roles={roles} administrator={administrator} />
+      <div className="flex flex-row gap-2 items-center">
+        <Link href="/administrators">
+          <IconButton color="primary" aria-label="kembali">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
+        <BreadcrumbCustom items={breadcrumbItems(administrator)} />
       </div>
+      <Box
+        sx={{
+          backgroundColor: "white",
+          border: "1px solid #ccc",
+          boxShadow: 1,
+          borderRadius: 1,
+          padding: { xs: 2, sm: 3 },
+          width: "100%",
+          textAlign: "left",
+          height: { xs: "auto", sm: "60px" },
+          mb: 3,
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: { xs: "20px", sm: "25px", md: "30px" },
+          }}
+          color="text.primary"
+        >
+          Edit Administrator
+        </Typography>
+      </Box>
+      <div className="mb-3">
+        Silahkan perbaiki data di bawah untuk update data Administrator
+      </div>
+      <AdministratorForm roles={roles} administrator={administrator} />
     </AdministratorIndexProvider>
   );
 }

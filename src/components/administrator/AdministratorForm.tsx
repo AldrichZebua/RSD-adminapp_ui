@@ -79,9 +79,8 @@ export default function AdministratorForm({
 
   return (
     <>
-      <div className="flex flex-col mt-8">
         <Box sx={{ width: "100%", mt: 4, overflowX: "auto" }}>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-5">
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-4"
@@ -91,7 +90,7 @@ export default function AdministratorForm({
                 <div className="w-52 text-left">
                   <span>Username </span>
                 </div>
-                :{" "}
+                :
                 <TextField
                   {...form.register("username")}
                   label="Username"
@@ -228,7 +227,6 @@ export default function AdministratorForm({
             </form>
           </div>
         </Box>
-      </div>
     </>
   );
 }

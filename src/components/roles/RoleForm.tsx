@@ -45,17 +45,93 @@ const RoleForm: React.FC<RoleFormProps> = ({ sectionTree, role }) => {
     },
   });
 
-  const handleCheckboxChange =
-    (field: any, key: string) =>
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.checked
-        ? [...field.value, key]
-        : field.value.filter((value: string) => value !== key);
-      field.onChange(newValue);
+  const getParentKeys = (key: string, tree: any[]) => {
+    for (const section of tree) {
+      if (section.children) {
+        for (const child of section.children) {
+          if (child.key === key) {
+            return [section.key];
+          }
+          if (child.children) {
+            for (const subChild of child.children) {
+              if (subChild.key === key) {
+                return [child.key, section.key];
+              }
+            }
+          }
+        }
+      }
+    }
+    return [];
+  };
+  
+  const getDescendantKeys = (key: string, tree: any[]) => {
+    const descendants: string[] = [];
+  
+    const findDescendants = (node: any) => {
+      if (node.children) {
+        node.children.forEach((child: any) => {
+          descendants.push(child.key);
+          findDescendants(child);
+        });
+      }
     };
+  
+    tree.forEach((section) => {
+      if (section.key === key) {
+        findDescendants(section);
+      } else if (section.children) {
+        section.children.forEach((child: any) => {
+          if (child.key === key) {
+            findDescendants(child);
+          } else if (child.children) {
+            child.children.forEach((subChild: any) => {
+              if (subChild.key === key) {
+                findDescendants(subChild);
+              }
+            });
+          }
+        });
+      }
+    });
+  
+    return descendants;
+  };
+  
+  const handleCheckboxChange = (field: any, key: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = new Set(field.value);
+  
+    if (event.target.checked) {
+      newValue.add(key);
+      getParentKeys(key, sectionTree).forEach((parentKey) => newValue.add(parentKey));
+      getDescendantKeys(key, sectionTree).forEach((childKey) => newValue.add(childKey));
+    } else {
+      newValue.delete(key);
+      getDescendantKeys(key, sectionTree).forEach((childKey) => newValue.delete(childKey));
+  
+      sectionTree.forEach((section) => {
+        if (section.children) {
+          section.children.forEach((child: any) => {
+            if (newValue.has(child.key) && section.children.every((ch: any) => !newValue.has(ch.key))) {
+              newValue.delete(section.key);
+            }
+            if (child.children) {
+              child.children.forEach((subChild: any) => {
+                if (newValue.has(subChild.key) && child.children.every((subCh: any) => !newValue.has(subCh.key))) {
+                  newValue.delete(child.key);
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  
+    field.onChange(Array.from(newValue));
+  };
+  
 
   const onSubmit = async (params: z.infer<typeof roleSchema>) => {
-    console.log(params);
     setLoading(true);
     startTransition(async () => {
       const result = role

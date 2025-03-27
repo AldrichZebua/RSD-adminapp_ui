@@ -10,6 +10,7 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { ClientEntity } from "../../../types/entities/client";
 import { createClient, updateClient } from "@/app/(core)/clients/action";
 import { useRouter } from "@bprogress/next/app";
+import AddIcon from "@mui/icons-material/Add";
 
 const clientSchema = z.object({
   name: z.string().min(2).max(50),
@@ -66,7 +67,7 @@ export default function ClientForm({ client }: ClientFormProps) {
 
   return (
     <>
-      <div className="flex flex-col mt-8">
+      <div className="flex flex-col mt-5">
         <Box sx={{ width: "100%", mt: 4, overflowX: "auto" }}>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -81,7 +82,6 @@ export default function ClientForm({ client }: ClientFormProps) {
                 <div className="flex items-center">:</div>
                 <TextField
                   {...register("name")}
-                  label="Name"
                   variant="outlined"
                   fullWidth
                   error={!!formState.errors.name}
@@ -97,7 +97,6 @@ export default function ClientForm({ client }: ClientFormProps) {
                 <div className="flex items-center">:</div>
                 <TextField
                   {...register("remark")}
-                  label="Remark"
                   variant="outlined"
                   fullWidth
                   error={!!formState.errors.remark}
@@ -106,37 +105,43 @@ export default function ClientForm({ client }: ClientFormProps) {
                 />
               </div>
 
-              <div className="flex items-center gap-2">
-                <div className="w-52 text-left">
-                  <span className="">Email</span>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-52 text-left">
+                    <span className="">Email</span>
+                  </div>
+                  <div className="flex items-center">:</div>
+                  <div className="flex flex-col w-full gap-4">
+                    {emails.map((email, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-2 w-full"
+                      >
+                        <TextField
+                          {...register(`emails.${index}` as const)}
+                          label={`Email ${index + 1}`}
+                          variant="outlined"
+                          fullWidth
+                          error={!!formState.errors.emails?.[index]}
+                          helperText={formState.errors.emails?.[index]?.message}
+                          defaultValue={client?.emails?.[index] ?? ""}
+                        />
+                        {emails.length > 1 && (
+                          <IconButton onClick={() => removeEmailField(index)}>
+                            <RemoveCircleOutlineIcon color="error" />
+                          </IconButton>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex items-center">:</div>
-                <div className="flex flex-col w-full gap-2">
-                  {emails.map((email, index) => (
-                    <div key={index} className="flex items-center gap-2 w-full">
-                      <TextField
-                        {...register(`emails.${index}` as const)}
-                        label={`Email ${index + 1}`}
-                        variant="outlined"
-                        fullWidth
-                        error={!!formState.errors.emails?.[index]}
-                        helperText={formState.errors.emails?.[index]?.message}
-                        defaultValue={client?.emails?.[index] ?? ""}
-                      />
-                      {emails.length > 1 && (
-                        <IconButton onClick={() => removeEmailField(index)}>
-                          <RemoveCircleOutlineIcon color="error" />
-                        </IconButton>
-                      )}
-                    </div>
-                  ))}
+                <div className="flex justify-end">
+                  <Button onClick={addEmailField} startIcon={<AddIcon />}>
+                    Tambah Email
+                  </Button>
                 </div>
               </div>
             </div>
-
-            <Button onClick={addEmailField} variant="outlined">
-              Tambah Email
-            </Button>
 
             <div className="flex justify-end mt-5">
               <Button

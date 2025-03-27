@@ -1,14 +1,17 @@
 import {
+  Box,
   Button,
   Card,
   CardContent,
   IconButton,
   Link,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableRow,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { checkPermission, getClient } from "../action";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
@@ -45,7 +48,7 @@ export default async function ClientShowPage({
   return (
     <>
       <ClientIndexProvider permission={permission}>
-        <div className="flex gap-2 items-center mb-2">
+        <div className="flex gap-2 items-center">
           <Link href="/clients">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon />
@@ -53,63 +56,135 @@ export default async function ClientShowPage({
           </Link>
           <BreadcrumbCustom items={breadcrumbItems(data)} />
         </div>
-        <div className="text-3xl font-medium mb-8">Detail Client</div>
-        {permission.client_update && (
-          <div className="mb-5">
+        <div className="w-full p-4 px-6 lg:px-20">
+          <Box
+            sx={{
+              backgroundColor: "white",
+              border: "1px solid #ccc",
+              boxShadow: 1,
+              borderRadius: 1,
+              padding: { xs: 2, sm: 3 },
+              width: "100%",
+              textAlign: "left",
+              height: { xs: "auto", sm: "60px" },
+              mb: 3,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: { xs: "20px", sm: "25px", md: "30px" },
+              }}
+              color="text.primary"
+            >
+              Detail Client
+            </Typography>
+          </Box>
+          {permission.client_update && (
             <Tooltip title="Edit Client">
-              <Link
+              <Button
                 href={`/clients/${data.id}/edit`}
-                style={{ textDecoration: "none" }}
+                color="primary"
+                startIcon={<DriveFileRenameOutlineIcon />}
               >
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  startIcon={<DriveFileRenameOutlineIcon />}
-                >
-                  Edit
-                </Button>
-              </Link>
+                Edit
+              </Button>
             </Tooltip>
-          </div>
-        )}
-
-        <Card>
-          <CardContent className="p-0">
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TableCell className="font-medium w-40">Name</TableCell>
-                  <TableCell>: {data.name}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="font-medium w-40">Remark</TableCell>
-                  <TableCell>: {data.remark}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="font-medium w-40">Email</TableCell>
-                  <TableCell>
-                    <div className="flex flex-col">
-                      {data.emails.map((email, index) => (
-                        <span key={index}>: {email}</span>
-                      ))}
-                    </div>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="font-medium w-40">Created at</TableCell>
-                  <TableCell>: {data.created_at}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="font-medium w-40">
-                    Last update at
-                  </TableCell>
-                  <TableCell>: {data.updated_at}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+          )}
+          <Card
+            component={Paper}
+            sx={{
+              width: "100%",
+              border: 1,
+              borderColor: "grey.300",
+              borderRadius: 1,
+              overflowX: "auto",
+            }}
+          >
+            <CardContent>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell
+                      sx={{
+                        borderRight: 1,
+                        borderColor: "grey.300",
+                        width: "20%",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Name
+                    </TableCell>
+                    <TableCell sx={{ width: "70%" }}>{data.name}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell
+                      sx={{
+                        borderRight: 1,
+                        borderColor: "grey.300",
+                        width: "20%",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Remark
+                    </TableCell>
+                    <TableCell sx={{ width: "70%" }}>{data.remark}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell
+                      sx={{
+                        borderRight: 1,
+                        borderColor: "grey.300",
+                        width: "20%",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Email
+                    </TableCell>
+                    <TableCell sx={{ width: "70%" }}>
+                      <div className="flex flex-col">
+                        {data.emails.map((email, index) => (
+                          <span key={index}>{email}</span>
+                        ))}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell
+                      sx={{
+                        borderRight: 1,
+                        borderColor: "grey.300",
+                        width: "20%",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Created at
+                    </TableCell>
+                    <TableCell sx={{ width: "70%" }}>
+                      {data.created_at}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell
+                      sx={{
+                        borderRight: 1,
+                        borderColor: "grey.300",
+                        width: "20%",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Last update at
+                    </TableCell>
+                    <TableCell sx={{ width: "70%" }}>
+                      {data.updated_at}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
       </ClientIndexProvider>
     </>
   );

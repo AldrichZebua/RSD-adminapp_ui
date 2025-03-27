@@ -9,7 +9,6 @@ import ControlPointDuplicateIcon from "@mui/icons-material/ControlPointDuplicate
 import {
   Box,
   Button,
-  CircularProgress,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -81,7 +80,7 @@ export default function ProblemForm({ problem }: ProblemFormProps) {
 
   return (
     <Box sx={{ width: "100%", mt: 4, overflowX: "auto" }}>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-4 gap-5"
@@ -171,6 +170,12 @@ export default function ProblemForm({ problem }: ProblemFormProps) {
                     </MenuItem>
                   ))
                 )}
+
+                {/* {problem?.problem_category.map((category) => (
+                  <MenuItem key={category.id} value={category.id}>
+                    {problem.problem_category.name}
+                  </MenuItem>
+                ))} */}
               </Select>
               <FormHelperText>
                 {form.formState.errors.problem_category_id?.message}
@@ -185,11 +190,7 @@ export default function ProblemForm({ problem }: ProblemFormProps) {
               endIcon={<ControlPointDuplicateIcon />}
               disabled={loading}
             >
-              {loading ? (
-                <CircularProgress size={24} color="inherit" />
-              ) : (
-                "Create"
-              )}
+              {problem ? "Update" : "Create"}
             </Button>
           </div>
         </form>

@@ -13,10 +13,6 @@ import {
 } from "@/app/(core)/problem_categories/action";
 import { ProblemCategoryEntity } from "../../../types/entities/problem_category";
 
-const problemcatogrySchema = z.object({
-  name: z.string().min(2).max(50),
-});
-
 type ProblemCategoryFormProps = {
   problem_category?: ProblemCategoryEntity;
 };
@@ -26,6 +22,10 @@ export default function ProblemCategoryForm({
 }: ProblemCategoryFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  const problemcatogrySchema = z.object({
+    name: z.string().min(2).max(50),
+  });
 
   const form = useForm<z.infer<typeof problemcatogrySchema>>({
     resolver: zodResolver(problemcatogrySchema),
@@ -54,7 +54,6 @@ export default function ProblemCategoryForm({
 
   return (
     <>
-      <div className="flex flex-col mt-8">
         <Box sx={{ width: "100%", mt: 4, overflowX: "auto" }}>
           <div className="flex flex-col gap-4">
             <form
@@ -94,7 +93,6 @@ export default function ProblemCategoryForm({
             </form>
           </div>
         </Box>
-      </div>
     </>
   );
 }

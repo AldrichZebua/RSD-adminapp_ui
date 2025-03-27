@@ -1,5 +1,5 @@
 import { AdministratorIndexProvider } from "@/components/administrator/AdministratorIndexProvider";
-import { IconButton, Link } from "@mui/material";
+import { Box, IconButton, Link, Typography } from "@mui/material";
 import { checkPermission, getRoleDropdown } from "../action";
 import AdministratorForm from "@/components/administrator/AdministratorForm";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
@@ -32,24 +32,42 @@ export default async function AdministratorNewPage() {
   return (
     <>
       <AdministratorIndexProvider permission={permission}>
-        <div className="w-full p-4 px-6 lg:px-20">
-          <div className="container mx-auto">
-            <Link href="/administrators">
-              <IconButton color="primary" aria-label="kembali">
-                <ArrowBackIcon />
-              </IconButton>
-            </Link>
-            <BreadcrumbCustom items={breadcrumbItems} />
-          </div>
-          <main>
-            <div className="text-3xl font-medium">Tambah Administrator</div>
-            <div className="mb-5">
-              Silahkan lengkapi data di bawah untuk menambahkan Administrator
-              baru
-            </div>
-            <AdministratorForm roles={roles ?? []} />
-          </main>
+        <div className="flex flex-row gap-2 items-center">
+          <Link href="/administrators">
+            <IconButton color="primary" aria-label="kembali">
+              <ArrowBackIcon />
+            </IconButton>
+          </Link>
+          <BreadcrumbCustom items={breadcrumbItems} />
         </div>
+        <Box
+          sx={{
+            backgroundColor: "white",
+            border: "1px solid #ccc",
+            boxShadow: 1,
+            borderRadius: 1,
+            padding: { xs: 2, sm: 3 },
+            width: "100%",
+            textAlign: "left",
+            height: { xs: "auto", sm: "60px" },
+            mb: 3,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: "20px", sm: "25px", md: "30px" },
+            }}
+            color="text.primary"
+          >
+            Tambah Administrator
+          </Typography>
+        </Box>
+        <div className="mb-3">
+          Silahkan lengkapi data di bawah untuk menambahkan Administrator baru
+        </div>
+        <AdministratorForm roles={roles ?? []} />
       </AdministratorIndexProvider>
     </>
   );

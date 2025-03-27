@@ -185,7 +185,7 @@ export default function SetLayout({ children }: SetLayoutProps) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#2d3c46" }}>
         <Toolbar>
           <div className="flex w-full justify-between">
             <div className="flex">
@@ -204,7 +204,7 @@ export default function SetLayout({ children }: SetLayoutProps) {
             </div>
             <div>
               <IconButton onClick={handleClick}>
-                <AccountCircleIcon />
+                <AccountCircleIcon sx={{ color: "white" }}/>
               </IconButton>
               <Menu
                 anchorEl={anchorEl}
@@ -301,7 +301,7 @@ export default function SetLayout({ children }: SetLayoutProps) {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
         <DrawerHeader />
         {children}
       </Box>

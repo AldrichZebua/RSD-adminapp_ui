@@ -1,9 +1,11 @@
 import {
+  Box,
   Button,
   Card,
   CardContent,
   IconButton,
   Link,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -48,7 +50,7 @@ export default async function ProblemCategoryShowPage({
   return (
     <>
       <ProblemCategoryIndexProvider permission={permission}>
-        <div className="flex gap-2 items-center mb-2">
+        <div className="flex flex-row gap-2 items-center">
           <Link href="/problem_categories">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon />
@@ -56,39 +58,80 @@ export default async function ProblemCategoryShowPage({
           </Link>
           <BreadcrumbCustom items={breadcrumbItems(data)} />
         </div>
-        <div className="text-3xl font-medium mb-8">Detail Program Category</div>
+        <Box
+          sx={{
+            backgroundColor: "white",
+            border: "1px solid #ccc",
+            boxShadow: 1,
+            borderRadius: 1,
+            padding: { xs: 2, sm: 3 },
+            width: "100%",
+            textAlign: "left",
+            height: { xs: "auto", sm: "60px" },
+            mb: 3,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: "20px", sm: "25px", md: "30px" },
+            }}
+            color="text.primary"
+          >
+            Detail Program Category
+          </Typography>
+        </Box>
         {permission.problem_category_update && (
-          <div className="mb-5">
-            <Tooltip title="Edit Problem Category">
-              <Link
-                href={`/problem_categories/${data.id}/edit`}
-                style={{ textDecoration: "none" }}
-              >
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  startIcon={<DriveFileRenameOutlineIcon />}
-                >
-                  Edit
-                </Button>
-              </Link>
-            </Tooltip>
-          </div>
+          <Tooltip title="Edit Problem Category">
+            <Button
+              href={`/problem_categories/${data.id}/edit`}
+              color="primary"
+              startIcon={<DriveFileRenameOutlineIcon />}
+            >
+              Edit
+            </Button>
+          </Tooltip>
         )}
 
-        <Card>
+        <Card
+          component={Paper}
+          sx={{
+            width: "100%",
+            border: 1,
+            borderColor: "grey.300",
+            borderRadius: 1,
+            overflowX: "auto",
+          }}
+        >
           <CardContent className="p-0">
             <Table>
               <TableBody>
                 <TableRow>
-                  <TableCell className="font-medium w-40">Name</TableCell>
-                  <TableCell>: {data.name}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Name
+                  </TableCell>
+                  <TableCell sx={{ width: "70%" }}>{data.name}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium w-40">Status</TableCell>
-                  <TableCell>
-                    :{" "}
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Status
+                  </TableCell>
+                  <TableCell sx={{ width: "70%" }}>
                     <Typography
                       component="span"
                       sx={{
@@ -101,29 +144,35 @@ export default async function ProblemCategoryShowPage({
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium w-40">Created at</TableCell>
-                  <TableCell>: {data.created_at}</TableCell>
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Created at
+                  </TableCell>
+                  <TableCell sx={{ width: "70%" }}>{data.created_at}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium w-40">
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
                     Last update at
                   </TableCell>
-                  <TableCell>: {data.updated_at}</TableCell>
+                  <TableCell sx={{ width: "70%" }}>{data.updated_at}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </CardContent>
         </Card>
-        {/* 
-        <div className="flex mt-5 justify-end">
-          <Tooltip title="Kembali">
-            <Link href="/problem_categories" style={{ textDecoration: "none" }}>
-              <Button variant="outlined" startIcon={<FirstPageIcon />}>
-                Kembali
-              </Button>
-            </Link>
-          </Tooltip>
-        </div> */}
       </ProblemCategoryIndexProvider>
     </>
   );

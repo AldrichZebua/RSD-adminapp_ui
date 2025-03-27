@@ -6,8 +6,14 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import DeleteIcon from "@mui/icons-material/Delete";
 import useSWR from "swr";
 import {
+  Button,
   CircularProgress,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   IconButton,
   Link,
   Paper,
@@ -20,17 +26,22 @@ import {
   TableRow,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import NextLink from "next/link";
 import { getIndexProblem, destroyProblem } from "@/app/(core)/problems/action";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "@bprogress/next/app";
 import qs from "qs";
+import { useState } from "react";
 
 export const ProblemTable = () => {
-    const searchParams = useSearchParams();
-    const router = useRouter();
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const { permission } = useProblemIndexContext();
+  const [open, setOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const fetcher = async (): Promise<ProblemIndexResponse> => {
     const result = await getIndexProblem();
@@ -53,18 +64,30 @@ export const ProblemTable = () => {
       }
     );
 
-  const handleDelete = async (id: string) => {
-    if (confirm("Apakah Anda yakin ingin menghapus Problem ini?")) {
-      try {
-        const result = await destroyProblem(id);
-        if (result.success) {
-          mutate();
-        } else {
-          alert("Gagal menghapus Problem" + result);
-        }
-      } catch (error) {
-        console.error("Gagal menghapus Problem", error);
+  const handleOpenDialog = (id: string) => {
+    setSelectedId(id);
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+    setSelectedId(null);
+  };
+
+  const handleDelete = async () => {
+    if (!selectedId) return;
+
+    try {
+      const result = await destroyProblem(selectedId);
+      if (result.success) {
+        mutate();
+      } else {
+        alert("Gagal menghapus problem: " + result);
       }
+    } catch (error) {
+      console.error("Gagal menghapus problem", error);
+    } finally {
+      handleCloseDialog();
     }
   };
 
@@ -93,28 +116,38 @@ export const ProblemTable = () => {
     router.replace(`/problems?${qs.stringify(newParams)}`);
   };
 
-
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const currentParams = qs.parse(searchParams.toString());
-    const newParams ={
+    const newParams = {
       ...currentParams,
-      pagination: {pageSize: parseInt(event.target.value, 10), Page : 1},
+      pagination: { pageSize: parseInt(event.target.value, 10), Page: 1 },
     };
-    router.replace(`/problems?${qs.stringify(newParams)}`)
+    router.replace(`/problems?${qs.stringify(newParams)}`);
   };
 
   return (
-    <>
+    <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer
-        component={Paper}
-        sx={{ width: "90%", border: 1, borderColor: "grey.300", borderRadius: 2, mt: 4 }}
+        sx={{
+          border: 1,
+          borderColor: "grey.300",
+          borderRadius: 2,
+          mt: 1,
+          maxWidth: isSmallScreen ? 440 : "100%",
+        }}
       >
-        <Table>
+        <Table stickyHeader aria-label="sticky table">
           <TableHead>
-            <TableRow sx={{ backgroundColor: "grey.200", borderBottom: 2, borderColor: "grey.400" }}>
-              <TableCell align="center" >No</TableCell>
+            <TableRow
+              sx={{
+                backgroundColor: "grey.200",
+                borderBottom: 2,
+                borderColor: "grey.400",
+              }}
+            >
+              <TableCell align="center">No</TableCell>
               <TableCell align="center">Title</TableCell>
               <TableCell align="center">Problem Category</TableCell>
               <TableCell align="center">Create At</TableCell>
@@ -125,7 +158,12 @@ export const ProblemTable = () => {
           <TableBody>
             {data.data.map((problem, index) => (
               <TableRow key={problem.id}>
-                <TableCell align="center" sx={{ borderRight: 1, borderColor: "grey.300" }}>{index + 1}</TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ borderRight: 1, borderColor: "grey.300" }}
+                >
+                  {index + 1}
+                </TableCell>
                 <TableCell align="center">
                   <div className="flex justify-between items-center">
                     <div>
@@ -146,7 +184,7 @@ export const ProblemTable = () => {
                       {permission.problem_destroy && (
                         <IconButton
                           color="error"
-                          onClick={() => handleDelete(problem.id)}
+                          onClick={() => handleOpenDialog(problem.id)}
                         >
                           <DeleteIcon />
                         </IconButton>
@@ -202,12 +240,33 @@ export const ProblemTable = () => {
           rowsPerPageOptions={[5, 10, 15, 25]}
           component="div"
           count={data.total || 0}
-          rowsPerPage={parseInt(searchParams.get("pagination[pageSize]") ?? "10")}
+          rowsPerPage={parseInt(
+            searchParams.get("pagination[pageSize]") ?? "10"
+          )}
           page={parseInt(searchParams.get("pagination[current]") ?? "1") - 1}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        <Dialog open={open} onClose={handleCloseDialog}>
+          <DialogTitle style={{ textAlign: "center", color: "red" }}>
+            Konfirmasi Hapus
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Apakah Anda yakin ingin menghapus problem ini? Tindakan ini tidak
+              dapat dibatalkan.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog} color="secondary">
+              Batal
+            </Button>
+            <Button onClick={handleDelete} color="error" autoFocus>
+              Ya, Hapus
+            </Button>
+          </DialogActions>
+        </Dialog>
       </TableContainer>
-    </>
+    </Paper>
   );
 };

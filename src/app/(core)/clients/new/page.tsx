@@ -2,7 +2,7 @@ import ClientForm from "@/components/clients/ClientForm";
 import { checkPermission } from "../action";
 import { ClientIndexProvider } from "@/components/clients/ClientIndexProvider";
 import Link from "@mui/material/Link";
-import { IconButton } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { pagePermissionCheck } from "@/lib/safePageRequest";
@@ -20,24 +20,42 @@ export default async function ClientNewPage() {
   return (
     <>
       <ClientIndexProvider permission={permission}>
-        <div className="w-full p-4 px-6 lg:px-20">
-          <div className="container mx-auto">
-            <Link href="/clients">
-              <IconButton color="primary" aria-label="kembali">
-                <ArrowBackIcon />
-              </IconButton>
-            </Link>
-            <BreadcrumbCustom items={breadcrumbItems} />
-          </div>
-          <br />
-          <div className="text-3xl font-medium">Tambah Client</div>
-          <div className="mt-5">
-            Silahkan lengkapi data di bawah untuk menambahkan Client baru
-          </div>
-          <main>
-            <ClientForm />
-          </main>
+        <div className="flex flex-row gap-2 items-center">
+          <Link href="/clients">
+            <IconButton color="primary" aria-label="kembali">
+              <ArrowBackIcon />
+            </IconButton>
+          </Link>
+          <BreadcrumbCustom items={breadcrumbItems} />
         </div>
+        <Box
+          sx={{
+            backgroundColor: "white",
+            border: "1px solid #ccc",
+            boxShadow: 1,
+            borderRadius: 1,
+            padding: { xs: 2, sm: 3 },
+            width: "100%",
+            textAlign: "left",
+            height: { xs: "auto", sm: "60px" },
+            mb: 3,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: { xs: "20px", sm: "25px", md: "30px" },
+            }}
+            color="text.primary"
+          >
+            Tambah Client{" "}
+          </Typography>
+        </Box>
+        <div className="mt-3">
+          Silahkan lengkapi data di bawah untuk menambahkan Client baru
+        </div>
+        <ClientForm />
       </ClientIndexProvider>
     </>
   );

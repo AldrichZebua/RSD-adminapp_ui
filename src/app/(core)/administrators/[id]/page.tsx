@@ -52,7 +52,7 @@ const AdministratorShowPage = async ({
   return (
     <>
       <AdministratorIndexProvider permission={permission}>
-        <div className="flex gap-2 items-center mb-2">
+        <div className="flex flex-row gap-2 items-center">
           <Link href="/administrators">
             <IconButton color="primary" aria-label="kembali">
               <ArrowBackIcon />
@@ -66,17 +66,19 @@ const AdministratorShowPage = async ({
             border: "1px solid #ccc",
             boxShadow: 1,
             borderRadius: 1,
-            padding: 3,
+            padding: { xs: 2, sm: 3 },
             width: "100%",
             textAlign: "left",
-            paddingX: 3,
-            paddingY: 1,
-            height: "60px",
-            mb: 2,
+            height: { xs: "auto", sm: "60px" },
+            mb: 3,
+            display: "flex",
+            alignItems: "center",
           }}
         >
           <Typography
-            sx={{ fontSize: "30px", fontWeight: "bold" }}
+            sx={{
+              fontSize: { xs: "20px", sm: "25px", md: "30px" },
+            }}
             color="text.primary"
           >
             Detail Administrator
