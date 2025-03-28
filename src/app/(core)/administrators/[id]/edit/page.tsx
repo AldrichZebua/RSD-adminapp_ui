@@ -4,7 +4,7 @@ import {
   getAdministrator,
   getRoleDropdown,
 } from "../../action";
-import { Box, IconButton, Link, Typography } from "@mui/material";
+import { IconButton, Link, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { AdministratorIndexProvider } from "@/components/administrator/AdministratorIndexProvider";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
@@ -67,31 +67,16 @@ export default async function AdministratorEditPage({
         </Link>
         <BreadcrumbCustom items={breadcrumbItems(administrator)} />
       </div>
-      <Box
+      <Typography
         sx={{
-          backgroundColor: "white",
-          border: "1px solid #ccc",
-          boxShadow: 1,
-          borderRadius: 1,
-          padding: { xs: 2, sm: 3 },
-          width: "100%",
-          textAlign: "left",
-          height: { xs: "auto", sm: "60px" },
-          mb: 3,
-          display: "flex",
-          alignItems: "center",
+          fontSize: { xs: "20px", sm: "25px", md: "30px" },
+          mb: 2,
         }}
+        color="text.primary"
       >
-        <Typography
-          sx={{
-            fontSize: { xs: "20px", sm: "25px", md: "30px" },
-          }}
-          color="text.primary"
-        >
-          Edit Administrator
-        </Typography>
-      </Box>
-      <div className="mb-3">
+        Edit Administrator
+      </Typography>
+      <div className="mt-3">
         Silahkan perbaiki data di bawah untuk update data Administrator
       </div>
       <AdministratorForm roles={roles} administrator={administrator} />

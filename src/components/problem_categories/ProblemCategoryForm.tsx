@@ -54,7 +54,7 @@ export default function ProblemCategoryForm({
 
   return (
     <>
-        <Box sx={{ width: "100%", mt: 4, overflowX: "auto" }}>
+        <Box sx={{ width: "100%", mt: 2, overflowX: "auto" }}>
           <div className="flex flex-col gap-4">
             <form
               onSubmit={form.handleSubmit(onSubmit)}

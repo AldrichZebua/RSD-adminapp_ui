@@ -2,7 +2,13 @@ import { ProblemIndexProvider } from "@/components/problems/ProblemIndexProvider
 import { checkPermission } from "./action";
 import { ProblemTable } from "@/components/problems/ProblemTable";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
-import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
+import {
+  Button,
+  Divider,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -26,21 +32,7 @@ export default async function ProblemPage() {
           </Link>
           <BreadcrumbCustom items={breadcrumbItems} />
         </div>
-        <Box
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            boxShadow: 1,
-            borderRadius: 1,
-            padding: { xs: 2, sm: 3 },
-            width: "100%",
-            textAlign: "left",
-            height: { xs: "auto", sm: "60px" },
-            mb: 3,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex gap-3 items-center">
           <Typography
             sx={{
               fontSize: { xs: "20px", sm: "25px", md: "30px" },
@@ -49,21 +41,24 @@ export default async function ProblemPage() {
           >
             Problem
           </Typography>
-        </Box>
-        {permission.problem_create && (
-          <Tooltip title="Tambah Problem Category baru">
-            <Button
-              href="/problems/new"
-              color="primary"
-              startIcon={<AddCircleOutlineIcon />}
-            >
-              add
-            </Button>
-          </Tooltip>
-        )}
+
+          <Divider orientation="vertical" variant="middle" flexItem />
+
+          {permission.problem_create && (
+            <Tooltip title="Tambah Problem Category baru">
+              <Button
+                href="/problems/new"
+                color="primary"
+                startIcon={<AddCircleOutlineIcon />}
+              >
+                add
+              </Button>
+            </Tooltip>
+          )}
+        </div>
         <div className="flex w-full justify-center">
-            <ProblemTable />
-          </div>
+          <ProblemTable />
+        </div>
       </ProblemIndexProvider>
     </>
   );

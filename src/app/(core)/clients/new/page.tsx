@@ -2,7 +2,7 @@ import ClientForm from "@/components/clients/ClientForm";
 import { checkPermission } from "../action";
 import { ClientIndexProvider } from "@/components/clients/ClientIndexProvider";
 import Link from "@mui/material/Link";
-import { Box, IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { pagePermissionCheck } from "@/lib/safePageRequest";
@@ -28,21 +28,7 @@ export default async function ClientNewPage() {
           </Link>
           <BreadcrumbCustom items={breadcrumbItems} />
         </div>
-        <Box
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            boxShadow: 1,
-            borderRadius: 1,
-            padding: { xs: 2, sm: 3 },
-            width: "100%",
-            textAlign: "left",
-            height: { xs: "auto", sm: "60px" },
-            mb: 3,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex gap-3 items-center">
           <Typography
             sx={{
               fontSize: { xs: "20px", sm: "25px", md: "30px" },
@@ -51,7 +37,7 @@ export default async function ClientNewPage() {
           >
             Tambah Client{" "}
           </Typography>
-        </Box>
+        </div>
         <div className="mt-3">
           Silahkan lengkapi data di bawah untuk menambahkan Client baru
         </div>

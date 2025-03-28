@@ -1,10 +1,10 @@
 import { ProblemIndexProvider } from "@/components/problems/ProblemIndexProvider";
 import { checkPermission, getProblem } from "../action";
 import {
-  Box,
   Button,
   Card,
   CardContent,
+  Divider,
   IconButton,
   Link,
   Paper,
@@ -56,21 +56,7 @@ export default async function ProblemShowPage({
           </Link>
           <BreadcrumbCustom items={breadcrumbItems(data)} />
         </div>
-        <Box
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            boxShadow: 1,
-            borderRadius: 1,
-            padding: { xs: 2, sm: 3 },
-            width: "100%",
-            textAlign: "left",
-            height: { xs: "auto", sm: "60px" },
-            mb: 3,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex gap-3 items-center">
           <Typography
             sx={{
               fontSize: { xs: "20px", sm: "25px", md: "30px" },
@@ -79,21 +65,25 @@ export default async function ProblemShowPage({
           >
             Detail Problem
           </Typography>
-        </Box>
-        {permission.problem_update && (
-          <Tooltip title="Edit Client">
-            <Button
-              href={`/problems/${data.id}/edit`}
-              color="primary"
-              startIcon={<DriveFileRenameOutlineIcon />}
-            >
-              Edit
-            </Button>
-          </Tooltip>
-        )}
+
+          <Divider orientation="vertical" variant="middle" flexItem />
+
+          {permission.problem_update && (
+            <Tooltip title="Edit Client">
+              <Button
+                href={`/problems/${data.id}/edit`}
+                color="primary"
+                startIcon={<DriveFileRenameOutlineIcon />}
+              >
+                Edit
+              </Button>
+            </Tooltip>
+          )}
+        </div>
         <Card
           component={Paper}
           sx={{
+            mt: 4,
             width: "100%",
             border: 1,
             borderColor: "grey.300",

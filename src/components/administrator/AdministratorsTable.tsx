@@ -7,7 +7,6 @@ import {
   Container,
   Tooltip,
   TableContainer,
-  Paper,
   Table,
   TableHead,
   TableRow,
@@ -129,13 +128,13 @@ export const AdministratorsTable = () => {
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <>
       <TableContainer
         sx={{
           border: 1,
           borderColor: "grey.300",
           borderRadius: 2,
-          mt: 1,
+          mt: 2,
           maxWidth: isSmallScreen ? 440 : "100%",
         }}
       >
@@ -143,7 +142,6 @@ export const AdministratorsTable = () => {
           <TableHead>
             <TableRow
               sx={{
-                backgroundColor: "grey.200",
                 borderBottom: 2,
                 borderColor: "grey.400",
               }}
@@ -250,6 +248,6 @@ export const AdministratorsTable = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Paper>
+      </>
   );
 };

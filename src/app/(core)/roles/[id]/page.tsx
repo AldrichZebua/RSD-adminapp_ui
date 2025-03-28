@@ -1,9 +1,9 @@
 import { checkPermission, getRole } from "../action";
 import {
-  Box,
   Button,
   Card,
   CardContent,
+  Divider,
   IconButton,
   Link,
   Table,
@@ -59,40 +59,28 @@ export default async function RoleShowPage({
           </Link>
           <BreadcrumbCustom items={breadcrumbItems(data)} />
         </div>
-        <Box
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            boxShadow: 1,
-            borderRadius: 1,
-            padding: 3,
-            width: "100%",
-            textAlign: "left",
-            paddingX: 3,
-            paddingY: 1,
-            height: "60px",
-            mb: 3,
-          }}
-        >
+        <div className="flex gap-3 items-center">
           <Typography
             sx={{ fontSize: "30px", fontWeight: "bold" }}
             color="text.primary"
           >
             Detail Hak Akses
           </Typography>
-        </Box>
-        {permission.role_update && (
-          <Tooltip title="Edit Hak Akses">
-            <Button
-              href={`/roles/${data.id}/edit`}
-              color="primary"
-              startIcon={<DriveFileRenameOutlineIcon />}
-            >
-              Edit
-            </Button>
-          </Tooltip>
-        )}
 
+          <Divider orientation="vertical" variant="middle" flexItem />
+
+          {permission.role_update && (
+            <Tooltip title="Edit Hak Akses">
+              <Button
+                href={`/roles/${data.id}/edit`}
+                color="primary"
+                startIcon={<DriveFileRenameOutlineIcon />}
+              >
+                Edit
+              </Button>
+            </Tooltip>
+          )}
+        </div>
         <Card>
           <CardContent className="flex p-0 flex-col gap-3">
             <Table>
@@ -106,7 +94,6 @@ export default async function RoleShowPage({
                       fontWeight: "bold",
                     }}
                   >
-                    {" "}
                     Name
                   </TableCell>
                   <TableCell sx={{ width: "70%" }}>{data.name}</TableCell>
@@ -156,14 +143,14 @@ export default async function RoleShowPage({
                   <TableCell sx={{ width: "70%" }}>{data.updated_at}</TableCell>
                 </TableRow>
                 <TableRow>
-                <TableCell
-                      sx={{
-                        borderRight: 1,
-                        borderColor: "grey.300",
-                        width: "20%",
-                        fontWeight: "bold",
-                      }}
-                    >
+                  <TableCell
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "grey.300",
+                      width: "20%",
+                      fontWeight: "bold",
+                    }}
+                  >
                     Section
                   </TableCell>
                   <TableCell sx={{ width: "70%" }}>

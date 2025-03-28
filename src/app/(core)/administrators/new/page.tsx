@@ -1,5 +1,5 @@
 import { AdministratorIndexProvider } from "@/components/administrator/AdministratorIndexProvider";
-import { Box, IconButton, Link, Typography } from "@mui/material";
+import { IconButton, Link, Typography } from "@mui/material";
 import { checkPermission, getRoleDropdown } from "../action";
 import AdministratorForm from "@/components/administrator/AdministratorForm";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
@@ -40,21 +40,7 @@ export default async function AdministratorNewPage() {
           </Link>
           <BreadcrumbCustom items={breadcrumbItems} />
         </div>
-        <Box
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            boxShadow: 1,
-            borderRadius: 1,
-            padding: { xs: 2, sm: 3 },
-            width: "100%",
-            textAlign: "left",
-            height: { xs: "auto", sm: "60px" },
-            mb: 3,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex gap-3 items-center">
           <Typography
             sx={{
               fontSize: { xs: "20px", sm: "25px", md: "30px" },
@@ -63,8 +49,8 @@ export default async function AdministratorNewPage() {
           >
             Tambah Administrator
           </Typography>
-        </Box>
-        <div className="mb-3">
+        </div>
+        <div className="mt-5">
           Silahkan lengkapi data di bawah untuk menambahkan Administrator baru
         </div>
         <AdministratorForm roles={roles ?? []} />

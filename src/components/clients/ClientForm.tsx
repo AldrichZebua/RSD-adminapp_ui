@@ -67,7 +67,7 @@ export default function ClientForm({ client }: ClientFormProps) {
 
   return (
     <>
-      <div className="flex flex-col mt-5">
+      <div className="flex flex-col">
         <Box sx={{ width: "100%", mt: 4, overflowX: "auto" }}>
           <form
             onSubmit={handleSubmit(onSubmit)}

@@ -7,7 +7,6 @@ import {
   Container,
   Tooltip,
   TableContainer,
-  Paper,
   Table,
   TableHead,
   TableRow,
@@ -124,13 +123,13 @@ export const RoleTable = () => {
     router.replace(`/roles?${qs.stringify(newParams)}`);
   };
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+    <>
       <TableContainer
         sx={{
           border: 1,
           borderColor: "grey.300",
           borderRadius: 2,
-          mt: 1,
+          mt: 2,
           maxWidth: isSmallScreen ? 440 : "100%",
         }}
       >
@@ -236,6 +235,6 @@ export const RoleTable = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Paper>
+    </>
   );
 };

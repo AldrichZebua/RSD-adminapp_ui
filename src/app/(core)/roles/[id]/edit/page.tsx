@@ -1,7 +1,7 @@
 import { checkPermission, getRole, getSectionTree } from "../../action";
 import RoleForm from "@/components/roles/RoleForm";
 import { RoleDetailEntity } from "../../../../../../types/entities/roles";
-import { Box, IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
@@ -52,30 +52,17 @@ export default async function RoleEditPage({
         </Link>
         <BreadcrumbCustom items={breadcrumbItems(role)} />
       </div>
-      <Box
-        sx={{
-          backgroundColor: "white",
-          border: "1px solid #ccc",
-          boxShadow: 1,
-          borderRadius: 1,
-          padding: { xs: 2, sm: 3 },
-          width: "100%",
-          textAlign: "left",
-          height: { xs: "auto", sm: "60px" },
-          mb: 3,
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
+      <div className="flex gap-3 items-center">
+
         <Typography
           sx={{
             fontSize: { xs: "20px", sm: "25px", md: "30px" },
           }}
           color="text.primary"
         >
-          Edit Role{" "}
+          Edit Role
         </Typography>
-      </Box>
+      </div>
       <div className="mb-3">
         Silahkan perbaiki data di bawah untuk update data Role
       </div>

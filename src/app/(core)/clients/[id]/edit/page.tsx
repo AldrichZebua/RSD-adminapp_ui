@@ -1,7 +1,7 @@
 import { checkPermission, getClient } from "../../action";
 import ClientForm from "@/components/clients/ClientForm";
 import { ClientEntity } from "../../../../../../types/entities/client";
-import { Box, IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
@@ -49,22 +49,6 @@ export default async function ClientEditPage({
         </Link>
         <BreadcrumbCustom items={breadcrumbItems(client)} />
       </div>
-      <div className="w-full p-4 px-6 lg:px-20">
-        <Box
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            boxShadow: 1,
-            borderRadius: 1,
-            padding: { xs: 2, sm: 3 },
-            width: "100%",
-            textAlign: "left",
-            height: { xs: "auto", sm: "60px" },
-            mb: 3,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
           <Typography
             sx={{
               fontSize: { xs: "20px", sm: "25px", md: "30px" },
@@ -73,12 +57,10 @@ export default async function ClientEditPage({
           >
             Edit Client
           </Typography>
-        </Box>
-        <div className="mb-3">
+        <div className="mt-3">
           Silahkan perbaiki data di bawah untuk update data Client
         </div>
         <ClientForm client={client} />
-      </div>
     </ClientIndexProvider>
   );
 }

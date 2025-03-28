@@ -2,8 +2,8 @@ import { ClientIndexProvider } from "@/components/clients/ClientIndexProvider";
 import { ClientTable } from "@/components/clients/ClientTable";
 import { checkPermission } from "./action";
 import {
-  Box,
   Button,
+  Divider,
   IconButton,
   Link,
   Tooltip,
@@ -32,21 +32,7 @@ export default async function ClientsIndexPage() {
           </Link>
           <BreadcrumbCustom items={breadcrumbItems} />
         </div>
-        <Box
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            boxShadow: 1,
-            borderRadius: 1,
-            padding: { xs: 2, sm: 3 },
-            width: "100%",
-            textAlign: "left",
-            height: { xs: "auto", sm: "60px" },
-            mb: 3,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex gap-3 items-center">
           <Typography
             sx={{
               fontSize: { xs: "20px", sm: "25px", md: "30px" },
@@ -55,21 +41,25 @@ export default async function ClientsIndexPage() {
           >
             Client
           </Typography>
-        </Box>
-        {permission.client_create && (
-          <Tooltip title="Tambah client baru">
-            <Button
-              href="/clients/new"
-              color="primary"
-              startIcon={<AddCircleOutlineIcon />}
-            >
-              Add
-            </Button>
-          </Tooltip>
-        )}
+
+          <Divider orientation="vertical" variant="middle" flexItem />
+
+          {permission.client_create && (
+            <Tooltip title="Tambah client baru">
+              <Button
+                href="/clients/new"
+                color="primary"
+                startIcon={<AddCircleOutlineIcon />}
+              >
+                Add
+              </Button>
+            </Tooltip>
+          )}
+        </div>
+
         <div className="flex w-full justify-center">
-            <ClientTable />
-          </div>
+          <ClientTable />
+        </div>
       </ClientIndexProvider>
     </>
   );

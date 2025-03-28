@@ -2,7 +2,7 @@ import { ProblemCategoryEntity } from "../../../../../../types/entities/problem_
 import { checkPermission, getProblemCategory } from "../../action";
 import ProblemCategoryForm from "@/components/problem_categories/ProblemCategoryForm";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
-import { Box, IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ProblemCategoryIndexProvider } from "@/components/problem_categories/ProblemCategoryIndexProvider";
@@ -49,21 +49,7 @@ export default async function ProblemCategoryEditPage({
         </Link>
         <BreadcrumbCustom items={breadcrumbItems(problem_category)} />
       </div>
-      <Box
-        sx={{
-          backgroundColor: "white",
-          border: "1px solid #ccc",
-          boxShadow: 1,
-          borderRadius: 1,
-          padding: { xs: 2, sm: 3 },
-          width: "100%",
-          textAlign: "left",
-          height: { xs: "auto", sm: "60px" },
-          mb: 3,
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
+      <div className="flex gap-3 items-center">
         <Typography
           sx={{
             fontSize: { xs: "20px", sm: "25px", md: "30px" },
@@ -72,8 +58,8 @@ export default async function ProblemCategoryEditPage({
         >
           Edit Problem Category
         </Typography>
-      </Box>
-      <div>Silahkan perbaiki data di bawah untuk update data Role</div>
+      </div>
+      <div className="mt-5">Silahkan perbaiki data di bawah untuk update data Role</div>
       <ProblemCategoryForm problem_category={problem_category} />
     </ProblemCategoryIndexProvider>
   );

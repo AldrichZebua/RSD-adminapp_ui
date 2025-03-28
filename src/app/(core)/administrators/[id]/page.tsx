@@ -1,8 +1,8 @@
 import {
-  Box,
   Button,
   Card,
   CardContent,
+  Divider,
   IconButton,
   Link,
   Paper,
@@ -60,21 +60,7 @@ const AdministratorShowPage = async ({
           </Link>
           <BreadcrumbCustom items={breadcrumbItems(data.administrator)} />
         </div>
-        <Box
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            boxShadow: 1,
-            borderRadius: 1,
-            padding: { xs: 2, sm: 3 },
-            width: "100%",
-            textAlign: "left",
-            height: { xs: "auto", sm: "60px" },
-            mb: 3,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex gap-3 items-center">
           <Typography
             sx={{
               fontSize: { xs: "20px", sm: "25px", md: "30px" },
@@ -83,18 +69,22 @@ const AdministratorShowPage = async ({
           >
             Detail Administrator
           </Typography>
-        </Box>
-        {permission.administrator_update && (
-          <Tooltip title="Edit Administrator">
-            <Button
-              href={`/administrators/${data.administrator.id}/edit`}
-              color="primary"
-              startIcon={<DriveFileRenameOutlineIcon />}
-            >
-              Edit
-            </Button>
-          </Tooltip>
-        )}
+
+          <Divider orientation="vertical" variant="middle" flexItem />
+
+          {permission.administrator_update && (
+            <Tooltip title="Edit Administrator">
+              <Button
+                href={`/administrators/${data.administrator.id}/edit`}
+                color="primary"
+                startIcon={<DriveFileRenameOutlineIcon />}
+              >
+                Edit
+              </Button>
+            </Tooltip>
+          )}
+        </div>
+
         <Card
           component={Paper}
           sx={{
@@ -103,6 +93,7 @@ const AdministratorShowPage = async ({
             borderColor: "grey.300",
             borderRadius: 1,
             overflowX: "auto",
+            mt: 2,
           }}
         >
           <CardContent>

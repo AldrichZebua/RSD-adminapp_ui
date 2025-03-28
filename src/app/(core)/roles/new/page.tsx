@@ -4,7 +4,7 @@ import { RoleIndexProvider } from "@/components/roles/RoleIndexProvider";
 import RoleForm from "@/components/roles/RoleForm";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
-import { Box, IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { RoleSections } from "@/components/roles/lib/role_section";
 import { pagePermissionCheck } from "@/lib/safePageRequest";
 
@@ -28,21 +28,7 @@ export default async function RoleNewPage() {
           </Link>
           <BreadcrumbCustom items={breadcrumbItems} />
         </div>
-        <Box
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            boxShadow: 1,
-            borderRadius: 1,
-            padding: { xs: 2, sm: 3 },
-            width: "100%",
-            textAlign: "left",
-            height: { xs: "auto", sm: "60px" },
-            mb: 3,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex gap-3 items-center">
           <Typography
             sx={{
               fontSize: { xs: "20px", sm: "25px", md: "30px" },
@@ -51,8 +37,8 @@ export default async function RoleNewPage() {
           >
             Create Roles
           </Typography>
-        </Box>
-        <div className="mb-3">
+        </div>
+        <div className="mt-4 mb-3">
           Silahkan lengkapi data di bawah untuk update data Role
         </div>
         <RoleForm sectionTree={[]} />

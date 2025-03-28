@@ -1,6 +1,6 @@
 import { checkPermission, getProblem } from "../../action";
 import { ProblemEntity } from "../../../../../../types/entities/problem";
-import { Box, IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import { ProblemIndexProvider } from "@/components/problems/ProblemIndexProvider";
@@ -49,34 +49,18 @@ export default async function ProblemEditPage({
         </Link>
         <BreadcrumbCustom items={breadcrumbItems(problem)} />
       </div>
-      <div className="w-full p-4 px-6 lg:px-20">
-        <Box
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            boxShadow: 1,
-            borderRadius: 1,
-            padding: 3,
-            width: "100%",
-            textAlign: "left",
-            paddingX: 3,
-            paddingY: 1,
-            height: "60px",
-            mb: 3,
-          }}
-        >
+      <div className="flex gap-3 items-center">
           <Typography
             sx={{ fontSize: "30px", fontWeight: "bold" }}
             color="text.primary"
           >
             Edit Problem
           </Typography>
-        </Box>
-        <div className="mb-5">
+        </div>
+        <div className="mt-5">
           Silahkan lengkapi data di bawah untuk update Problem
         </div>
         <ProblemForm />
-      </div>
     </ProblemIndexProvider>
   );
 }

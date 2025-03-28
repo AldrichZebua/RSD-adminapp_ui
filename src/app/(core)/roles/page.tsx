@@ -3,8 +3,8 @@ import * as React from "react";
 import { RoleIndexProvider } from "@/components/roles/RoleIndexProvider";
 import { checkPermission } from "./action";
 import {
-  Box,
   Button,
+  Divider,
   IconButton,
   Link,
   Tooltip,
@@ -33,21 +33,7 @@ export default async function RolesPage() {
           </Link>
           <BreadcrumbCustom items={breadcrumbItems} />
         </div>
-        <Box
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            boxShadow: 1,
-            borderRadius: 1,
-            padding: { xs: 2, sm: 3 },
-            width: "100%",
-            textAlign: "left",
-            height: { xs: "auto", sm: "60px" },
-            mb: 3,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex gap-3 items-center">
           <Typography
             sx={{
               fontSize: { xs: "20px", sm: "25px", md: "30px" },
@@ -56,20 +42,21 @@ export default async function RolesPage() {
           >
             Roles
           </Typography>
-        </Box>
 
-        {permission.role_create && (
-          <Tooltip title="Tambah Hak Akses baru">
-            <Button
-              href="/roles/new"
-              color="primary"
-              startIcon={<AddCircleOutlineIcon />}
-            >
-              add
-            </Button>
-          </Tooltip>
-        )}
+          <Divider orientation="vertical" variant="middle" flexItem />
 
+          {permission.role_create && (
+            <Tooltip title="Tambah Hak Akses baru">
+              <Button
+                href="/roles/new"
+                color="primary"
+                startIcon={<AddCircleOutlineIcon />}
+              >
+                add
+              </Button>
+            </Tooltip>
+          )}
+        </div>
         <div className="flex w-full justify-center">
           <RoleTable />
         </div>

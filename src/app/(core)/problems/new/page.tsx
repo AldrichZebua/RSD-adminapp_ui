@@ -1,7 +1,7 @@
 import { ProblemIndexProvider } from "@/components/problems/ProblemIndexProvider";
 import { checkPermission } from "../action";
 import ProblemForm from "@/components/problems/ProblemForm";
-import { Box, IconButton, Link, Typography } from "@mui/material";
+import { IconButton, Link, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { BreadcrumbCustom } from "@/components/reuse_component/Breadcrumb";
 import { pagePermissionCheck } from "@/lib/safePageRequest";
@@ -27,21 +27,7 @@ export default async function ProblemNewPage() {
           </Link>
           <BreadcrumbCustom items={breadcrumbItems} />
         </div>
-        <Box
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            boxShadow: 1,
-            borderRadius: 1,
-            padding: { xs: 2, sm: 3 },
-            width: "100%",
-            textAlign: "left",
-            height: { xs: "auto", sm: "60px" },
-            mb: 3,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex gap-3 items-center">
           <Typography
             sx={{
               fontSize: { xs: "20px", sm: "25px", md: "30px" },
@@ -50,8 +36,8 @@ export default async function ProblemNewPage() {
           >
             Tambah Problem
           </Typography>
-        </Box>
-        <div className="mb-3">
+        </div>
+        <div className="mt-4">
           Silahkan lengkapi data di bawah untuk menambahkan Problem baru
         </div>
         <ProblemForm />
